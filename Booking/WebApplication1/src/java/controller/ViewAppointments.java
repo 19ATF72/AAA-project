@@ -22,8 +22,6 @@ import java.util.ArrayList;
  */
 public class ViewAppointments {
     
-    private AppointmentService appointmentEngine = new  AppointmentService();
-    
     public class MyServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Do your Java code thing here.
