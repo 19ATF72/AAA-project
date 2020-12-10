@@ -5,7 +5,7 @@
  */
 package controller;
 
-import dao.ExampleDao;
+import dao.DynamicDao;
 import model.UserModel;
 
 import java.io.IOException;
@@ -25,10 +25,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/apointments")
 public class Book extends HttpServlet {
-    private ExampleDao bookingDao;
+    private DynamicDao bookingDao;
     
     public void init(){
-        bookingDao = new ExampleDao();
+        bookingDao = new DynamicDao();
         
     }
     

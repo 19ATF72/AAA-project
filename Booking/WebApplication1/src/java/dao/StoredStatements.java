@@ -15,13 +15,15 @@ import java.util.EnumMap;
 public class StoredStatements {
     
     public enum SqlQueryEnum{
-        fetchAppointment
+        fetchAppointment,
+        deleteUser
     }
     
     public EnumMap<SqlQueryEnum, String> sqlQueryMap = new EnumMap<>(SqlQueryEnum.class);
 
     public StoredStatements() {
         sqlQueryMap.put(SqlQueryEnum.fetchAppointment, "Test");
+        sqlQueryMap.put(SqlQueryEnum.deleteUser, "DELETE FROM Users WHERE username =");
     }
    
     
