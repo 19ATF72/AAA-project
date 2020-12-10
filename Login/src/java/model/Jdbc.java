@@ -171,7 +171,7 @@ public class Jdbc {
     }
     public static void main(String[] args) throws SQLException {
         String str = "select * from users";
-        String insert = "INSERT INTO `Users` (`username`, `password`) VALUES ('meaydin', 'meaydin')";
+        String insert = "INSERT INTO `Users` (`username`, `password`) VALUES ('meaydin', 'eaydin')";
         String update = "UPDATE `Users` SET `password`='eaydin' WHERE `username`='meaydin' ";
         String db = "MyDB";
         
