@@ -5,7 +5,7 @@
  */
 package controller;
 
-import dao.ExampleDao;
+import dao.DynamicDao;
 import dao.StoredStatements;
 import dao.StoredStatements.SqlQueryEnum;
 import java.io.IOException;
@@ -37,14 +37,16 @@ public class ViewAppointments {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         
         
-        ExampleDao exampleDao = new ExampleDao();
+        DynamicDao exampleDao = new DynamicDao();
         StoredStatements storedStatements = new StoredStatements();
         
         AppointmentModel appointmentModel = new AppointmentModel();
         
         appointmentModel = exampleDao.retrieveAppointment(storedStatements.sqlQueryMap.get(SqlQueryEnum.fetchAppointment));
         
+        
+        
         //ArrayList<String> availableAppointments = appointmentEngine.fetchAvailableAppointments();
     }
-}
+    }
 }

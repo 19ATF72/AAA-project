@@ -27,7 +27,7 @@ import model.AppointmentModel;
  *
  * @author rob
  */
-public class ExampleDao{
+public class DynamicDao{
         
     Connection connection = null;
     Statement statement = null;
@@ -35,7 +35,7 @@ public class ExampleDao{
   
     public void tryConnect(){
         
-        ExampleDao bookingDao = new ExampleDao();
+        DynamicDao bookingDao = new DynamicDao();
         Connection conn = null;
         try {
                 Class.forName("org.apache.derby.jdbc.ClientDriver");
@@ -96,6 +96,7 @@ public class ExampleDao{
             //results = e.toString();
         }
     }
+    
     public AppointmentModel retrieveAppointment(String query)  {
         select(query);
         try {
@@ -111,7 +112,7 @@ public class ExampleDao{
                 
         
         } catch (SQLException ex) {
-            Logger.getLogger(ExampleDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DynamicDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -125,7 +126,7 @@ public class ExampleDao{
                 bool = true;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ExampleDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DynamicDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return bool;
     }
@@ -145,7 +146,7 @@ public class ExampleDao{
             System.out.println("TODO LOGGING");
         
         } catch (SQLException ex) {
-            Logger.getLogger(ExampleDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DynamicDao.class.getName()).log(Level.SEVERE, null, ex);
         }
          
     }
@@ -161,7 +162,7 @@ public class ExampleDao{
 //            ps.close();
 //            System.out.println("rows added.");
 //        } catch (SQLException ex) {
-//            Logger.getLogger(ExampleDao.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(DynamicDao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //         
 //    }
@@ -186,11 +187,9 @@ public class ExampleDao{
 //            
 //         
 //        } catch (SQLException ex) {
-//            Logger.getLogger(ExampleDao.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(DynamicDao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //    }
-    
-    
     ///////////////////////////
    
     public void update(String sqlQuery, String[] str) {
@@ -210,14 +209,14 @@ public class ExampleDao{
             System.out.println("TODO LOGGING");
         
         } catch (SQLException ex) {
-            Logger.getLogger(ExampleDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DynamicDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public void delete(String sqlQuery){ 
+    public void delete(String sqlQuery, String[] rowToDelete){ 
         try {
             statement = connection.createStatement();
-            statement.executeUpdate(sqlQuery);
+            statement.executeUpdate(sqlQuery + rowToDelete);
         }
         catch(SQLException e) {
             System.out.println("way way"+e);
@@ -242,7 +241,7 @@ public class ExampleDao{
         //tring update = "UPDATE `Users` SET `password`='eaydin' WHERE `username`='meaydin' ";
         //String db = "MyDB";
         
-        ExampleDao bookingDao = new ExampleDao();
+        DynamicDao bookingDao = new DynamicDao();
         Connection conn = null;
         try {
                     Class.forName("org.apache.derby.jdbc.ClientDriver");
