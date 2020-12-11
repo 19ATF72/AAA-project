@@ -111,7 +111,7 @@ public class DynamicDao{
         }
     } 
     
-    public <T> void ree_query(String query, T ... Params){
+    public <T> void agnostic_query(String query, T ... Params){
         //Statement statement = null;
        
         try {
@@ -162,7 +162,7 @@ public class DynamicDao{
     
         public <T> ArrayList string_retrieve(String query, T ... Params) throws SQLException {
         String results="";
-        ree_query(query, Params);
+        agnostic_query(query, Params);
         //        try {
         //            
         //            if (rs==null)
