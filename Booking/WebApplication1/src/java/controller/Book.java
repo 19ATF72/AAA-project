@@ -38,7 +38,7 @@ public class Book extends HttpServlet {
         String time = request.getParameter("time");
 
         try {
-            request.setAttribute("someData", );
+            request.setAttribute("time", time);
             RequestDispatcher dispatcher = request.getRequestDispatcher("page.jsp");
             dispatcher.forward(request, response);  
               
