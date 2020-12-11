@@ -70,7 +70,8 @@ public class AppointmentModel implements EmployeeModelInterface, PatientModelInt
         this.appointmentDescription = appointmentDescription;
     }
     
-   public void setBookedAppointments(HashMap<UUID, String> bookedAppointments){
+    
+   public void LocalsetBookedAppointments(HashMap<UUID, String> bookedAppointments){
         this.bookedAppointments = bookedAppointments;
    }
   
@@ -113,6 +114,11 @@ public class AppointmentModel implements EmployeeModelInterface, PatientModelInt
 
     @Override
     public String[] getCurrentPrescriptions() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setBookedAppointments(String[] bookedAppointments) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -32,6 +32,8 @@ public class DynamicDao{
     Connection connection = null;
     Statement statement = null;
     ResultSet rs = null;
+    
+    public DynamicDao() {}
   
     public void tryConnect(){
         
@@ -53,7 +55,7 @@ public class DynamicDao{
     
     private ArrayList rsToList() throws SQLException {
         ArrayList aList = new ArrayList();
-
+        
         int cols = rs.getMetaData().getColumnCount();
         while (rs.next()) { 
           String[] s = new String[cols];
@@ -82,10 +84,71 @@ public class DynamicDao{
 //        b.append("</table>");
 //        return b.toString();
 //    }//makeHtmlTable
-//    
+//  
+    
+    private <T> void choose_type(String type, PreparedStatement prep_statement, int param_index, T param){
+        try {
+            switch(type) {
+                case "String":
+                    prep_statement.setString(param_index, (String)param);
+                  break;
+                case "Integer":
+                    prep_statement.setInt(param_index, (Integer)param);
+                  break;
+                case "Double":
+                    prep_statement.setDouble(param_index, (Double)param);
+                  break;
+                 case "Boolean":
+                    prep_statement.setBoolean(param_index, (Boolean)param);
+                  break;
+                default:
+                    int p = 0;
+            }
+        }
+        catch(SQLException e) {
+            System.out.println("way way"+e);
+            //results = e.toString();
+        }
+    } 
+    
+    public <T> void ree_query(String query, T ... Params){
+        //Statement statement = null;
+       
+        try {
+            PreparedStatement prep_statement = connection.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
+            for(int parameter = 0; parameter < Params.length; parameter++ ) {
+                String[] param_type_sequence = Params[parameter].getClass().getName().split("\\.");
+                String param_type = param_type_sequence[param_type_sequence.length - 1];
+                choose_type(param_type, prep_statement, (parameter+1), Params[parameter]);
+            }
+            rs = prep_statement.executeQuery();
+            //statement.close();
+        }
+        catch(SQLException e) {
+            System.out.println("way way"+e);
+            //results = e.toString();
+        }
+    }
+    
+    private void string_query(String query, String ... Params){
+        //Statement statement = null;
+       
+        try {
+            PreparedStatement prep_statement = connection.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
+            for(int parameter = 0; parameter < Params.length; parameter++ ) {
+                  prep_statement.setString((parameter + 1), Params[parameter]);
+            }
+            rs = prep_statement.executeQuery();
+            //statement.close();
+        }
+        catch(SQLException e) {
+            System.out.println("way way"+e);
+            //results = e.toString();
+        }
+    }
     private void select(String query){
         //Statement statement = null;
-        
+       
         try {
             statement = connection.createStatement();
             rs = statement.executeQuery(query);
@@ -97,6 +160,35 @@ public class DynamicDao{
         }
     }
     
+        public <T> ArrayList string_retrieve(String query, T ... Params) throws SQLException {
+        String results="";
+        ree_query(query, Params);
+        //        try {
+        //            
+        //            if (rs==null)
+        //                System.out.println("rs is null");
+        //            else
+        //                results = makeTable(rsToList());
+        //        } catch (SQLException ex) {
+        //            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        //        }
+        return rsToList();//results;
+    }
+    
+    public ArrayList retrieve(String query) throws SQLException {
+        String results="";
+        select(query);
+        //        try {
+        //            
+        //            if (rs==null)
+        //                System.out.println("rs is null");
+        //            else
+        //                results = makeTable(rsToList());
+        //        } catch (SQLException ex) {
+        //            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        //        }
+        return rsToList();//results;
+    }
     public AppointmentModel retrieveAppointment(String query)  {
         select(query);
         try {
