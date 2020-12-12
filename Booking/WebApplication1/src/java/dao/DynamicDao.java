@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.sql.Timestamp;
 import static java.sql.Types.NULL;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -41,7 +42,7 @@ public class DynamicDao{
         Connection conn = null;
         try {
                 Class.forName("org.apache.derby.jdbc.ClientDriver");
-                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/Usy","root","root");
+                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/SmartCare_2","root","OqpWJsbw0X9164b38noF");
         }
         catch(ClassNotFoundException | SQLException e){
             System.out.println(e);
@@ -98,8 +99,11 @@ public class DynamicDao{
                 case "Double":
                     prep_statement.setDouble(param_index, (Double)param);
                   break;
-                 case "Boolean":
+                case "Boolean":
                     prep_statement.setBoolean(param_index, (Boolean)param);
+                  break;
+                case "Timestamp":
+                    prep_statement.setTimestamp(param_index, (Timestamp)param);
                   break;
                 default:
                     int p = 0;

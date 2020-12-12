@@ -29,7 +29,7 @@ public class StoredStatements {
         sqlQueryMap.put(SqlQueryEnum.fetchAppointment, "Test");
         sqlQueryMap.put(SqlQueryEnum.deleteUser, "DELETE FROM users WHERE mail=?");
         sqlQueryMap.put(SqlQueryEnum.LoginUser, "SELECT name FROM users WHERE mail=? AND pass=?");
-        sqlQueryMap.put(SqlQueryEnum.NewUser, "INSERT INTO users ( uid, name, pass, mail, created, access, login, picture, admin_signupid ) VALUES (?,?,?,?,?,?,?,?,?)");
+        sqlQueryMap.put(SqlQueryEnum.NewUser, "INSERT INTO users ( username, pass, email, created, last_access, logged_in, picture, user_status_usid ) VALUES (?,?,?,?,?,?,?,?)");
         sqlQueryMap.put(SqlQueryEnum.CheckForUsername, "SELECT name FROM users WHERE name=?");
         
     }   

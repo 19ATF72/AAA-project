@@ -15,6 +15,8 @@ import dao.StoredStatements;
 import dao.StoredStatements.SqlQueryEnum;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -57,19 +59,21 @@ public class NewUser extends HttpServlet {
         //String insert = "INSERT INTO `Users` (`username`, `password`) VALUES ('";
  
         if (dynamicDao == null)
-            request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
-
-
+            request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);  
             try {
                 //dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(SqlQueryEnum.CheckForUsername), query[0]);
+                //trmporary for testing todo delete after program can get this info alone
+                Date date= new Date();
+                //getTime() returns current time in milliseconds
+                long time = date.getTime();
                 int uid = 2;
-                int created = 1;
-                int access = 1;
+                Timestamp created = new Timestamp(time);
+                Timestamp access = new Timestamp(time);
                 int login = 1;
                 int status = 1;
                 int admin_signupid = 1;
                 //
-                dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(SqlQueryEnum.NewUser) ,uid, query[0], query[1], query[2], created, access, login, query[3], admin_signupid);
+                dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(SqlQueryEnum.NewUser) , query[0], query[1], query[2], created, access, login, query[3], admin_signupid);
                 request.setAttribute("message", query[0]+" is added"); 
             } catch (Exception e) {
                 request.setAttribute("message","Username already exists");
