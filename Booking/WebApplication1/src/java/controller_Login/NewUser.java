@@ -18,6 +18,8 @@ import java.io.PrintWriter;
 import java.util.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,6 +27,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
+import model.*;
 /**
  *
  * @author me-aydin
@@ -44,42 +48,64 @@ public class NewUser extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        DynamicDao dynamicDao = new DynamicDao();
-        dynamicDao.tryConnect();
-        StoredStatements storedStatements = new StoredStatements();
+        UserModel newUser = new UserModel();
+        
                 
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(false);
         
-        String [] query = new String[4];
+        String [] query = new String[6];
         query[0] = (String)request.getParameter("username");
         query[1] = (String)request.getParameter("password");
         query[2] = (String)request.getParameter("email");
         query[3] = (String)request.getParameter("picUrl");
-        //String insert = "INSERT INTO `Users` (`username`, `password`) VALUES ('";
- 
-        if (dynamicDao == null)
-            request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);  
-            try {
-                //dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(SqlQueryEnum.CheckForUsername), query[0]);
-                //trmporary for testing todo delete after program can get this info alone
+        query[4] = (String)request.getParameter("Role");
+        query[5] = (String)request.getParameter("Address");
+        
+        
+
+            
+       
+
                 Date date= new Date();
-                //getTime() returns current time in milliseconds
                 long time = date.getTime();
-                int uid = 2;
                 Timestamp created = new Timestamp(time);
                 Timestamp access = new Timestamp(time);
                 int login = 1;
                 int status = 1;
-                int admin_signupid = 1;
-                //
-                dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(SqlQueryEnum.NewUser) , query[0], query[1], query[2], created, access, login, query[3], admin_signupid);
-                request.setAttribute("message", query[0]+" is added"); 
-            } catch (Exception e) {
-                request.setAttribute("message","Username already exists");
-            }
+                int user_status = 1;
+                int uuid = 0;
+                if(query[4].equals("0")){
+                    user_status = 2;
+                }
+
+                ArrayList params = new ArrayList(Arrays.asList(query[0], query[1], query[2], created, access, login, query[3], user_status));
+                ArrayList result  = newUser.create_User(params);
+                
+                if (result.get(0) == "conFail") {
+                    request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response); 
+                }
+                else{
+
+                    switch(query[4]) {
+                        case "0":
+                            int patientType = Integer.parseInt((String)request.getParameter("patientType"));
+                            ArrayList patient_params = new ArrayList(Arrays.asList(query[5],patientType, result.get(1)));
+                            PatientModel patient = new PatientModel();
+                            patient.create_patient(patient_params);
+                          break;
+                        case "1":
+                            ArrayList employee_params = new ArrayList(Arrays.asList(0, query[5], Integer.parseInt(query[4]), (String)request.getParameter("organizationName"), result.get(1)));
+                            EmployeeModel employee = new EmployeeModel();
+                            employee.create_Employee(employee_params);
+                          break;
+                        default:
+                            int p = 0;
+
+                        }
+                   }
         
-        request.getRequestDispatcher("/WEB-INF/NewUser.jsp").forward(request, response);
+                   request.getRequestDispatcher("/WEB-INF/NewUser.jsp").forward(request, response);
 
     }
 
@@ -123,3 +149,4 @@ public class NewUser extends HttpServlet {
     }// </editor-fold>
 
 }
+    

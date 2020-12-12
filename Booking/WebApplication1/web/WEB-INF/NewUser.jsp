@@ -35,20 +35,68 @@
                     <th>Please provide your following details</th>
                 </tr>
                 <tr>
-                    <td>Username:</td>
-                    <td><input type="text" name="username"/></td>
+                     <td><span>Email:</span><input type="text" name="email" required/></td>
                 </tr>
                 <tr>
-                    <td>Password:</td>
-                    <td><input type="text" name="password"/></td>
+                    <td><span>Password:</span><input type="text" name="password" required/></td>
                 </tr>
                  <tr>
-                    <td>Email:</td>
-                    <td><input type="text" name="email"/></td>
+                     <td><span>Picture Url:</span><input type="file" name="picUrl" required/></td>
+                </tr>
+                <tr>
+                    <td><span>Full legal name:</span><input type="text" name="username" required/></td>
+                </tr>
+                <tr>
+                    <td><span>Address:</span><input type="text" name="Address" required/></td>
+                </tr>
+                <tr>
+                    <td><span>Organization name if applicable:</span><input type="text" name="organizationName"/></td>
+                </tr>
+                <tr>
+                    <td>
+                    <div>
+                        <label class="form-check-label">
+                                Are you creating a Doctor or a Patient account ? Todo make radio values auto generate from database table employee types
+                        </label>
+                    </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="Role" value="0" id="accountType1" required>
+                            <label class="form-check-label" for="accountType1">
+                              Patient
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="Role" value="1" id="accountType2">
+                          <label class="form-check-label" for="accountType2">
+                            Doctor
+                          </label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="Role" value="2" id="accountType3">
+                          <label class="form-check-label" for="accountType3">
+                            Nurse
+                          </label>
+                        </div>
+                    </td>
                 </tr>
                  <tr>
-                    <td>Picture Url:</td>
-                    <td><input type="file" name="picUrl"/></td>
+                    <td>
+                    <div>
+                        <label class="form-check-label">
+                                Are you a: Todo make radio values auto generate from database table patient types
+                        </label>
+                    </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="patientType" value="1" id="patientType1" > <!-- TODO set to required if the user being created is a patient-->  
+                            <label class="form-check-label" for="patientType1">
+                              NHS patient
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="patientType" value="2" id="patientType2">
+                          <label class="form-check-label" for="patientType2">
+                            Private patient
+                          </label>
+                    </td>
                 </tr>
                 <tr> 
                     <td> <input type="submit" value="<%=str%>"/></td>
