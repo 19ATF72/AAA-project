@@ -29,25 +29,31 @@
                     <th>Login:</th>
                 </tr>
                 <tr>
-                    <td>Username:</td>
-                    <td><input type="text" name="username"/></td>
+                    <td>Email:</td>
+                    <td><input type="text" name="mail" required /></td>
                 </tr>
                 <tr>
                     <td>Password:</td>
-                    <td><input type="password" name="password"/></td>
+                    <td><input type="password" name="password" required /></td>
                 </tr>
                 <tr> 
-                    <td> <input type="submit" value="<%=str%>"/></td>
+                    <td> <input type="submit" name="Login" value="Login"/></td>
                 </tr>
             </table>
-        </form>   
+        </form>
+        <form method="POST" action="<%=url%>">     
+            <table>
+                 <tr> 
+                    <td> <button type="submit" name="NewUser" value="NewUser">New user</button></td>
+                </tr>
+            </table>
+        </form>
         <%
             if (i++>0 && request.getAttribute("message")!=null) {
                 out.println(request.getAttribute("message"));
                 i--;
             }
         %>
-        </br>
-        <jsp:include page="foot.jsp"/>
+        <jsp:include page="/WEB-INF/foot.jsp"/>
     </body>
 </html>

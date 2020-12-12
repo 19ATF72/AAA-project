@@ -17,15 +17,20 @@ public class StoredStatements {
     public enum SqlQueryEnum{
         fetchAppointment,
         deleteUser,
-        LoginUser
+        LoginUser,
+        NewUser,
+        CheckForUsername
+        
     }
     
     public EnumMap<SqlQueryEnum, String> sqlQueryMap = new EnumMap<>(SqlQueryEnum.class);
     
     public StoredStatements() {
         sqlQueryMap.put(SqlQueryEnum.fetchAppointment, "Test");
-        sqlQueryMap.put(SqlQueryEnum.deleteUser, "DELETE FROM UsyUsy WHERE username=");
-        sqlQueryMap.put(SqlQueryEnum.LoginUser, "SELECT password FROM USYUSY WHERE username=? AND role=?");
+        sqlQueryMap.put(SqlQueryEnum.deleteUser, "DELETE FROM users WHERE mail=?");
+        sqlQueryMap.put(SqlQueryEnum.LoginUser, "SELECT name FROM users WHERE mail=? AND pass=?");
+        sqlQueryMap.put(SqlQueryEnum.NewUser, "INSERT INTO users ( uid, name, pass, mail, created, access, login, picture, admin_signupid ) VALUES (?,?,?,?,?,?,?,?,?)");
+        sqlQueryMap.put(SqlQueryEnum.CheckForUsername, "SELECT name FROM users WHERE name=?");
         
     }   
 }

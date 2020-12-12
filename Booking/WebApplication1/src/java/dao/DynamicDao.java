@@ -41,7 +41,7 @@ public class DynamicDao{
         Connection conn = null;
         try {
                 Class.forName("org.apache.derby.jdbc.ClientDriver");
-                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/SmartCare","root","root");
+                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/Usy","root","root");
         }
         catch(ClassNotFoundException | SQLException e){
             System.out.println(e);
@@ -106,7 +106,7 @@ public class DynamicDao{
             }
         }
         catch(SQLException e) {
-            System.out.println("way way"+e);
+            System.out.println("fail cho0se type"+e);
             //results = e.toString();
         }
     } 
@@ -121,11 +121,16 @@ public class DynamicDao{
                 String param_type = param_type_sequence[param_type_sequence.length - 1];
                 choose_type(param_type, prep_statement, (parameter+1), Params[parameter]);
             }
-            rs = prep_statement.executeQuery();
+            if(query.contains("INSERT")){
+                prep_statement.executeUpdate();
+            }else{
+                rs = prep_statement.executeQuery();    
+            }
+           
             //statement.close();
         }
         catch(SQLException e) {
-            System.out.println("way way"+e);
+            System.out.println("fail agnostic query"+e);
             //results = e.toString();
         }
     }
@@ -142,7 +147,7 @@ public class DynamicDao{
             //statement.close();
         }
         catch(SQLException e) {
-            System.out.println("way way"+e);
+            System.out.println("fail string_query"+e);
             //results = e.toString();
         }
     }
@@ -155,12 +160,12 @@ public class DynamicDao{
             //statement.close();
         }
         catch(SQLException e) {
-            System.out.println("way way"+e);
+            System.out.println("fail select"+e);
             //results = e.toString();
         }
     }
     
-        public <T> ArrayList string_retrieve(String query, T ... Params) throws SQLException {
+        public <T> ArrayList agnostic_retrieve(String query, T ... Params) throws SQLException {
         String results="";
         agnostic_query(query, Params);
         //        try {
@@ -311,7 +316,7 @@ public class DynamicDao{
             statement.executeUpdate(sqlQuery + rowToDelete);
         }
         catch(SQLException e) {
-            System.out.println("way way"+e);
+            System.out.println("fail delete"+e);
             //results = e.toString();
         }
     }
