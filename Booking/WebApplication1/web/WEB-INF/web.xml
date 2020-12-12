@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+<<<<<<< HEAD
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
+=======
+    
+    <welcome-file-list>
+<welcome-file>login.jsp</welcome-file>
+</welcome-file-list>
+>>>>>>> SS-42-adding-stored-sql-statements
     <servlet>
         <servlet-name>Book</servlet-name>
         <jsp-file>book.jsp</jsp-file>
     </servlet>
     <servlet>
+<<<<<<< HEAD
         <servlet-name>NewUser</servlet-name>
         <servlet-class>controller_Login.NewUser</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Login</servlet-name>
         <servlet-class>controller_Login.Login</servlet-class>
+=======
+        <servlet-name>Login</servlet-name>
+        <servlet-class>controller.Login.Login</servlet-class>
+>>>>>>> SS-42-adding-stored-sql-statements
     </servlet>
     <servlet>
         <servlet-name>BookingSucessful</servlet-name>
@@ -24,10 +36,13 @@
         <url-pattern>/Book</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+<<<<<<< HEAD
         <servlet-name>NewUser</servlet-name>
         <url-pattern>/NewUser.do</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+=======
+>>>>>>> SS-42-adding-stored-sql-statements
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login.do</url-pattern>
     </servlet-mapping>
@@ -35,9 +50,19 @@
         <servlet-name>BookingSucessful</servlet-name>
         <url-pattern>/BookingSucessful</url-pattern>
     </servlet-mapping>
+<<<<<<< HEAD
+=======
+    
+>>>>>>> SS-42-adding-stored-sql-statements
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
 </web-app>
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> SS-42-adding-stored-sql-statements
