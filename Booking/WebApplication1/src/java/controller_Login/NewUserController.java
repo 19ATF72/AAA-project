@@ -11,8 +11,8 @@ package controller_Login;
  * and open the template in the editor.
  */
 import dao.DynamicDao;
-import dao.StoredStatements;
-import dao.StoredStatements.SqlQueryEnum;
+import dao.StoredData;
+import dao.StoredData.SqlQueryEnum;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
@@ -33,7 +33,7 @@ import model.*;
  *
  * @author me-aydin
  */
-@WebServlet(name = "NewUserController", urlPatterns = {"/WEB-INF/NewUserController.do"})
+@WebServlet(name = "NewUser", urlPatterns = {"/NewUserController.do"})
 public class NewUserController extends HttpServlet {
 
     /**
@@ -47,13 +47,12 @@ public class NewUserController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        UserModel newUser = new UserModel();          
+                  
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(false);
-        DynamicDao dynamicDao = (DynamicDao)session.getAttribute("dynamicDao"); 
-        if (dynamicDao == null)
-            request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
+        DynamicDao dynamicDao = (DynamicDao)session.getAttribute("dynamicDao");
+        UserModel newUser = (UserModel)session.getAttribute("User");
+        
         
         String [] query = new String[6];
         query[0] = (String)request.getParameter("username");
@@ -83,28 +82,26 @@ public class NewUserController extends HttpServlet {
                 ArrayList params = new ArrayList(Arrays.asList(query[0], query[1], query[2], created, access, login, query[3], user_status));
                 ArrayList result  = newUser.create_User(params, dynamicDao);
                 
-                if (result.get(0) == "conFail") {
-                    request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response); 
-                }
-                else{
 
-                    switch(query[4]) {
-                        case "0":
-                            int patientType = Integer.parseInt((String)request.getParameter("patientType"));
-                            ArrayList patient_params = new ArrayList(Arrays.asList(query[5],patientType, result.get(1)));
-                            PatientModel patient = new PatientModel();
-                            patient.create_patient(patient_params,dynamicDao);
-                          break;
-                        case "1":
-                            ArrayList employee_params = new ArrayList(Arrays.asList(0, query[5], Integer.parseInt(query[4]), (String)request.getParameter("organizationName"), result.get(1)));
-                            EmployeeModel employee = new EmployeeModel();
-                            employee.create_Employee(employee_params,dynamicDao);
-                          break;
-                        default:
-                            int p = 0;
 
-                        }
-                   }
+
+                switch(query[4]) {
+                    case "0":
+                        int patientType = Integer.parseInt((String)request.getParameter("patientType"));
+                        ArrayList patient_params = new ArrayList(Arrays.asList(query[5],patientType, result.get(1)));
+                        PatientModel patient = new PatientModel();
+                        patient.create_patient(patient_params,dynamicDao);
+                      break;
+                    case "1":
+                        ArrayList employee_params = new ArrayList(Arrays.asList(0, query[5], Integer.parseInt(query[4]), (String)request.getParameter("organizationName"), result.get(1)));
+                        EmployeeModel employee = new EmployeeModel();
+                        employee.create_Employee(employee_params,dynamicDao);
+                      break;
+                    default:
+                        int p = 0;
+
+                    }
+
                    request.setAttribute("message", result.get(0));
                    request.getRequestDispatcher("/WEB-INF/NewUser.jsp").forward(request, response);
 

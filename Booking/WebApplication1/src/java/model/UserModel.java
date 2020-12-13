@@ -5,10 +5,10 @@
  */
 package model;
 
-import dao.StoredStatements;
+import dao.StoredData;
 import java.util.ArrayList;
 import dao.DynamicDao;
-import dao.StoredStatements;
+import dao.StoredData;
 /**
  *
  * @author rob
@@ -22,7 +22,7 @@ enum Status {
 
 
 public class UserModel {
-    private StoredStatements storedStatements = new StoredStatements();   
+    private StoredData storedStatements = new StoredData();   
     private String username;
     private String password;
     private String email; 
@@ -47,7 +47,7 @@ public ArrayList create_User(ArrayList params, DynamicDao dynamicDao)
     //    , query[0], query[1], query[2], created, access, login, query[3], user_status
     try {
            params.set(7,2);   
-           uniqueUserId = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredStatements.SqlQueryEnum.NewUser), params.get(0),params.get(1),params.get(2), params.get(3),params.get(4),params.get(5),params.get(6),params.get(7));
+           uniqueUserId = (Integer)dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.NewUser), params.get(0),params.get(1),params.get(2), params.get(3),params.get(4),params.get(5),params.get(6),params.get(7)).get(0);
            result.add("User created successfully");
            result.add(uniqueUserId);
            
@@ -62,7 +62,7 @@ public ArrayList login_User(ArrayList params, DynamicDao dynamicDao)
     
     //    , query[0], query[1], query[2], created, access, login, query[3], user_status
     try { 
-           ArrayList<String[]> user_string = dynamicDao.agnostic_retrieve(storedStatements.sqlQueryMap.get(StoredStatements.SqlQueryEnum.LoginUser), params.get(0), params.get(1));
+           ArrayList<String[]> user_string = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.LoginUser), params.get(0), params.get(1));
            String[] user = user_string.get(0);
            setUniqueUserId(Integer.parseInt(user[0]));
            setUsername(user[1]);
@@ -73,14 +73,44 @@ public ArrayList login_User(ArrayList params, DynamicDao dynamicDao)
            setIsLoggedIn(user[6].equals("1"));
            setPicture(user[7]);
            setAccountStatus(Integer.parseInt(user[8]));
-           
-           result.add("looged in successfully");
-           result.add(user);
+           ArrayList role = get_user_role(dynamicDao);
+           if (role!=null) {
+                result.add(user);
+                result.add(role.get(0));
+                result.add(role.get(1));
+            }
+           else{
+               result.add("email or password wrong");
+           }
     } catch (Exception e) {
         result.add("email or password wrong");
     }
     return result;
-} 
+}
+public ArrayList get_user_role(DynamicDao dynamicDao){   
+    ArrayList role = new ArrayList();
+    try {
+       role = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getPatient), uniqueUserId);
+       role.add("patient");
+    } catch (Exception p) {
+        
+        try {
+            role = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getEmployee), uniqueUserId);
+            role.add("employee");
+        } catch (Exception e) {
+            
+            try {
+                role = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getEmployee), uniqueUserId);
+                role.add("admin");
+            } catch (Exception a) {
+                
+                role = null;
+                
+            }
+        }
+    } 
+    return role;
+}
     
     public void setIsLoggedIn(boolean loggedIn){
         this.loggedIn = loggedIn;

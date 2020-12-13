@@ -11,8 +11,8 @@ package controller_Login;
  * and open the template in the editor.
  */
 import dao.DynamicDao;
-import dao.StoredStatements;
-import dao.StoredStatements.SqlQueryEnum;
+import dao.StoredData;
+import dao.StoredData.SqlQueryEnum;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,6 +36,8 @@ import model.*;
  */
 @WebServlet(name = "PatientController", urlPatterns = {"/WEB-INF/PatientController.do"})
 public class PatientController extends HttpServlet {
+
+   
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -53,6 +56,7 @@ public class PatientController extends HttpServlet {
         HttpSession session = request.getSession(false);
         DynamicDao dynamicDao = (DynamicDao)session.getAttribute("dynamicDao");
         UserModel user = (UserModel)session.getAttribute("User");
+        PatientModel patient = (PatientModel)session.getAttribute("Patient");
         request.setAttribute("message", user.getusername());
         request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
         if (dynamicDao == null)
@@ -68,7 +72,10 @@ public class PatientController extends HttpServlet {
             //send them to page
         //see prescriptions
         //book appointment
-
+       
+        
+        
+        
 //     request.setAttribute("message", result.get(0)); 
        
 
