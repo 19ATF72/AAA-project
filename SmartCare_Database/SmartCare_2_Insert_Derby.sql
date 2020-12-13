@@ -12,8 +12,8 @@ VALUES ('mehmet', 'aydin', 'mehmet@aydin.com', '2020-12-12 15:24:50.221', '2020-
 INSERT INTO patient_type (type_name) VALUES ('private');
 INSERT INTO patient_type (type_name) VALUES ('nhs');
 
-INSERT INTO patient (name, address, patient_type_ptid, users_uuid) 
-VALUES ('bobby', 'n/a', 1, 2);
+INSERT INTO patient (address, patient_type_ptid, users_uuid) 
+VALUES ('n/a', 1, 2);
 
 INSERT INTO patient_prescriptions (patient_pid, medicine) 
 VALUES (1, 'dropalin');
