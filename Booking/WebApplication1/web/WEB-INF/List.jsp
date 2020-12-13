@@ -1,11 +1,18 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP List Users Records</title>
     </head>
 <body>
-
+    <%! int i=0;
+        String str="List Patients"; 
+        String url = "ListController.do";
+    %>
+    <%
+        str="List Patients"; 
+        url = "ListController.do";
+    %>
     <div align="center">
       <form method="POST" action="<%=url%>">
         <div>
@@ -44,19 +51,18 @@
         </div>
 
         <div class="form-check">
-          <label for="birthday">Start date:</label>
-          <input type="datetime-local" id="birthdaytime" name="birthdaytime">
+          <label for="startTime">Start date:</label>
+          <input type="datetime-local" id="startTime" name="startTime">
         </div>
 
         <div class="form-check">
-          <label for="birthday">End date:</label>
-          <input type="datetime-local" id="birthdaytime" name="birthdaytime">
+          <label for="endTime">End date:</label>
+          <input type="datetime-local" id="endTime" name="endTime">
         </div>
-
 
         <div>
              <tr>
-                <td> <button type="submit" name="NewUser" value="NewUser">Retrieve Patients</button></td>
+                <td> <button type="submit" name="ListPatients" value="ListPatients"><%=str%></button></td>
             </tr>
         </div>
 
@@ -82,5 +88,9 @@
             </c:forEach>
         </table>
     </div>
+    <%
+        out.println(request.getAttribute("message"));  
+    %>
+    <jsp:include page="foot.jsp"/>  
 </body>
 </html>

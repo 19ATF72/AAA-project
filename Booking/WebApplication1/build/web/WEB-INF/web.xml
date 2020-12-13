@@ -5,7 +5,7 @@
         <param-value>SmartCare_2</param-value>
     </context-param>
     <welcome-file-list>
-        <welcome-file>login.jsp</welcome-file>
+        <welcome-file>/WEB-INF/List.jsp</welcome-file>
     </welcome-file-list>
     <servlet>
         <servlet-name>Book</servlet-name>
@@ -27,6 +27,10 @@
         <servlet-name>BookingSucessful</servlet-name>
         <jsp-file>BookingSucessful.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>ListController</servlet-name>
+        <servlet-class>controller_Login.ListController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Book</servlet-name>
         <url-pattern>/Book.do</url-pattern>
@@ -46,6 +50,10 @@
     <servlet-mapping>
         <servlet-name>PatientController</servlet-name>
         <url-pattern>/PatientController.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListController</servlet-name>
+        <url-pattern>/ListController.do</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

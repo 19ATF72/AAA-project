@@ -24,6 +24,8 @@ public class StoredStatements {
         NewPatient,
         GetOrganizationByName,
         getPatient,
+        getPatientsByType,
+        getPatients,
         getAppointment,
         
     }
@@ -41,6 +43,7 @@ public class StoredStatements {
         sqlQueryMap.put(SqlQueryEnum.GetOrganizationByName, "SELECT oid FROM organization WHERE name=? LIMIT 1");
         sqlQueryMap.put(SqlQueryEnum.getAppointment, "SELECT * FROM appointment WHERE patient_pid=?");
         sqlQueryMap.put(SqlQueryEnum.getPatient, "SELECT pid FROM appointment WHERE users_uid=?");
-        
+        sqlQueryMap.put(SqlQueryEnum.getPatientsByType, "SELECT * FROM patient WHERE patient_type_ptid = ? LIMIT 10");
+        sqlQueryMap.put(SqlQueryEnum.getPatients, "SELECT * FROM patient LIMIT 10");
     }   
 }
