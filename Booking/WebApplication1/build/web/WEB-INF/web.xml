@@ -1,43 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-<welcome-file-list>
-<welcome-file>login.jsp</welcome-file>
-</welcome-file-list>
-<servlet>
-    <servlet-name>Book</servlet-name>
-    <jsp-file>book.jsp</jsp-file>
-</servlet>
-<servlet>
-    <servlet-name>NewUser</servlet-name>
-    <servlet-class>controller_Login.NewUser</servlet-class>
-</servlet>
-<servlet>
-    <servlet-name>Login</servlet-name>
-    <servlet-class>controller_Login.Login</servlet-class>
-</servlet>
-<servlet>
-    <servlet-name>BookingSucessful</servlet-name>
-    <jsp-file>BookingSucessful.jsp</jsp-file>
-</servlet>
-<servlet-mapping>
-    <servlet-name>Book</servlet-name>
-    <url-pattern>/Book.do</url-pattern>
-</servlet-mapping>
-<servlet-mapping>
-    <servlet-name>NewUser</servlet-name>
-    <url-pattern>/NewUser.do</url-pattern>
-</servlet-mapping>
-<servlet-mapping>
-    <servlet-name>Login</servlet-name>
-    <url-pattern>/Login.do</url-pattern>
-</servlet-mapping>
-<servlet-mapping>
-    <servlet-name>BookingSucessful</servlet-name>
-    <url-pattern>/BookingSucessful.do</url-pattern>
-</servlet-mapping>
-<session-config>
-    <session-timeout>
-        30
+    <context-param>
+        <param-name>dbname</param-name>
+        <param-value>SmartCare_2</param-value>
+    </context-param>
+    <welcome-file-list>
+        <welcome-file>login.jsp</welcome-file>
+    </welcome-file-list>
+    <servlet>
+        <servlet-name>Book</servlet-name>
+        <jsp-file>book.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>PatientController</servlet-name>
+        <servlet-class>controller_Login.PatientController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NewUser</servlet-name>
+        <servlet-class>controller_Login.NewUserController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Login</servlet-name>
+        <servlet-class>controller_Login.Login</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BookingSucessful</servlet-name>
+        <jsp-file>BookingSucessful.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Book</servlet-name>
+        <url-pattern>/Book.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewUser</servlet-name>
+        <url-pattern>/NewUserController.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Login</servlet-name>
+        <url-pattern>/Login.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BookingSucessful</servlet-name>
+        <url-pattern>/BookingSucessful.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PatientController</servlet-name>
+        <url-pattern>/PatientController.do</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+        20
     </session-timeout>
-</session-config>
+    </session-config>
 </web-app>

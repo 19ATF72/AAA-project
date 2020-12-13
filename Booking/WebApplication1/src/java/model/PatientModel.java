@@ -14,7 +14,6 @@ import java.util.ArrayList;
  * @author rob
  */
 public class PatientModel {
-    private DynamicDao dynamicDao = new DynamicDao();
     private StoredStatements storedStatements = new StoredStatements();   
     private String address; //TODO possibly change..   
     private String appointment;
@@ -22,20 +21,25 @@ public class PatientModel {
     
 public PatientModel(){}
     
-public void create_patient(ArrayList params){
-       String result = "";
-    dynamicDao.tryConnect();
-    if (dynamicDao == null){ 
-        result =  "conFail"; 
-    }
-    else{
+public void create_patient(ArrayList params, DynamicDao dynamicDao){
+    String result = "";
     //    , query[0], query[1], query[2], created, access, login, query[3], user_status
     try {  
        dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredStatements.SqlQueryEnum.NewPatient), params.get(0), params.get(1), params.get(2) );
    } catch (Exception e) {
       result = "";
   }
- }
+}
+
+public void get_patient(ArrayList params, DynamicDao dynamicDao){
+    String result = "";
+
+    //    , query[0], query[1], query[2], created, access, login, query[3], user_status
+    try {  
+       dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredStatements.SqlQueryEnum.getPatient), params.get(0) );
+   } catch (Exception e) {
+      result = "";
+  }
 }
     
    public void setAddress(String address){

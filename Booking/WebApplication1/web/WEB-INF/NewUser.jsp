@@ -16,7 +16,7 @@
         <h2>User's details:</h2>
         <%! int i=0;
             String str="Register"; 
-            String url = "NewUser.do";
+            String url = "NewUserController.do";
         %>
         <%
             if((String)request.getAttribute("msg")=="del") {
@@ -25,7 +25,7 @@
             }
             else {
                 str="Register";
-                url = "NewUser.do";
+                url = "NewUserController.do";
             } 
         %>
         <form method="POST" action="<%=url%>">     

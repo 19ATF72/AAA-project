@@ -21,8 +21,6 @@ enum Role {  //TODO: RENAME??
  * @author rob
  */
 public class EmployeeModel extends UserModel {
-   
-   private DynamicDao dynamicDao = new DynamicDao();
    private StoredStatements storedStatements = new StoredStatements();    
    private String calander;
    private Role employmentRole;
@@ -30,14 +28,9 @@ public class EmployeeModel extends UserModel {
    private double salarayRate;
    //TODO add more but need to think
   
-   public void create_Employee(ArrayList params)
+   public void create_Employee(ArrayList params, DynamicDao dynamicDao)
 {    
     String result = "";
-    dynamicDao.tryConnect();
-    if (dynamicDao == null){ 
-        result =  "conFail"; 
-    }
-    else{
     //    , query[0], query[1], query[2], created, access, login, query[3], user_status
     try {  
             ArrayList resultSet = dynamicDao.agnostic_retrieve(storedStatements.sqlQueryMap.get(StoredStatements.SqlQueryEnum.GetOrganizationByName), params.get(3));
@@ -47,7 +40,6 @@ public class EmployeeModel extends UserModel {
            result = "User created successfully";
     } catch (Exception e) {
       result = "";
-    }
     }
 }
 
