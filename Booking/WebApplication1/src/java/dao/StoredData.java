@@ -12,7 +12,11 @@ import java.util.EnumMap;
  * @author rob
  */
 
-public class StoredStatements {
+public class StoredData {
+    
+    public static final int pending =  1;
+    public static final int approved = 2;
+    public static final int blocked =  3;
     
     public enum SqlQueryEnum{
         fetchAppointment,
@@ -23,14 +27,14 @@ public class StoredStatements {
         NewEmployee,
         NewPatient,
         GetOrganizationByName,
-        getPatient,
         getAppointment,
-        
+        getPatient,
+        getEmployee,
     }
     
     public EnumMap<SqlQueryEnum, String> sqlQueryMap = new EnumMap<>(SqlQueryEnum.class);
     
-    public StoredStatements() {
+    public StoredData() {
         sqlQueryMap.put(SqlQueryEnum.fetchAppointment, "Test");
         sqlQueryMap.put(SqlQueryEnum.deleteUser, "DELETE FROM users WHERE mail=?");
         sqlQueryMap.put(SqlQueryEnum.LoginUser, "SELECT * FROM users WHERE email=? AND pass=?");
@@ -40,7 +44,8 @@ public class StoredStatements {
         sqlQueryMap.put(SqlQueryEnum.NewPatient, "INSERT INTO patient ( address, patient_type_ptid, users_uuid ) VALUES ( ?,?,? )");
         sqlQueryMap.put(SqlQueryEnum.GetOrganizationByName, "SELECT oid FROM organization WHERE name=? LIMIT 1");
         sqlQueryMap.put(SqlQueryEnum.getAppointment, "SELECT * FROM appointment WHERE patient_pid=?");
-        sqlQueryMap.put(SqlQueryEnum.getPatient, "SELECT pid FROM appointment WHERE users_uid=?");
+        sqlQueryMap.put(SqlQueryEnum.getPatient, "SELECT * FROM patient WHERE users_uuid=?");
+        sqlQueryMap.put(SqlQueryEnum.getEmployee, "SELECT * FROM employee WHERE users_uuid=?");
         
     }   
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com;
+package controller;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -33,7 +33,7 @@ public class listener implements ServletContextListener {
             //Class.forName("com.mysql.jdbc.Driver");
                 Class.forName("org.apache.derby.jdbc.ClientDriver");
                 conn = DriverManager.getConnection("jdbc:derby://localhost:1527/SmartCare_2","root","OqpWJsbw0X9164b38noF");
-            
+                
         }
         catch(ClassNotFoundException | SQLException e){
             sc.setAttribute("error", e);

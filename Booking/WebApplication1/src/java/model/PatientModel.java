@@ -6,18 +6,19 @@
 package model;
 
 import dao.DynamicDao;
-import dao.StoredStatements;
+import dao.StoredData;
 import java.util.ArrayList;
 
 /**
  *
  * @author rob
  */
-public class PatientModel {
-    private StoredStatements storedStatements = new StoredStatements();   
-    private String address; //TODO possibly change..   
-    private String appointment;
-    private String[] currentPrescriptions;
+public class PatientModel {    
+    private StoredData storedStatements = new StoredData();
+    private int patientID;
+    private String address;
+    private int patientType;
+    
     
 public PatientModel(){}
     
@@ -25,47 +26,68 @@ public void create_patient(ArrayList params, DynamicDao dynamicDao){
     String result = "";
     //    , query[0], query[1], query[2], created, access, login, query[3], user_status
     try {  
-       dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredStatements.SqlQueryEnum.NewPatient), params.get(0), params.get(1), params.get(2) );
+       dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.NewPatient), params.get(0), params.get(1), params.get(2) );
    } catch (Exception e) {
       result = "";
   }
 }
-
-public void get_patient(ArrayList params, DynamicDao dynamicDao){
-    String result = "";
-
-    //    , query[0], query[1], query[2], created, access, login, query[3], user_status
-    try {  
-       dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredStatements.SqlQueryEnum.getPatient), params.get(0) );
-   } catch (Exception e) {
-      result = "";
-  }
+public void login_patient(ArrayList<String[]> params, DynamicDao dynamicDao){
+           String[] patient = params.get(0);
+           setPatientID(Integer.parseInt(patient[0]));
+           setAddress(patient[1]);
+           setPatientType(Integer.parseInt(patient[2]));
 }
+
+public ArrayList get_patient(ArrayList params, DynamicDao dynamicDao){
+    ArrayList result = new ArrayList();
+    try { 
+           ArrayList<String[]> patientString = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getPatient), params.get(0) );
+           String[] patient = patientString.get(0);   
+           setAddress(patient[0]);
+           setPatientID(Integer.parseInt(patient[1]));
+           setPatientType(Integer.parseInt(patient[1]));
+           result = null;
+    } catch (Exception e) {
+        result.add("patient doesnt exist");
+    }
+    return result;
+}
+
+public ArrayList retrieveAppointments( DynamicDao dynamicDao ){
+    ArrayList result = new ArrayList();
+    try {
+           result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getAppointment), patientID);
+    } catch (Exception e) {
+        result.add("User has no appointments");
+    }
+    return result;
+}  
     
-   public void setAddress(String address){
+
+       public int getPatientID() {
+        return patientID;
+    }
+
+    public void setPatientID(int patientID) {
+        this.patientID = patientID;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
         this.address = address;
-   }
-    
-   public String getAddress(){
-        return address; 
-   }
-   
-//   public void setAppointment(String appointment){
-//        this.appointment = appointment;
-//   }
-//    
-//   public String getAppointment(){
-//        return appointment; 
-//   }
-   
-   public void setCurrentPrescriptions(String[] currentPrescriptions){
-        this.currentPrescriptions = currentPrescriptions;
-   }
-    
-   public String[] getCurrentPrescriptions(){
-        return currentPrescriptions; 
-   }
-   
+    }
+
+    public int getPatientType() {
+        return patientType;
+    }
+
+    public void setPatientType(int patientType) {
+        this.patientType = patientType;
+    }
+
    
    
 }
