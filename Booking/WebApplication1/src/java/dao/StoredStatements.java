@@ -19,7 +19,10 @@ public class StoredStatements {
         deleteUser,
         LoginUser,
         NewUser,
-        CheckForUsername
+        CheckForUsername,
+        NewEmployee,
+        NewPatient,
+        GetOrganizationByName,
         
     }
     
@@ -31,6 +34,8 @@ public class StoredStatements {
         sqlQueryMap.put(SqlQueryEnum.LoginUser, "SELECT name FROM users WHERE mail=? AND pass=?");
         sqlQueryMap.put(SqlQueryEnum.NewUser, "INSERT INTO users ( username, pass, email, created, last_access, logged_in, picture, user_status_usid ) VALUES (?,?,?,?,?,?,?,?)");
         sqlQueryMap.put(SqlQueryEnum.CheckForUsername, "SELECT name FROM users WHERE name=?");
-        
+        sqlQueryMap.put(SqlQueryEnum.NewEmployee, "INSERT INTO employee ( salary, address, employee_type_tid, organization_oid, users_uuid ) VALUES (?,?,?,?,?)");
+        sqlQueryMap.put(SqlQueryEnum.NewPatient, "INSERT INTO patient ( address, patient_type_ptid, users_uuid ) VALUES ( ?,?,? )");
+        sqlQueryMap.put(SqlQueryEnum.GetOrganizationByName, "SELECT oid FROM organization WHERE name=? LIMIT 1"); 
     }   
 }

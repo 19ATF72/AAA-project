@@ -5,8 +5,10 @@
  */
 package model;
 
-import java.util.UUID;
-
+import dao.StoredStatements;
+import java.util.ArrayList;
+import dao.DynamicDao;
+import dao.StoredStatements;
 /**
  *
  * @author rob
@@ -20,7 +22,8 @@ enum Status {
 
 
 public class UserModel {
-      
+    private DynamicDao dynamicDao = new DynamicDao();
+    private StoredStatements storedStatements = new StoredStatements();   
     private String username;
     private String password;
     private String email; 
@@ -33,9 +36,34 @@ public class UserModel {
     
     private Status accountStatus;
            
-    private UUID uniqueUserId; 
+    private int uniqueUserId; 
     
     private String picture;
+    
+public UserModel(){}
+    
+public ArrayList create_User(ArrayList params)
+{    
+    ArrayList result = new ArrayList();
+    dynamicDao.tryConnect();
+    if (dynamicDao == null){ 
+        result.add("conFail"); 
+    }
+    else{
+    //    , query[0], query[1], query[2], created, access, login, query[3], user_status
+    try {
+           params.set(7,2);   
+           uniqueUserId = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredStatements.SqlQueryEnum.NewUser), params.get(0),params.get(1),params.get(2), params.get(3),params.get(4),params.get(5),params.get(6),params.get(7));
+           result.add("User created successfully");
+           result.add(uniqueUserId);
+           
+    } catch (Exception e) {
+        result.add("Email already registered ");
+    }
+    }
+    return result;
+}    
+    
     
     public void setIsLoggedIn(boolean loggedIn){
         this.loggedIn = loggedIn;
@@ -102,12 +130,12 @@ public class UserModel {
         return accountStatus; 
     }
     
-    public void setUniqueUserId(){
-        UUID uuid = UUID.randomUUID();
-        this.uniqueUserId = uuid;
-    }
+//    public void setUniqueUserId(){
+//        UUID uuid = UUID.randomUUID();
+//        this.uniqueUserId = uuid;
+//    }
     
-    public UUID getUniqueUserId(){
+    public int getUniqueUserId(){
         return uniqueUserId; 
     }
     
