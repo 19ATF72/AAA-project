@@ -15,13 +15,16 @@ import dao.StoredStatements;
 import dao.StoredStatements.SqlQueryEnum;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.UserModel;
 
 /**
  *
@@ -42,17 +45,23 @@ public class Login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        DynamicDao dynamicDao = new DynamicDao();
-        dynamicDao.tryConnect();
-        StoredStatements storedStatements = new StoredStatements();
-                
+
+
+        StoredStatements storedStatements = new StoredStatements();       
+        HttpSession session = request.getSession();
+        
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession(false);
+        
+        DynamicDao dynamicDao = new DynamicDao();
+        dynamicDao.connect((Connection)request.getServletContext().getAttribute("connection"));
+        session.setAttribute("dynamicDao", dynamicDao);    
         
         String [] query = new String[4];
         query[0] = (String)request.getParameter("NewUser");
         query[1] = (String)request.getParameter("Login");
         
+        UserModel User = new UserModel();
+        session.setAttribute("User", User); 
         //String insert = "INSERT INTO `Users` (`username`, `password`) VALUES ('";
  
         if (dynamicDao == null)
@@ -61,12 +70,14 @@ public class Login extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/NewUser.jsp").forward(request, response);
         }
         else if (query[1] != null){
-        query[2] = (String)request.getParameter("username");
+        query[2] = (String)request.getParameter("mail");
         query[3] = (String)request.getParameter("password");
         try {
-            ArrayList user = dynamicDao.agnostic_retrieve(storedStatements.sqlQueryMap.get(SqlQueryEnum.LoginUser), query[2], query[3]);
+            ArrayList params = new ArrayList(Arrays.asList(query[2], query[3]));
+            User.login_User(params, dynamicDao);
+            session.setAttribute("User", User);
             request.setAttribute("message", "User with "+query[2]+" loggedin");
-            request.getRequestDispatcher("/login.jsp").forward(request, response); //todo replace by forward to user page
+            request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response); //todo replace by forward to user page
         } catch (Exception e) {
             request.setAttribute("message","Incorrect user or password");
             request.getRequestDispatcher("/login.jsp").forward(request, response);

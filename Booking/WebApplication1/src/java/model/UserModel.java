@@ -22,19 +22,17 @@ enum Status {
 
 
 public class UserModel {
-    private DynamicDao dynamicDao = new DynamicDao();
     private StoredStatements storedStatements = new StoredStatements();   
     private String username;
     private String password;
     private String email; 
-    private String name;
     
     private String dateCreated;
     private String lastAccessed;
     
     private boolean loggedIn;
     
-    private Status accountStatus;
+    private int accountStatus;
            
     private int uniqueUserId; 
     
@@ -42,14 +40,10 @@ public class UserModel {
     
 public UserModel(){}
     
-public ArrayList create_User(ArrayList params)
+public ArrayList create_User(ArrayList params, DynamicDao dynamicDao)
 {    
     ArrayList result = new ArrayList();
-    dynamicDao.tryConnect();
-    if (dynamicDao == null){ 
-        result.add("conFail"); 
-    }
-    else{
+
     //    , query[0], query[1], query[2], created, access, login, query[3], user_status
     try {
            params.set(7,2);   
@@ -60,10 +54,33 @@ public ArrayList create_User(ArrayList params)
     } catch (Exception e) {
         result.add("Email already registered ");
     }
-    }
     return result;
 }    
+public ArrayList login_User(ArrayList params, DynamicDao dynamicDao)
+{    
+    ArrayList result = new ArrayList();
     
+    //    , query[0], query[1], query[2], created, access, login, query[3], user_status
+    try { 
+           ArrayList<String[]> user_string = dynamicDao.agnostic_retrieve(storedStatements.sqlQueryMap.get(StoredStatements.SqlQueryEnum.LoginUser), params.get(0), params.get(1));
+           String[] user = user_string.get(0);
+           setUniqueUserId(Integer.parseInt(user[0]));
+           setUsername(user[1]);
+           setPassword(user[2]);
+           setEmail(user[3]);
+           setDateCreated(user[4]);
+           setLastAccessed(user[5]);
+           setIsLoggedIn(user[6].equals("1"));
+           setPicture(user[7]);
+           setAccountStatus(Integer.parseInt(user[8]));
+           
+           result.add("looged in successfully");
+           result.add(user);
+    } catch (Exception e) {
+        result.add("email or password wrong");
+    }
+    return result;
+} 
     
     public void setIsLoggedIn(boolean loggedIn){
         this.loggedIn = loggedIn;
@@ -96,15 +113,7 @@ public ArrayList create_User(ArrayList params)
     
     public String getEmail(){
         return email; 
-    }
-    
-    public void setName(String name){
-        this.name = name;
-    }
-    
-    public String getName(){
-        return name; 
-    }
+    }   
     
     public void setDateCreated(String dateCreated){
         this.dateCreated = dateCreated;
@@ -122,18 +131,17 @@ public ArrayList create_User(ArrayList params)
         return lastAccessed; 
     }
     
-    public void setAccountStatus(Status accountStatus){
+    public void setAccountStatus(int accountStatus){
         this.accountStatus = accountStatus;
     }
     
-    public Status getAccountStatus(){
+    public int getAccountStatus(){
         return accountStatus; 
     }
     
-//    public void setUniqueUserId(){
-//        UUID uuid = UUID.randomUUID();
-//        this.uniqueUserId = uuid;
-//    }
+    public void setUniqueUserId(int uuid){
+        this.uniqueUserId = uuid;
+    }
     
     public int getUniqueUserId(){
         return uniqueUserId; 
