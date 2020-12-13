@@ -23,6 +23,10 @@
         <servlet-name>BookingSucessful</servlet-name>
         <jsp-file>BookingSucessful.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>ListUsers</servlet-name>
+        <jsp-file>ListUsers.jsp</jsp-file>
+    </servlet>
 
     <!--Servlets Mapping Below-->
     <servlet-mapping>
@@ -40,6 +44,10 @@
     <servlet-mapping>
         <servlet-name>BookingSucessful</servlet-name>
         <url-pattern>/BookingSucessful.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListUsers</servlet-name>
+        <url-pattern>/ListUsers.do</url-pattern>
     </servlet-mapping>
 
     <!--Session Config Parameters-->
