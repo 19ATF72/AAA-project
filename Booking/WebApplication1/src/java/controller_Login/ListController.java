@@ -6,7 +6,7 @@
 package controller_Login;
 
 import dao.DynamicDao;
-import dao.StoredStatements;
+import dao.StoredData;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Timestamp;
@@ -75,7 +75,7 @@ public class ListController extends HttpServlet {
             result = list.getPatientsByType(params, dynamicDao);
         }
         
-        request.setAttribute("message", result.get(0));
+        request.setAttribute("message", result);
         request.getRequestDispatcher("/WEB-INF/List.jsp").forward(request, response);
     }
     

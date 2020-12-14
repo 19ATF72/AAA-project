@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -31,14 +33,14 @@
         <div class="form-check">
           <input class="form-check-input" type="radio" name="patientType" value="1" id="patientType1" > <!-- TODO set to required if the user being created is a patient-->
           <label class="form-check-label" for="patientType1">
-            NHS patient
+            Private patient
           </label>
         </div>
 
         <div class="form-check">
           <input class="form-check-input" type="radio" name="patientType" value="2" id="patientType2">
           <label class="form-check-label" for="patientType2">
-            Private patient
+            NHS patient
           </label>
         </div>
 
@@ -68,28 +70,32 @@
 
       </form>
     </div>
-
+    <%
+        ArrayList message = new ArrayList(); //not recommended.Pass this object from servlet
+        message = (ArrayList)request.getAttribute("message");   
+    %>
     <div align="center">
         <table border="1" cellpadding="5">
             <caption><h2>List of users</h2></caption>
             <tr>
-                <th>Pid</th>
-                <th>Address</th>
-                <th>Patient Type PID</th>
                 <th>UUID</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Patient Type</th>
             </tr>
-            <c:forEach var="row" items="${patient.rows}">
+            <c:forEach items="${message}" var="row">
                 <tr>
-                    <td><c:out value="${patient.pid}" /></td>
-                    <td><c:out value="${patient.address}" /></td>
-                    <td><c:out value="${patient.patient_type_ptid}" /></td>
-                    <td><c:out value="${patient.users_uuid}" /></td>
+                    <td><c:out value="${row[0]}" /></td>
+                    <td><c:out value="${row[1]}" /></td>
+                    <td><c:out value="${row[2]}" /></td>
+                    <td><c:out value="${row[3]}" /></td>
+                    <td><input class="form-check-input" type="checkbox" value="" aria-label="Checkbox for following text input"></td>
                 </tr>
             </c:forEach>
         </table>
     </div>
     <%
-        out.println(request.getAttribute("message"));  
+        //out.println(request.getAttribute("message"));  
     %>
     <jsp:include page="foot.jsp"/>  
 </body>

@@ -6,7 +6,7 @@
 package model;
 
 import dao.DynamicDao;
-import dao.StoredStatements;
+import dao.StoredData;
 import java.util.ArrayList;
 
 /**
@@ -14,17 +14,17 @@ import java.util.ArrayList;
  * @author atf1972
  */
 public class ListModel {
-    private StoredStatements storedStatements = new StoredStatements();   
+    private StoredData storedStatements = new StoredData();   
     private String type; //TODO possibly change..   
     private String start_date;
     private String end_date;
     
     public ListModel(){}
 
-    public ArrayList getPatientsByType(ArrayList params, DynamicDao dynamicDao){
+    public ArrayList getPatientsByType(ArrayList<String> params, DynamicDao dynamicDao){
         ArrayList result = new ArrayList();
-        try {  
-          result = dynamicDao.agnostic_retrieve(storedStatements.sqlQueryMap.get(StoredStatements.SqlQueryEnum.getPatientsByType), params.get(0));
+        try {
+          result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getPatientsByType), Integer.parseInt(params.get(0)));
         } catch (Exception e) {
           result.add("Could not retrieve patients with that type.");
         }
@@ -34,7 +34,7 @@ public class ListModel {
     public ArrayList getPatients(DynamicDao dynamicDao){
         ArrayList result = new ArrayList();
         try {  
-          result = dynamicDao.agnostic_retrieve(storedStatements.sqlQueryMap.get(StoredStatements.SqlQueryEnum.getPatientsByType));
+          result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getPatients));
         } catch (Exception e) {
           result.add("Could not retrieve patients with that type.");
         }
