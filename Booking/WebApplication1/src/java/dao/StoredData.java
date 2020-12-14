@@ -32,6 +32,9 @@ public class StoredData {
         getPatients,
         getAppointment,
         getEmployee,
+        insertOrganisation,
+        getOrganisation,
+        deleteOrganisation
     }
     
     public EnumMap<SqlQueryEnum, String> sqlQueryMap = new EnumMap<>(SqlQueryEnum.class);
@@ -50,6 +53,9 @@ public class StoredData {
         sqlQueryMap.put(SqlQueryEnum.getPatients, "SELECT u.uuid,u.username,p.address,pt.type_name FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID FETCH FIRST 10 ROWS ONLY");
         sqlQueryMap.put(SqlQueryEnum.getPatient, "SELECT * FROM patient WHERE users_uuid=?");
         sqlQueryMap.put(SqlQueryEnum.getEmployee, "SELECT * FROM employee WHERE users_uuid=?");
-        
+        sqlQueryMap.put(SqlQueryEnum.insertOrganisation, "INSERT INTO organisation (name, organisation_type_oid, address, postcode, phonenumber) VALUES (?, ?, ?, ?, ?)");
+        sqlQueryMap.put(SqlQueryEnum.getOrganisation, "SELECT * FROM organisation WHERE name = ?");
+        sqlQueryMap.put(SqlQueryEnum.getOrganisation, "DELETE FROM organisation where name = ?");
+   
     }   
 }
