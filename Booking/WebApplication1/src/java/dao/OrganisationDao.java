@@ -21,57 +21,47 @@ public class OrganisationDao extends DynamicDao{
     
     StoredData sd;
     
-    
-    
-    
     public ArrayList<OrganisationEntity> listAllOrganisations() throws SQLException {
         ArrayList<OrganisationEntity> organisationList = new ArrayList<>();
+        sd = new StoredData();
+
+        ArrayList<String[]> result = agnostic_query(sd.sqlQueryMap.get(SqlQueryEnum.getOrganisation), "");
         
-        String sql = "SELECT * FROM organisation";
-       
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(sql); 
-        
-        while (resultSet.next()){
-           String name = resultSet.getString("name");
-           String orgType = resultSet.getString("orgnaistion_type_oid");
-           String address = resultSet.getString("address");
-           String postcode = resultSet.getString("postcode");
-           String phoneNum = resultSet.getString("phoneNum");     
-           
-           OrganisationEntity organisation = new OrganisationEntity(name, orgType, address, postcode, phoneNum); 
-           organisationList.add(organisation); 
+        for(int i=0; i<result.size(); i++)
+        {
+            String[] tempOrganisationString = result.get(i);
+            OrganisationEntity organisation = new OrganisationEntity(tempOrganisationString[0], tempOrganisationString[1], tempOrganisationString[2],
+                    tempOrganisationString[3], tempOrganisationString[4], tempOrganisationString[5]);
+            organisationList.add(organisation); 
         }
-        resultSet.close();
-        statement.close();   
-        
+         
         return organisationList;    
     }
     
     public void insertOrganisation(OrganisationEntity organisation) throws SQLException {
         sd = new StoredData();
        
-        agnostic_query(sd.sqlQueryMap.get(SqlQueryEnum.insertOrganisation),  organisation.getName(), "1", 
+        agnostic_query(sd.sqlQueryMap.get(SqlQueryEnum.insertOrganisation),  organisation.getName(), organisation.getOrgType(), 
                 organisation.getAddress(), organisation.getPostcode(), organisation.getPhoneNum());
     }
     
     public void deleteOrganisation(OrganisationEntity organisation) throws SQLException {
         
-        agnostic_query(sd.sqlQueryMap.get(SqlQueryEnum.deleteOrganisation), organisation.getName());
+        agnostic_query(sd.sqlQueryMap.get(SqlQueryEnum.deleteOrganisation), organisation.getOId());
         
         //need to turn to bool 
         //return rowDeleted;     
     }
     
-    public OrganisationEntity getOrganisation(String name) throws SQLException {
+    public OrganisationEntity getOrganisation(String oId) throws SQLException {
         OrganisationEntity organisation = null;
         
         sd = new StoredData();
        
-        ArrayList<String[]> result = agnostic_query(sd.sqlQueryMap.get(SqlQueryEnum.getOrganisation), name);
+        ArrayList<String[]> result = agnostic_query(sd.sqlQueryMap.get(SqlQueryEnum.getOrganisation), oId);
         String[] orgString = result.get(0);
         
-        organisation = new OrganisationEntity(orgString[1], orgString[2], orgString[3], orgString[4], orgString[5]);
+        organisation = new OrganisationEntity(orgString[0], orgString[1], orgString[2], orgString[3], orgString[4], orgString[5]);
         
         return organisation;
     }

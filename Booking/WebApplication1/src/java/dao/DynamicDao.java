@@ -53,7 +53,7 @@ public class DynamicDao{
 //        }
 //        connect(conn);
 //    }
-    
+//    
     protected void disconnect() throws SQLException {
         if (connection != null && !connection.isClosed()) {
             connection.close();
@@ -293,17 +293,13 @@ public void addTimeSlots() {
      * @param args the command line arguments
      */
      public static void main(String[] args) throws SQLException {
-        //String str = "select * from users";
-        //String insert = "INSERT INTO `Users` (`username`, `password`) VALUES ('meaydin', 'eaydin')";
-        //tring update = "UPDATE `Users` SET `password`='eaydin' WHERE `username`='meaydin' ";
-        //String db = "MyDB";
+      
+       
         DynamicDao bookingDao = new DynamicDao();
         Connection conn = null;
         try {
-                    Class.forName("org.apache.derby.jdbc.ClientDriver");
-//Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
             conn = DriverManager.getConnection("jdbc:derby://localhost:1527/SmartCare","root","root");
-//conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+db.trim(), "root", "");
         }
         catch(ClassNotFoundException | SQLException e){
             System.out.println(e);

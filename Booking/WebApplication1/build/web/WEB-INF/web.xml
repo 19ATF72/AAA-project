@@ -5,7 +5,7 @@
         <param-value>SmartCare_2</param-value>
     </context-param>
     <welcome-file-list>
-        <welcome-file>/WEB-INF/List.jsp</welcome-file>
+        <welcome-file>/WEB-INF/OrganisationList.jsp</welcome-file>
     </welcome-file-list>
     <servlet>
         <servlet-name>Book</servlet-name>
@@ -55,6 +55,20 @@
         <servlet-name>ListController</servlet-name>
         <url-pattern>/ListController.do</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>OrganisationServlet</servlet-name>
+        <servlet-class>controller.OrganisationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OrganisationServlet</servlet-name>
+        <url-pattern>/OrganisationServlet.do</url-pattern>
+        <url-pattern>/OrganisationServlet.do/edit_organisation</url-pattern>
+        <url-pattern>/OrganisationServlet.do/delete_organisation</url-pattern>
+        <url-pattern>/OrganisationServlet.do/new_organisation</url-pattern>
+        <url-pattern>/OrganisationServlet.do/insert_organisation</url-pattern>
+    </servlet-mapping>
+    
+    
     <session-config>
         <session-timeout>
             20
