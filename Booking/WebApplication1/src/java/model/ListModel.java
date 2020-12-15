@@ -20,6 +20,26 @@ public class ListModel {
     private String end_date;
     
     public ListModel(){}
+    
+    public ArrayList getPatientsBetweenDates(ArrayList<String> params, DynamicDao dynamicDao){
+        ArrayList result = new ArrayList();
+        try {
+          result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getPatientsByType), Integer.parseInt(params.get(0)));
+        } catch (Exception e) {
+          result.add("Could not retrieve patients with that type.");
+        }
+        return result;
+    }
+    
+    public ArrayList getPatientsByTypeBetweenDates(ArrayList<String> params, DynamicDao dynamicDao){
+        ArrayList result = new ArrayList();
+        try {
+          result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getPatientsByType), Integer.parseInt(params.get(0)));
+        } catch (Exception e) {
+          result.add("Could not retrieve patients with that type.");
+        }
+        return result;
+    }
 
     public ArrayList getPatientsByType(ArrayList<String> params, DynamicDao dynamicDao){
         ArrayList result = new ArrayList();

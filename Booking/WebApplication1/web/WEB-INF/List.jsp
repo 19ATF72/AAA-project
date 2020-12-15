@@ -19,7 +19,7 @@
       <form method="POST" action="<%=url%>">
         <div>
             <label class="form-check-label">
-                List patients by type:
+                <caption><h2>List patients by type:</h2></caption>
             </label>
         </div>
 
@@ -48,24 +48,24 @@
 
         <div>
             <label class="form-check-label">
-                Between:
+            <caption><h2>Get Patients between:</h2></caption>
             </label>
         </div>
 
         <div class="form-check">
-          <label for="startTime">Start date:</label>
-          <input type="datetime-local" id="startTime" name="startTime">
+            <label for="startTime">Start date:</label>
+            <input type="datetime-local" id="startTime" name="startTime">
         </div>
 
         <div class="form-check">
-          <label for="endTime">End date:</label>
-          <input type="datetime-local" id="endTime" name="endTime">
+            <label for="endTime">End date:</label>
+            <input type="datetime-local" id="endTime" name="endTime">
         </div>
 
         <div>
-             <tr>
+            <p>
                 <td> <button type="submit" name="ListPatients" value="ListPatients"><%=str%></button></td>
-            </tr>
+            </p>
         </div>
 
       </form>
@@ -76,12 +76,13 @@
     %>
     <div align="center">
         <table border="1" cellpadding="5">
-            <caption><h2>List of users</h2></caption>
+            <caption><h2>List of patients:</h2></caption>
             <tr>
                 <th>UUID</th>
                 <th>Name</th>
                 <th>Address</th>
                 <th>Patient Type</th>
+                <th>Select</th>
             </tr>
             <c:forEach items="${message}" var="row">
                 <tr>
@@ -89,10 +90,18 @@
                     <td><c:out value="${row[1]}" /></td>
                     <td><c:out value="${row[2]}" /></td>
                     <td><c:out value="${row[3]}" /></td>
-                    <td><input class="form-check-input" type="checkbox" value="" aria-label="Checkbox for following text input"></td>
+                    <td><input class="form-check-input" type="checkbox" value="<c:out value="${row[0]}" />" aria-label="Checkbox for following text input"></td>
                 </tr>
             </c:forEach>
         </table>
+    </div>
+    
+    <div align="center">
+        <form method="POST" action="<%=url%>">
+           
+
+            
+        </form>
     </div>
     <%
         //out.println(request.getAttribute("message"));  

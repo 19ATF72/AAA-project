@@ -30,8 +30,10 @@ public class StoredData {
         getPatient,
         getPatientsByType,
         getPatients,
+        getPatientsByTypeBetweenDates,
+        getPatientsBetweenDates,
         getAppointment,
-        getEmployee,
+        getEmployee, 
     }
     
     public EnumMap<SqlQueryEnum, String> sqlQueryMap = new EnumMap<>(SqlQueryEnum.class);
@@ -48,6 +50,8 @@ public class StoredData {
         sqlQueryMap.put(SqlQueryEnum.getAppointment, "SELECT * FROM appointment WHERE patient_pid=?");
         sqlQueryMap.put(SqlQueryEnum.getPatientsByType, "SELECT u.uuid,u.username,p.address,pt.type_name FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID WHERE p.patient_type_ptid = ? FETCH FIRST 10 ROWS ONLY");
         sqlQueryMap.put(SqlQueryEnum.getPatients, "SELECT u.uuid,u.username,p.address,pt.type_name FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID FETCH FIRST 10 ROWS ONLY");
+        sqlQueryMap.put(SqlQueryEnum.getPatientsByTypeBetweenDates, "SELECT u.uuid,u.username,p.address,pt.type_name FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID WHERE p.patient_type_ptid = ? AND u.FETCH FIRST 10 ROWS ONLY");
+        sqlQueryMap.put(SqlQueryEnum.getPatientsBetweenDates, "SELECT u.uuid,u.username,p.address,pt.type_name FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID FETCH FIRST 10 ROWS ONLY");
         sqlQueryMap.put(SqlQueryEnum.getPatient, "SELECT * FROM patient WHERE users_uuid=?");
         sqlQueryMap.put(SqlQueryEnum.getEmployee, "SELECT * FROM employee WHERE users_uuid=?");
         
