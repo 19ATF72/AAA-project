@@ -25,7 +25,7 @@
         <form method="POST" action="<%=url%>">     
             <table>
                  <tr> 
-                    <td> <button type="submit" name="NewUser" value="NewUser">New user</button></td>
+                    <td> <button type="submit" name="patientOperation" value="bookAppointment">book appointment</button></td>
                 </tr>
             </table>
         </form>

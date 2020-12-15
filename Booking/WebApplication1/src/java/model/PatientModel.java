@@ -52,17 +52,24 @@ public ArrayList get_patient(ArrayList params, DynamicDao dynamicDao){
     }
     return result;
 }
-
 public ArrayList retrieveAppointments( DynamicDao dynamicDao ){
+        
     ArrayList result = new ArrayList();
     try {
-           result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getAppointment), patientID);
+           result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getPatientAppointments), patientID);
     } catch (Exception e) {
         result.add("User has no appointments");
     }
     return result;
 }  
-    
+public void createAppointment( ArrayList Params, DynamicDao dynamicDao ){
+    ArrayList result = new ArrayList();
+    try {
+           result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.NewAppointment), Params.get(0), Params.get(1), Params.get(2), Params.get(3), Params.get(4), Params.get(5), Params.get(6), Params.get(7), Params.get(8));
+    } catch (Exception e) {
+        result.add("User has no appointments");
+    }
+}   
 
        public int getPatientID() {
         return patientID;
