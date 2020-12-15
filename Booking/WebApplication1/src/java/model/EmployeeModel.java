@@ -28,7 +28,7 @@ public class EmployeeModel extends UserModel {
    private double salarayRate;
    //TODO add more but need to think
   
-   public void create_Employee(ArrayList params, DynamicDao dynamicDao)
+public void create_Employee(ArrayList params, DynamicDao dynamicDao)
 {    
     String result = "";
     //    , query[0], query[1], query[2], created, access, login, query[3], user_status
@@ -43,7 +43,16 @@ public class EmployeeModel extends UserModel {
     }
 }
 
-                    
+public Double getEmployeeSalary(Integer uuid, DynamicDao dynamicDao)
+{    
+    Double result = 0.0;
+    try {  
+           result = Double.parseDouble((String)dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getEmployeeSalary), uuid).get(0));
+    } catch (Exception e) {
+        
+    }
+    return result;
+}
    public void setCalander(String calander){
         this.calander = calander;
    }
