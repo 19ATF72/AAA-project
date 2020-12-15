@@ -17,11 +17,7 @@
         <param-value>20.0</param-value>
     </context-param>
     <welcome-file-list>
-<<<<<<< SS-42-adding-stored-sql-statements:SmartCare/src/main/webapp/WEB-INF/web.xml
         <welcome-file>login.jsp</welcome-file>
-=======
-        <welcome-file>/WEB-INF/OrganisationList.jsp</welcome-file>
->>>>>>> [SS-53] added additional mapping (NOT FIXED):Booking/WebApplication1/build/web/WEB-INF/web.xml
     </welcome-file-list>
     <servlet>
         <servlet-name>Book</servlet-name>
@@ -83,27 +79,10 @@
         <servlet-name>ListController</servlet-name>
         <url-pattern>/ListController.do</url-pattern>
     </servlet-mapping>
-<<<<<<< SS-42-adding-stored-sql-statements:SmartCare/src/main/webapp/WEB-INF/web.xml
     <servlet-mapping>
         <servlet-name>TurnoverController</servlet-name>
         <url-pattern>/TurnoverController.do</url-pattern>
     </servlet-mapping>
-=======
-    <servlet>
-        <servlet-name>OrganisationServlet</servlet-name>
-        <servlet-class>controller.OrganisationServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>OrganisationServlet</servlet-name>
-        <url-pattern>/OrganisationServlet.do</url-pattern>
-        <url-pattern>/OrganisationServlet.do/edit_organisation</url-pattern>
-        <url-pattern>/OrganisationServlet.do/delete_organisation</url-pattern>
-        <url-pattern>/OrganisationServlet.do/new_organisation</url-pattern>
-        <url-pattern>/OrganisationServlet.do/insert_organisation</url-pattern>
-    </servlet-mapping>
-    
-    
->>>>>>> [SS-53] added additional mapping (NOT FIXED):Booking/WebApplication1/build/web/WEB-INF/web.xml
     <session-config>
         <session-timeout>
             20

@@ -13,11 +13,22 @@ import dao.DynamicDao;
  */
 public class OrganisationEntity {
     
-    private String name;
-    private String orgType;
-    private String address;
-    private String postcode;
-    private String phoneNum;    
+    
+    protected  String oId = ""; 
+    protected  String name;
+    protected  String orgType;
+    protected  String address;
+    protected  String postcode;
+    protected  String phoneNum;    
+    
+    public OrganisationEntity(String oId, String name, String orgType, String address, String postcode, String phoneNum){
+        this.oId = oId;
+        this.name = name;
+        this.orgType = orgType;
+        this.address = address;
+        this.postcode = postcode;
+        this.phoneNum = phoneNum; 
+    }
        
     public OrganisationEntity(String name, String orgType, String address, String postcode, String phoneNum){
         this.name = name;
@@ -26,11 +37,19 @@ public class OrganisationEntity {
         this.postcode = postcode;
         this.phoneNum = phoneNum; 
     }
-    
-    public OrganisationEntity(String name){
-        this.name = name;
+   
+    public OrganisationEntity(String oid){
+        this.oId = oid;
     }
      
+    public String getOId() {
+        return oId;
+    }
+
+    public void setOId(String oid){
+        this.oId = oId;
+    }
+    
     public String getName() {
         return name;
     }

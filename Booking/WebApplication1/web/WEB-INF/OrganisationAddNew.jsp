@@ -8,15 +8,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <title>Books Store Application</title>
+    <title>SmartCare</title>
 </head>
 <body>
     <center>
-        <h1>Books Management</h1>
+        <h1>Organisation Management</h1>
         <h2>
-            <a href="/new">Add New Book</a>
+            <a href="/OrganisationServlet.do/new_organisation">Add New Organisation</a>
             &nbsp;&nbsp;&nbsp;
-            <a href="/list">List All Books</a>
+            <a href="/OrganisationServlet.do">List All Organisations</a>
              
         </h2>
     </center>
@@ -25,7 +25,7 @@
             <form action="update" method="post">
         </c:if>
         <c:if test="${organisation == null}">
-            <form action="insert" method="post">
+            <form action="insert_organisation" method="post">
         </c:if>
         <table border="1" cellpadding="5">
             <caption>
@@ -39,20 +39,21 @@
                 </h2>
             </caption>
                 <c:if test="${organisation != null}">
-                    <input type="hidden" name="id" value="<c:out value='${organisation.id}' />" />
+                    <input type="hidden" name="oId" 
+                           value="<c:out value='${organisation.oId}' />" />
                 </c:if>           
             <tr>
                 <th>Name: </th>
                 <td>
-                    <input type="text" name="title" size="45"
+                    <input type="text" name="name" size="45"
                             value="<c:out value='${organisation.name}' />"
                         />
                 </td>
             </tr>
             <tr>
-                <th>Organisation Type </th>
+                <th>Organisation Type: </th>
                 <td>
-                    <input type="text" name="title" size="45"
+                    <input type="text" name="orgType" size="45"
                             value="<c:out value='${organisation.orgType}' />"
                         />
                 </td>
@@ -60,7 +61,7 @@
             <tr>
                 <th>Address: </th>
                 <td>
-                    <input type="text" name="author" size="45"
+                    <input type="text" name="address" size="45"
                             value="<c:out value='${organisation.address}' />"
                     />
                 </td>
@@ -68,7 +69,7 @@
             <tr>
                 <th>Postcode: </th>
                 <td>
-                    <input type="text" name="price" size="5"
+                    <input type="text" name="postcode" size="10"
                             value="<c:out value='${organisation.postcode}' />"
                     />
                 </td>
@@ -76,8 +77,8 @@
             <tr>
                 <th>Number: </th>
                 <td>
-                    <input type="text" name="price" size="5"
-                            value="<c:out value='${organisation.number}' />"
+                    <input type="text" name="phoneNum" size="30"
+                            value="<c:out value='${organisation.phoneNum}' />"
                     />
                 </td>
             </tr>

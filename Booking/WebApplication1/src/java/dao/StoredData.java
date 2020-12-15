@@ -63,7 +63,8 @@ public class StoredData {
 
         insertOrganisation,
         getOrganisation,
-        deleteOrganisation
+        deleteOrganisation,
+        listAllOrganisations
     }
     
     public EnumMap<SqlQueryEnum, String> sqlQueryMap = new EnumMap<>(SqlQueryEnum.class);
@@ -112,6 +113,7 @@ public class StoredData {
         sqlQueryMap.put(SqlQueryEnum.NewAppointment, "INSERT INTO appointment (duration, charge, date, start_time, end_time, patient_pid, employee_eid, appointment_type_atid, appointment_status_asid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         sqlQueryMap.put(SqlQueryEnum.getEmployeeSalary, "SELECT salary FROM employee WHERE users_uuid=?");
         sqlQueryMap.put(SqlQueryEnum.NewEmployeeAppointmentSlot, "INSERT INTO employee_has_appointment_slots (employee_eid, date) VALUES (?, ?)");
+<<<<<<< SS-42-adding-stored-sql-statements
         sqlQueryMap.put(SqlQueryEnum.getInvoicesByType, "SELECT u.uuid,u.username,p.address,pt.type_name,a.aid,a.duration,a.date,a.charge,aps.appointment_status FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID INNER JOIN appointment a ON p.PID = a.PATIENT_PID INNER JOIN appointment_status aps ON a.APPOINTMENT_STATUS_ASID = aps.asid WHERE aps.asid = 4 AND p.PATIENT_TYPE_PTID = ? FETCH FIRST 10 ROWS ONLY");
         sqlQueryMap.put(SqlQueryEnum.getInvoices, "SELECT u.uuid,u.username,p.address,pt.type_name,a.aid,a.duration,a.date,a.charge,aps.appointment_status FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID INNER JOIN appointment a ON p.PID = a.PATIENT_PID INNER JOIN appointment_status aps ON a.APPOINTMENT_STATUS_ASID = aps.asid WHERE aps.asid = 4 FETCH FIRST 10 ROWS ONLY");
         sqlQueryMap.put(SqlQueryEnum.getInvoicesByTypeBetweenDates, "SELECT u.uuid,u.username,p.address,pt.type_name,a.aid,a.duration,a.date,a.charge,aps.appointment_status FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID INNER JOIN appointment a ON p.PID = a.PATIENT_PID INNER JOIN appointment_status aps ON a.APPOINTMENT_STATUS_ASID = aps.asid WHERE aps.asid = 4 AND p.PATIENT_TYPE_PTID = ? AND (a.date BETWEEN ? AND ?) FETCH FIRST 10 ROWS ONLY");
@@ -120,6 +122,12 @@ public class StoredData {
         sqlQueryMap.put(SqlQueryEnum.insertOrganisation, "INSERT INTO organisation (name, organisation_type_oid, address, postcode, phonenumber) VALUES (?, ?, ?, ?, ?)");
         sqlQueryMap.put(SqlQueryEnum.getOrganisation, "SELECT * FROM organisation WHERE name = ?");
         sqlQueryMap.put(SqlQueryEnum.getOrganisation, "DELETE FROM organisation where name = ?");
+=======
+        sqlQueryMap.put(SqlQueryEnum.insertOrganisation, "INSERT INTO organisation (name, organisation_type_oid, address, postcode, phone_number) VALUES (?, ?, ?, ?, ?)");
+        sqlQueryMap.put(SqlQueryEnum.getOrganisation, "SELECT * FROM organisation WHERE oid = ?");
+        sqlQueryMap.put(SqlQueryEnum.getOrganisation, "DELETE FROM organisation where oid = ?");
+        sqlQueryMap.put(SqlQueryEnum.getOrganisation, "SELECT * FROM organisation");
+>>>>>>> [SS-53] added additional mapping (NOT FIXED)
    
     }   
 }
