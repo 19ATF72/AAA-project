@@ -11,17 +11,24 @@ package controller_Login;
  * and open the template in the editor.
  */
 import dao.DynamicDao;
-import dao.StoredStatements;
-import dao.StoredStatements.SqlQueryEnum;
+import dao.StoredData;
+import dao.StoredData.SqlQueryEnum;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.*;
+import org.hibernate.validator.internal.util.logging.Log;
 
 /**
  *
@@ -29,6 +36,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "Login", urlPatterns = {"/Login.do"})
 public class Login extends HttpServlet {
+
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,19 +49,22 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        DynamicDao dynamicDao = new DynamicDao();
-        dynamicDao.tryConnect();
-        StoredStatements storedStatements = new StoredStatements();
-                
+        HttpSession session = request.getSession();
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession(false);
+        StoredData storedData = new StoredData(); 
+        DynamicDao dynamicDao = new DynamicDao();
+        dynamicDao.connect((Connection)request.getServletContext().getAttribute("connection"));
+        session.setAttribute("dynamicDao", dynamicDao);
+        
+        //uncoment to populate time slots table
+        //dynamicDao.addTimeSlots();
         
         String [] query = new String[4];
         query[0] = (String)request.getParameter("NewUser");
         query[1] = (String)request.getParameter("Login");
         
-        //String insert = "INSERT INTO `Users` (`username`, `password`) VALUES ('";
+        UserModel User = new UserModel();
+        session.setAttribute("User", User); 
  
         if (dynamicDao == null)
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
@@ -61,19 +72,59 @@ public class Login extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/NewUser.jsp").forward(request, response);
         }
         else if (query[1] != null){
-        query[2] = (String)request.getParameter("username");
-        query[3] = (String)request.getParameter("password");
-        try {
-            ArrayList user = dynamicDao.agnostic_retrieve(storedStatements.sqlQueryMap.get(SqlQueryEnum.LoginUser), query[2], query[3]);
-            request.setAttribute("message", "User with "+query[2]+" loggedin");
-            request.getRequestDispatcher("/login.jsp").forward(request, response); //todo replace by forward to user page
-        } catch (Exception e) {
-            request.setAttribute("message","Incorrect user or password");
-            request.getRequestDispatcher("/login.jsp").forward(request, response);
+            query[2] = (String)request.getParameter("mail");
+            query[3] = (String)request.getParameter("password");
+
+            ArrayList params = new ArrayList(Arrays.asList(query[2], query[3]));
+            //retrieves user from data base if it exists 
+            ArrayList result = User.login_User(params, dynamicDao);
+            if ( result.size() > 1 ) {
+                
+                int userStatus = User.getAccountStatus();
+                if (userStatus == storedData.approved) {
+                    session.setAttribute("User", User);
+                    switch((String)result.get(2)) {
+                         case "patient":
+                             //patient login
+                             PatientModel patient = new PatientModel();
+                             ArrayList<String[]> patient_details = new ArrayList<String[]>();
+                             patient_details.add((String[])result.get(1));
+                             patient.login_patient(patient_details, dynamicDao);
+                             session.setAttribute("Patient", patient);
+                             //patient page set up   
+                             //retrieve appointment for display and senthem to the page
+                             ArrayList appointments = patient.retrieveAppointments( dynamicDao );
+                             request.setAttribute("message", appointments);
+                             request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
+                            break;
+                        case "employee":
+                               //TODO to be implemented
+//                             EmployeeModel employee = new EmployeeModel();
+//                             employee.((ArrayList<String[]>)result.get(1), dynamicDao);
+//                             session.setAttribute("Employee", employee);
+//                             request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);   
+                            break;
+                        case "admin":
+                            break;
+                        default:
+                            
+                }
+                }
+                else if (userStatus == storedData.pending)
+                {
+                    request.setAttribute("message","User has not been approved by admin yet");
+                    request.getRequestDispatcher("/login.jsp").forward(request, response);  
+                }
+                else
+                {
+                    request.setAttribute("message","User has been blocked by the admin");
+                    request.getRequestDispatcher("/login.jsp").forward(request, response);  
+                }
+    }
+    else{
+                
         }
         }
-        //request.setAttribute("message", "Welcome " + query[0].toString())
-        //request.getRequestDispatcher("/user.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

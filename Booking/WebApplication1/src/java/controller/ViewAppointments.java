@@ -6,8 +6,8 @@
 package controller;
 
 import dao.DynamicDao;
-import dao.StoredStatements;
-import dao.StoredStatements.SqlQueryEnum;
+import dao.StoredData;
+import dao.StoredData.SqlQueryEnum;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -38,11 +38,11 @@ public class ViewAppointments {
         
         
         DynamicDao exampleDao = new DynamicDao();
-        StoredStatements storedStatements = new StoredStatements();
+        StoredData storedStatements = new StoredData();
         
         AppointmentModel appointmentModel = new AppointmentModel();
         
-        appointmentModel = exampleDao.retrieveAppointment(storedStatements.sqlQueryMap.get(SqlQueryEnum.fetchAppointment));
+        //appointmentModel = exampleDao.retrieveAppointment(storedStatements.sqlQueryMap.get(SqlQueryEnum.fetchAppointment));
         
         
         

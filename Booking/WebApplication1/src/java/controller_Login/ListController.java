@@ -5,33 +5,32 @@
  */
 package controller_Login;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 import dao.DynamicDao;
-import dao.StoredStatements;
-import dao.StoredStatements.SqlQueryEnum;
+import dao.StoredData;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Date;
+import java.sql.Connection;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.EmployeeModel;
+import model.ListModel;
+import model.PatientModel;
+import model.UserModel;
 
 /**
  *
- * @author me-aydin
+ * @author atf1972
  */
-@WebServlet(name = "NewUser", urlPatterns = {"/WEB-INF/NewUser.do"})
-public class NewUser extends HttpServlet {
 
+@WebServlet(name = "ListController", urlPatterns = {"/WEB-INF/ListController.do"})
+public class ListController extends HttpServlet {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,46 +43,43 @@ public class NewUser extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        // THIS IS JUST FOR TESTING \TODO: REMOVE AFTER TESTING
+        HttpSession session = request.getSession(); // TODO: Remove line after testing done
         DynamicDao dynamicDao = new DynamicDao();
-        dynamicDao.tryConnect();
-        StoredStatements storedStatements = new StoredStatements();
-                
+        dynamicDao.connect((Connection)request.getServletContext().getAttribute("connection"));
+        session.setAttribute("dynamicDao", dynamicDao);
+        // END OF TESTING BLOCK
+        
+        //HttpSession session = request.getSession(false); // UNCOMMENT
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession(false);
         
-        String [] query = new String[4];
-        query[0] = (String)request.getParameter("username");
-        query[1] = (String)request.getParameter("password");
-        query[2] = (String)request.getParameter("email");
-        query[3] = (String)request.getParameter("picUrl");
-        //String insert = "INSERT INTO `Users` (`username`, `password`) VALUES ('";
- 
+        ListModel list = new ListModel();
+        
+        //DynamicDao dynamicDao = (DynamicDao)session.getAttribute("dynamicDao"); //UNCOMMENT
         if (dynamicDao == null)
-            request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);  
-            try {
-                //dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(SqlQueryEnum.CheckForUsername), query[0]);
-                //trmporary for testing todo delete after program can get this info alone
-                Date date= new Date();
-                //getTime() returns current time in milliseconds
-                long time = date.getTime();
-                int uid = 2;
-                Timestamp created = new Timestamp(time);
-                Timestamp access = new Timestamp(time);
-                int login = 1;
-                int status = 1;
-                int admin_signupid = 1;
-                //
-                dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(SqlQueryEnum.NewUser) , query[0], query[1], query[2], created, access, login, query[3], admin_signupid);
-                request.setAttribute("message", query[0]+" is added"); 
-            } catch (Exception e) {
-                request.setAttribute("message","Username already exists");
-            }
+            request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         
-        request.getRequestDispatcher("/WEB-INF/NewUser.jsp").forward(request, response);
-
+        String [] query = new String[3];
+        query[0] = (String)request.getParameter("patientType");
+        query[1] = (String)request.getParameter("startTime");
+        query[2] = (String)request.getParameter("endTime");
+        
+        ArrayList params = new ArrayList(Arrays.asList(query[0], query[1], query[2]));
+        //ArrayList result = list.getPatientsByType(params, dynamicDao);
+        ArrayList result;
+        
+        if (query[0].equals("0")) {
+            result = list.getPatients(dynamicDao);
+        }
+        else {
+            result = list.getPatientsByType(params, dynamicDao);
+        }
+        
+        request.setAttribute("message", result);
+        request.getRequestDispatcher("/WEB-INF/List.jsp").forward(request, response);
     }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    
+        // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -122,4 +118,4 @@ public class NewUser extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-}
+}    

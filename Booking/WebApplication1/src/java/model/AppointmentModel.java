@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package model;
+import dao.DynamicDao;
+import dao.StoredData;
 import java.util.ArrayList;
 import java.util.HashMap; 
 import java.util.UUID;
@@ -16,7 +18,41 @@ public class AppointmentModel implements EmployeeModelInterface, PatientModelInt
     
     private EmployeeModel employeeModel;
     private PatientModel patientModel;
-    
+    private StoredData storedStatements = new StoredData();
+                
+public ArrayList<String[]> retrieveAvaialbleAppointmentsForDoctor(Integer doctor_id, String Date, DynamicDao dynamicDao ){   
+    //get all free appointments for chosen doctor
+    ArrayList doctor_appointments = new ArrayList();
+        try {
+            
+            doctor_appointments = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getEmployeeFreeAppointmentsInDay), doctor_id, Date);
+        
+        } catch (Exception e) {
+            try {
+                doctor_appointments = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getAllPossibleAppointments));
+            } catch (Exception p) {
+                doctor_appointments.add("Somthing is very very veeeery DEEPLY wrong time to start crying the slots type table does not exist");
+            }
+            
+        }
+   
+        return doctor_appointments;
+}
+public void CreateAppointment(ArrayList params, DynamicDao dynamicDao ){   
+        try {
+            
+           dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.NewAppointment), params.get(0), params.get(1),params.get(2),params.get(3),params.get(4),params.get(5),params.get(6),params.get(7),params.get(8),params.get(9),params.get(10));
+           dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.NewEmployeeAppointmentSlot), params.get(0), params.get(1),params.get(2));
+
+        } catch (Exception e) {
+
+            
+        }
+}
+
+public void getDailyAppointment(){
+        
+    }
     
     public AppointmentModel(EmployeeModel newEmployeeModel, PatientModel newPatientModel){
         employeeModel = newEmployeeModel;

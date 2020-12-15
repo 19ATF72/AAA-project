@@ -1,4 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%-- 
+    Document   : driver
+    Created on : 01-Nov-2015, 15:18:08
+    Author     : me-aydin
+--%>
+
+<%@page import="dao.DynamicDao"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,10 +25,13 @@
         <form method="POST" action="<%=url%>">     
             <table>
                  <tr> 
-                    <td> <button type="submit" name="bookOperation" value="booked">book appointment</button></td>
+                    <td> <button type="submit" name="patientOperation" value="bookAppointment">book appointment</button></td>
                 </tr>
             </table>
         </form>
+        <%
+                out.println(request.getAttribute("message"));  
+        %>
         <jsp:include page="/WEB-INF/foot.jsp"/>
     </body>
 </html>
