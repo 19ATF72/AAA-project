@@ -1,31 +1,34 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
- pageEncoding="ISO-8859-1"%>
+<%-- 
+    Document   : driver
+    Created on : 01-Nov-2015, 15:18:08
+    Author     : me-aydin
+--%>
+
+<%@page import="dao.DynamicDao"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<style><%@include file="/calandar.css"%></style>
 <html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
- <div align="center">
-  <h1>Employee Register Form</h1>
-  <form action="<%= request.getContextPath() %>/bookings" method="post">
-   <table style="with: 80%">
-    <tr>
-     <td>First Name</td>
-     <td><input type="text" name="time" /></td>
-    </tr>
-    <tr>
-     <td>Last Name</td>
-     <td><input type="text" name="doctor" /></td>
-    </tr>
-    <tr>
-     <td>UserName</td>
-     <td><input type="text" name="patient" /></td>
-    </tr>
-   </table>
-   <input type="submit" value="Submit" />
-  </form>
-</body>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Login Main Page</title>
+    </head>
+    <body>
+        <h2>REEEEEEEEEEE</h2>
+        <%! int i=0;
+            String str="PatientController"; 
+            String url = "PatientController.do";
+        %>
+        <% 
+             str="PatientController"; 
+             url = "PatientController.do";
+        %>
+        <form method="POST" action="<%=url%>">     
+            <table>
+                 <tr> 
+                    <td> <button type="submit" name="bookOperation" value="booked">book appointment</button></td>
+                </tr>
+            </table>
+        </form>
+        <jsp:include page="/WEB-INF/foot.jsp"/>
+    </body>
 </html>

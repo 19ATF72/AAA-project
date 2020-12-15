@@ -13,7 +13,11 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import static java.sql.Types.NULL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.AppointmentModel;
@@ -35,7 +39,7 @@ public class DynamicDao{
     ResultSet rs = null;
     
     public DynamicDao() {}
-  
+
 //    public void tryConnect(){
 //        
 //        DynamicDao bookingDao = new DynamicDao();
@@ -243,6 +247,33 @@ public class DynamicDao{
             System.out.println(e);
         }
     }
+
+//Run This to populate the time Slots table 
+public void addTimeSlots() {
+        int EghitOclock = 28800;
+        int TenMinutes = 600;
+        int FiveOclock = 61200;
+        int time = EghitOclock;
+        int previousTime = time;
+        int index = 0;
+        while (true) {
+            if(time == FiveOclock)
+            {
+                break;
+            }
+            time += TenMinutes;
+            try {
+                agnostic_query("INSERT INTO timeslots ( start, endtime ) VALUES ( ?,? )",index, previousTime, time);
+            } catch (Exception e) {
+            }
+            index++;
+            previousTime = time;
+        }
+        
+    
+}
+   
+    
     /**
      * @param args the command line arguments
      */
@@ -251,7 +282,6 @@ public class DynamicDao{
         //String insert = "INSERT INTO `Users` (`username`, `password`) VALUES ('meaydin', 'eaydin')";
         //tring update = "UPDATE `Users` SET `password`='eaydin' WHERE `username`='meaydin' ";
         //String db = "MyDB";
-        
         DynamicDao bookingDao = new DynamicDao();
         Connection conn = null;
         try {

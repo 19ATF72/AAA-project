@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -58,66 +60,47 @@ public class PatientController extends HttpServlet {
         UserModel user = (UserModel)session.getAttribute("User");
         PatientModel patient = (PatientModel)session.getAttribute("Patient");
         request.setAttribute("message", user.getusername());
-        request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
         if (dynamicDao == null)
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         
-        String [] query = new String[6];
-        query[0] = (String)request.getParameter("listPrescriptions");
-        query[1] = (String)request.getParameter("BookAppointment");
-        query[2] = (String)request.getParameter("CheckAppointment");
-        
-        //load appointments
-            //get appointments with dates 
-            //send them to page
-        //see prescriptions
-        //book appointment
-       
-        
-        
-        
-//     request.setAttribute("message", result.get(0)); 
-       
-
-//                Date date= new Date();
-//                long time = date.getTime();
-//                Timestamp created = new Timestamp(time);
-//                Timestamp access = new Timestamp(time);
-//                int login = 1;
-//                int status = 1;
-//                int user_status = 1;
-//                int uuid = 0;
-//                if(query[4].equals("0")){
-//                    user_status = 2;
-//                }
-//
-//                ArrayList params = new ArrayList(Arrays.asList(query[0], query[1], query[2], created, access, login, query[3], user_status));
-//                ArrayList result  = newUser.create_User(params, dynamicDao);
-//                
-//                if (result.get(0) == "conFail") {
-//                    request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response); 
-//                }
-//                else{
-//
-//                    switch(query[4]) {
-//                        case "0":
-//                            int patientType = Integer.parseInt((String)request.getParameter("patientType"));
-//                            ArrayList patient_params = new ArrayList(Arrays.asList(query[5],patientType, result.get(1)));
-//                            PatientModel patient = new PatientModel();
-//                            patient.create_patient(patient_params,dynamicDao);
-//                          break;
-//                        case "1":
-//                            ArrayList employee_params = new ArrayList(Arrays.asList(0, query[5], Integer.parseInt(query[4]), (String)request.getParameter("organizationName"), result.get(1)));
-//                            EmployeeModel employee = new EmployeeModel();
-//                            employee.create_Employee(employee_params,dynamicDao);
-//                          break;
-//                        default:
-//                            int p = 0;
-//
-//                        }
-//                   }
-//                   request.setAttribute("message", result.get(0));
-//                   request.getRequestDispatcher("/WEB-INF/NewUser.jsp").forward(request, response);
+        String query;
+        query = (String)request.getParameter("patientOperation");
+        AppointmentModel apointment_handling = new AppointmentModel();
+        switch(query){
+                case "bookAppointment":
+                    ArrayList<String[]> slots = apointment_handling.retrieveAvaialbleAppointmentsForDoctor(1,"c", dynamicDao);
+                    ArrayList hours  = new ArrayList();
+                    ArrayList lengths  = new ArrayList();
+                    ArrayList temp_lengths  = new ArrayList();
+                    int length = 10;
+                    hours.add(LocalTime.ofSecondOfDay(Integer.parseInt(slots.get(0)[1])));
+                    for (int i = 0; i < slots.size(); i++) {                     
+                        if (Integer.parseInt(slots.get(i)[0])%6 == 0 && lengths.size() > 0){
+                            hours.add(LocalTime.ofSecondOfDay(Integer.parseInt(slots.get(i)[1])));
+                            lengths.add(temp_lengths);
+                            temp_lengths  = new ArrayList();
+                        }
+                        else{
+                            String[] times = {slots.get(i)[1], slots.get(i)[2]};
+                            temp_lengths.add(times);
+                        }
+                    }
+                    
+                    request.setAttribute("hours", hours);
+                    request.setAttribute("lengths", lengths);
+                    request.getRequestDispatcher("/WEB-INF/book.jsp").forward(request, response);
+                        
+                case "checkPrescription":
+                case "booked":
+                      //parameters to be used when creating appointment
+                      EmployeeModel doctor = new EmployeeModel();
+                      Double doc_salary = doctor.getEmployeeSalary(Integer.parseInt(request.getParameter("employee_eid")), dynamicDao);
+                      double charge = doc_salary*Integer.parseInt(request.getParameter("duration"));
+                      ArrayList appointment_params = new ArrayList(Arrays.asList(Integer.parseInt(request.getParameter("duration")), request.getParameter("notes"), charge, request.getParameter("date"), Integer.parseInt(request.getParameter("start_time")), Integer.parseInt(request.getParameter("end_time")), Integer.parseInt(request.getParameter("patient_pid")), Integer.parseInt(request.getParameter("employee_eid")), Integer.parseInt(request.getParameter("appointment_type_atid")), Integer.parseInt(request.getParameter("patient_prescriptions_prid")), Integer.parseInt(request.getParameter("appointment_status_asid"))));
+                      apointment_handling.CreateAppointment(appointment_params, dynamicDao);
+                default:
+        }
+        request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
 
     }
 

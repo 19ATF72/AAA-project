@@ -27,9 +27,16 @@ public class StoredData {
         NewEmployee,
         NewPatient,
         GetOrganizationByName,
-        getAppointment,
+        getPatientAppointments,
+        getEmployeeAppointments,
         getPatient,
         getEmployee,
+        NewAppointment,
+        getAllPossibleAppointments,
+        getEmployeeAppointmentsInDay,
+        getEmployeeFreeAppointmentsInDay,
+        NewEmployeeAppointmentSlot,
+        getEmployeeSalary,
     }
     
     public EnumMap<SqlQueryEnum, String> sqlQueryMap = new EnumMap<>(SqlQueryEnum.class);
@@ -43,9 +50,15 @@ public class StoredData {
         sqlQueryMap.put(SqlQueryEnum.NewEmployee, "INSERT INTO employee ( salary, address, employee_type_tid, organization_oid, users_uuid ) VALUES (?,?,?,?,?)");
         sqlQueryMap.put(SqlQueryEnum.NewPatient, "INSERT INTO patient ( address, patient_type_ptid, users_uuid ) VALUES ( ?,?,? )");
         sqlQueryMap.put(SqlQueryEnum.GetOrganizationByName, "SELECT oid FROM organization WHERE name=? LIMIT 1");
-        sqlQueryMap.put(SqlQueryEnum.getAppointment, "SELECT * FROM appointment WHERE patient_pid=?");
+        sqlQueryMap.put(SqlQueryEnum.getPatientAppointments, "SELECT * FROM appointment WHERE patient_pid=?");
+        sqlQueryMap.put(SqlQueryEnum.getEmployeeAppointmentsInDay, "SELECT * FROM appointment WHERE employee_eid=? AND date=?");
+        sqlQueryMap.put(SqlQueryEnum.getEmployeeFreeAppointmentsInDay, "SELECT * FROM employee_has_appointment_slots WHERE employee_eid=? AND date=?");
+        sqlQueryMap.put(SqlQueryEnum.getAllPossibleAppointments, "SELECT * FROM timeslots");
         sqlQueryMap.put(SqlQueryEnum.getPatient, "SELECT * FROM patient WHERE users_uuid=?");
         sqlQueryMap.put(SqlQueryEnum.getEmployee, "SELECT * FROM employee WHERE users_uuid=?");
-        
+        sqlQueryMap.put(SqlQueryEnum.NewAppointment, "INSERT INTO appointment (duration, notes, charge, date, start_time, end_time, patient_pid, employee_eid, appointment_type_atid, patient_prescriptions_prid, appointment_status_asid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        sqlQueryMap.put(SqlQueryEnum.getEmployeeSalary, "SELECT salary FROM employee WHERE users_uuid=?");
+        sqlQueryMap.put(SqlQueryEnum.NewEmployeeAppointmentSlot, "INSERT INTO employee_has_appointment_slots (employee_eid, date) VALUES (?, ?)");
+
     }   
 }

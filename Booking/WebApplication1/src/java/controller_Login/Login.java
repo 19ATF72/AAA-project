@@ -16,8 +16,11 @@ import dao.StoredData.SqlQueryEnum;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.*;
+import org.hibernate.validator.internal.util.logging.Log;
 
 /**
  *
@@ -32,6 +36,7 @@ import model.*;
  */
 @WebServlet(name = "Login", urlPatterns = {"/Login.do"})
 public class Login extends HttpServlet {
+
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,20 +49,22 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         HttpSession session = request.getSession();
         response.setContentType("text/html;charset=UTF-8");
         StoredData storedData = new StoredData(); 
         DynamicDao dynamicDao = new DynamicDao();
         dynamicDao.connect((Connection)request.getServletContext().getAttribute("connection"));
-        session.setAttribute("dynamicDao", dynamicDao);    
+        session.setAttribute("dynamicDao", dynamicDao);
+        
+        //uncoment to populate time slots table
+        //dynamicDao.addTimeSlots();
         
         String [] query = new String[4];
         query[0] = (String)request.getParameter("NewUser");
         query[1] = (String)request.getParameter("Login");
+        
         UserModel User = new UserModel();
         session.setAttribute("User", User); 
-        //String insert = "INSERT INTO `Users` (`username`, `password`) VALUES ('";
  
         if (dynamicDao == null)
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
