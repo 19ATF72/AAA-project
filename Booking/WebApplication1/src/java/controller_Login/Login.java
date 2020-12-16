@@ -60,13 +60,15 @@ public class Login extends HttpServlet {
      * based on login details and sets it as the user for the current session.
      * Generates either a patient or a doctor object for the session based on 
      * the user object attributes and redirects the user to the appropriate page. 
-     * All Model objects  which are used more than once across pages are generated here. 
+     * All Model objects  which are used more than once across pages are generated here.
+     *   
      *
+     *  
      * @param request servlet request
      * @param response servlet response
      * @param[out] HttpSession session A containing all attributes which will be used in other pages  
-     * @attribute dynamicDao session 
-     * 
+     * @param[out] ListModel listHandler Object set to the current session so other pages can list data from the database 
+     * @param[out] ListModel user Object set to the current session so data base does not need to be called to retrieve user info
      * 
      * @param[in] input_name input_description 
      *
@@ -78,26 +80,35 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         response.setContentType("text/html;charset=UTF-8");
+        //data objects to be used in every page
+        //TODO delete this from other controller it is now saved on the session 
         StoredData storedData = new StoredData(); 
         DynamicDao dynamicDao = new DynamicDao();
+        ListModel listHandler = new ListModel();
+        UserModel User = new UserModel();
+        PatientModel patient;
+        EmployeeModel employee;
+        //set database object connection 
         dynamicDao.connect((Connection)request.getServletContext().getAttribute("connection"));
+        //check if connection was stablished only needs to be done here TODO remove from other classes
+         if (dynamicDao == null)
+            request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
+        //saves data objects in the session
         session.setAttribute("dynamicDao", dynamicDao);
-        
+        session.setAttribute("ListHandler", listHandler);
+        session.setAttribute("User", User);     
+        session.setAttribute("storedData", storedData);
         //uncoment to populate appointment slots type table
         //dynamicDao.addTimeSlots();
-        //@{
-        ListModel listHandler = new ListModel();
-        session.setAttribute("ListHandler", listHandler);
         
+        //
         String [] query = new String[4];
         query[0] = (String)request.getParameter("NewUser");
         query[1] = (String)request.getParameter("Login");
-        //@}
-        UserModel User = new UserModel();
-        session.setAttribute("User", User); 
+        
+        
  
-        if (dynamicDao == null)
-            request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
+       
         if(query[0] != null){
             request.getRequestDispatcher("/WEB-INF/NewUser.jsp").forward(request, response);
         }
@@ -116,7 +127,7 @@ public class Login extends HttpServlet {
                     switch((String)result.get(2)) {
                          case "patient":
                              //patient login
-                             PatientModel patient = new PatientModel();
+                             patient = new PatientModel();
                              ArrayList<String[]> patient_details = new ArrayList<String[]>();
                              patient_details.add((String[])result.get(1));
                              patient.login_patient(patient_details, dynamicDao);
