@@ -74,7 +74,6 @@ public ArrayList login_User(ArrayList params, DynamicDao dynamicDao)
            setAccountStatus(Integer.parseInt(user[8]));
            ArrayList role = get_user_role(dynamicDao);
            if (role!=null) {
-                result.add(user);
                 result.add(role.get(0));
                 result.add(role.get(1));
             }

@@ -37,14 +37,14 @@
                     <td><input type="password" name="password" required /></td>
                 </tr>
                 <tr> 
-                    <td> <input type="submit" name="Login" value="Login"/></td>
+                    <td> <input type="submit" name="LoginOperation" value="Login"/></td>
                 </tr>
             </table>
         </form>
         <form method="POST" action="<%=url%>">     
             <table>
                  <tr> 
-                    <td> <button type="submit" name="NewUser" value="NewUser">New user</button></td>
+                    <td> <button type="submit" name="LoginOperation" value="NewUser">New user</button></td>
                 </tr>
             </table>
         </form>

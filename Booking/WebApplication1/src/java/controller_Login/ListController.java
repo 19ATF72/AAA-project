@@ -46,16 +46,14 @@ public class ListController extends HttpServlet {
             throws ServletException, IOException {
         
         // THIS IS JUST FOR TESTING \TODO: REMOVE AFTER TESTING
-        HttpSession session = request.getSession(); // TODO: Remove line after testing done
-        DynamicDao dynamicDao = new DynamicDao();
-        dynamicDao.connect((Connection)request.getServletContext().getAttribute("connection"));
-        session.setAttribute("dynamicDao", dynamicDao);
+        HttpSession session = request.getSession(false);
+        DynamicDao dynamicDao = (DynamicDao)session.getAttribute("dynamicDao");
         // END OF TESTING BLOCK
         
         //HttpSession session = request.getSession(false); // UNCOMMENT
         response.setContentType("text/html;charset=UTF-8");
         
-        ListModel list = new ListModel();
+        ListModel ListHandler = (ListModel)request.getAttribute("ListHandler");
         
         //DynamicDao dynamicDao = (DynamicDao)session.getAttribute("dynamicDao"); //UNCOMMENT
         if (dynamicDao == null)
@@ -101,16 +99,16 @@ public class ListController extends HttpServlet {
                 case "retrievePatients":
                     if (query[0].equals("0") && !(query[1].equals(""))) {
                         ArrayList params = new ArrayList(Arrays.asList(query[1], query[2]));
-                        resultPatients = list.getPatientsBetweenDates(params, dynamicDao);
+                        resultPatients = ListHandler.getPatientsBetweenDates(params, dynamicDao);
                     } else if (query[0].equals("0")) {
-                        resultPatients = list.getPatients(dynamicDao);
+                        resultPatients = ListHandler.getPatients(dynamicDao);
                     } else {                 
                         if (!(query[1].equals(""))) {
                             ArrayList params = new ArrayList(Arrays.asList(query[0], query[1], query[2]));
-                            resultPatients = list.getPatientsByTypeBetweenDates(params, dynamicDao); //TODO
+                            resultPatients = ListHandler.getPatientsByTypeBetweenDates(params, dynamicDao); //TODO
                         } else {
                             ArrayList params = new ArrayList(Arrays.asList(query[0]));
-                            resultPatients = list.getPatientsByType(params, dynamicDao);
+                            resultPatients = ListHandler.getPatientsByType(params, dynamicDao);
                         }   
                     }
                     request.setAttribute("resultPatients", resultPatients);
@@ -118,16 +116,16 @@ public class ListController extends HttpServlet {
                 case "retrieveInvoices":
                     if (query[0].equals("0") && !(query[1].equals(""))) {
                         ArrayList params = new ArrayList(Arrays.asList(query[1], query[2]));
-                        resultInvoices = list.getInvoicesBetweenDates(params, dynamicDao);
+                        resultInvoices = ListHandler.getInvoicesBetweenDates(params, dynamicDao);
                     } else if (query[0].equals("0")) {
-                        resultInvoices = list.getInvoices(dynamicDao);
+                        resultInvoices = ListHandler.getInvoices(dynamicDao);
                     } else {                 
                         if (!(query[1].equals(""))) {
                             ArrayList params = new ArrayList(Arrays.asList(query[0], query[1], query[2]));
-                            resultInvoices = list.getInvoicesByTypeBetweenDates(params, dynamicDao); //TODO
+                            resultInvoices = ListHandler.getInvoicesByTypeBetweenDates(params, dynamicDao); //TODO
                         } else {
                             ArrayList params = new ArrayList(Arrays.asList(query[0]));
-                            resultInvoices = list.getInvoicesByType(params, dynamicDao);
+                            resultInvoices = ListHandler.getInvoicesByType(params, dynamicDao);
                         }   
                     }
                     request.setAttribute("resultInvoices", resultInvoices);
