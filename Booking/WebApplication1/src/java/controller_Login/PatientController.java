@@ -148,10 +148,10 @@ public class PatientController extends HttpServlet {
                       request.setAttribute("schedule", appointments);
                       request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
                       break;
-                 case "list":
+                 case "List":
                     request.getRequestDispatcher("/WEB-INF/List.jsp").forward(request, response);
                      break;
-                case "turnover":
+                case "Turnover":
                     request.getRequestDispatcher("/WEB-INF/Turnover.jsp").forward(request, response);
                     break;
                 default:
