@@ -27,10 +27,10 @@ public class StoredData {
         NewEmployee,
         NewPatient,
         GetOrganizationByName,
-        getAllPatientsByType,
-        getAllPatients,
-        getAllPatientsByTypeBetweenDates,
-        getAllPatientsBetweenDates,
+        getPatientsByType,
+        getPatients,
+        getPatientsByTypeBetweenDates,
+        getPatientsBetweenDates,
         getAppointment,
         getEmployee,
         getAllEmployees,
@@ -44,15 +44,12 @@ public class StoredData {
         getPatient,
         NewAppointment,
         getAllPossibleAppointments,
-        getEmployeeAppointmentsInDay,
-        getEmployeeFreeAppointmentsInDay,
-        NewEmployeeAppointmentSlot,
-        getEmployeeSalary,
         getInvoicesByType,
         getInvoices,
         getInvoicesByTypeBetweenDates,
         getInvoicesBetweenDates,
-        
+        getPatientDisplayableAppointments,
+
     }
     
     public EnumMap<SqlQueryEnum, String> sqlQueryMap = new EnumMap<>(SqlQueryEnum.class);
@@ -60,7 +57,7 @@ public class StoredData {
     public StoredData() {
         sqlQueryMap.put(SqlQueryEnum.fetchAppointment, "Test");
         sqlQueryMap.put(SqlQueryEnum.deleteUser, "DELETE FROM users WHERE mail=?");
-        sqlQueryMap.put(SqlQueryEnum.LoginUser, "SELECT * FRINSEROM users WHERE email=? AND pass=?");
+        sqlQueryMap.put(SqlQueryEnum.LoginUser, "SELECT * FROM users WHERE email=? AND pass=?");
         sqlQueryMap.put(SqlQueryEnum.NewUser, "INSERT INTO users ( username, pass, email, created, last_access, logged_in, picture, user_status_usid ) VALUES (?,?,?,?,?,?,?,?)");
         sqlQueryMap.put(SqlQueryEnum.CheckForUsername, "SELECT name FROM users WHERE name=?");
         //Employee calls
@@ -79,16 +76,14 @@ public class StoredData {
         sqlQueryMap.put(SqlQueryEnum.getPatients, "SELECT u.uuid,u.username,p.address,pt.type_name,u.created FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID FETCH FIRST 10 ROWS ONLY");
         sqlQueryMap.put(SqlQueryEnum.getPatientsByTypeBetweenDates, "SELECT u.uuid, u.username, p.address, pt.type_name, u.created FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID WHERE pt.PTID = ? AND (u.created BETWEEN ? AND ?)  FETCH FIRST 10 ROWS ONLY");
         sqlQueryMap.put(SqlQueryEnum.getPatientsBetweenDates, "SELECT u.uuid, u.username, p.address, pt.type_name, u.created FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID WHERE (u.created BETWEEN ? AND ?) FETCH FIRST 10 ROWS ONLY");
-        sqlQueryMap.put(SqlQueryEnum.getAllPatientsByType, "SELECT u.uuid,u.username,p.address,pt.type_name FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID WHERE p.patient_type_ptid = ? FETCH FIRST 10 ROWS ONLY");
-        sqlQueryMap.put(SqlQueryEnum.getAllPatients, "SELECT u.uuid,u.username,p.address,pt.type_name FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID FETCH FIRST 10 ROWS ONLY");
-        sqlQueryMap.put(SqlQueryEnum.getAllPatientsByTypeBetweenDates, "SELECT u.uuid,u.username,p.address,pt.type_name FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID WHERE p.patient_type_ptid = ? AND u.FETCH FIRST 10 ROWS ONLY");
-        sqlQueryMap.put(SqlQueryEnum.getAllPatientsBetweenDates, "SELECT u.uuid,u.username,p.address,pt.type_name FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID FETCH FIRST 10 ROWS ONLY");
         sqlQueryMap.put(SqlQueryEnum.getPatientAppointments, "SELECT * FROM appointment WHERE patient_pid=?");
+        sqlQueryMap.put(SqlQueryEnum.getPatientDisplayableAppointments, "SELECT duration,notes,charge,date,start_time,end_time,appointment_status_asid FROM appointment WHERE patient_pid=?");
+        
 
         sqlQueryMap.put(SqlQueryEnum.getAllPossibleAppointments, "SELECT * FROM appointment_slots");
         sqlQueryMap.put(SqlQueryEnum.getPatient, "SELECT * FROM patient WHERE users_uuid=?");
         
-        sqlQueryMap.put(SqlQueryEnum.NewAppointment, "INSERT INTO appointment (duration, notes, charge, date, start_time, end_time, patient_pid, employee_eid, appointment_type_atid, patient_prescriptions_prid, appointment_status_asid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        sqlQueryMap.put(SqlQueryEnum.NewAppointment, "INSERT INTO appointment (duration, charge, date, start_time, end_time, patient_pid, employee_eid, appointment_type_atid, appointment_status_asid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         sqlQueryMap.put(SqlQueryEnum.getEmployeeSalary, "SELECT salary FROM employee WHERE users_uuid=?");
         sqlQueryMap.put(SqlQueryEnum.NewEmployeeAppointmentSlot, "INSERT INTO employee_has_appointment_slots (employee_eid, date) VALUES (?, ?)");
         sqlQueryMap.put(SqlQueryEnum.getInvoicesByType, "SELECT u.uuid,u.username,p.address,pt.type_name,a.aid,a.duration,a.date,a.charge,aps.appointment_status FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID INNER JOIN appointment a ON p.PID = a.PATIENT_PID INNER JOIN appointment_status aps ON a.APPOINTMENT_STATUS_ASID = aps.asid WHERE aps.asid = 4 AND p.PATIENT_TYPE_PTID = ? FETCH FIRST 10 ROWS ONLY");

@@ -43,8 +43,8 @@ public ArrayList<String[]> retrieveAvaialbleAppointmentsForDoctor(Integer doctor
 }
 public void CreateAppointment(ArrayList params, DynamicDao dynamicDao ){   
         try {
-            ArrayList slot_ids = (ArrayList)params.get(11);                                  
-            dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.NewAppointment), params.get(0), params.get(1),params.get(2),params.get(3),params.get(4),params.get(5),params.get(6),params.get(7),params.get(8),params.get(9),params.get(10));
+            ArrayList slot_ids = (ArrayList)params.get(9);                                  
+            dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.NewAppointment), params.get(0), params.get(1),params.get(2),params.get(3),params.get(4),params.get(5),params.get(6),params.get(7),params.get(8));
             for (int slot = 0; slot < slot_ids.size(); slot++) {
                            dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.NewEmployeeAppointmentSlot), slot_ids.get(slot), params.get(7),params.get(3));
 

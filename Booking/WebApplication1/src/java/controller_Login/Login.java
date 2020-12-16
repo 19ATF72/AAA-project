@@ -90,7 +90,7 @@ public class Login extends HttpServlet {
         //set database object connection 
         dynamicDao.connect((Connection)request.getServletContext().getAttribute("connection"));
         //check if connection was stablished only needs to be done here TODO remove from other classes
-         if (dynamicDao == null)
+         if (dynamicDao.getCon() == null)
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         //saves data objects in the session
         session.setAttribute("dynamicDao", dynamicDao);
@@ -129,7 +129,7 @@ public class Login extends HttpServlet {
                                                  session.setAttribute("Patient", patient);
                                                  //patient page set up   
                                                  //retrieve appointment for display and senthem to the page
-                                                 ArrayList appointments = patient.retrieveAppointments( dynamicDao );
+                                                 ArrayList appointments = patient.retrievePatientDisplayableAppointments(dynamicDao);
                                                  request.setAttribute("schedule", appointments);
                                                  request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
                                                 break;

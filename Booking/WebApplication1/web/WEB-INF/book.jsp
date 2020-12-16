@@ -73,9 +73,10 @@
                  Book
             </button>
     </form>
-    <%
-                out.println(request.getAttribute("message"));  
-        %>
+    <div align="center">
+        <p><c:out value="${not empty message ? message: ''}" /></p>
+    </div>
+
     <jsp:include page="foot.jsp"/>  
 </body>
 </html>

@@ -44,7 +44,7 @@ public class ListModel {
     public ArrayList getPatientsByType(ArrayList<String> params, DynamicDao dynamicDao){
         ArrayList result = new ArrayList();
         try {
-          result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getAllPatientsByType), Integer.parseInt(params.get(0)));
+          result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getPatientsByType), Integer.parseInt(params.get(0)));
         } catch (Exception e) {
           result.add("Could not retrieve patients with that type.");
         }
@@ -54,7 +54,7 @@ public class ListModel {
     public ArrayList getPatients(DynamicDao dynamicDao){
         ArrayList result = new ArrayList();
         try {  
-          result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getAllPatients));
+          result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getPatients));
         } catch (Exception e) {
           result.add("Could not retrieve patients with that type.");
         }
@@ -99,7 +99,17 @@ public class ListModel {
           result.add("Could not retrieve patients with that type.");
         }
         return result;
-    }   
+    }
+    
+    public ArrayList getDoctorsForDisplay(DynamicDao dynamicDao){
+        ArrayList result = new ArrayList();
+        try {  
+          result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getAllEmployeesNamesTypesAndIds));
+        } catch (Exception e) {
+          result.add("Could not retrieve doctors.");
+        }
+        return result;
+    } 
     
 }
 

@@ -170,7 +170,9 @@ public class DynamicDao{
            return result; //statement.close();
     }
     
-    
+public Connection getCon(){
+    return this.connection;
+}    
 //    public void registerAppointment(UserModel bookingModel){
 //        System.out.println("reeee");
 //        tryConnect();
@@ -261,24 +263,33 @@ public void addTimeSlots() {
         int time = EghitOclock;
         int previousTime = time;
         int index = 0;
+        try {
+         ArrayList isAppointmentPopulated =agnostic_query("SELECT * FROM appointment_slots");
+        
+       
+        if(isAppointmentPopulated.size() == 0){
         while (true) {
             if(time == FiveOclock)
             {
                 break;
             }
             time += TenMinutes;
+            
             try {
+
                 agnostic_query("INSERT INTO appointment_slots ( start_time, end_time ) VALUES ( ?,? )", previousTime, time);
+                
             } catch (Exception e) {
             }
             index++;
             previousTime = time;
         }
-        
-    
+        }
+    } catch (Exception e) {
+        }
 }
    
-    
+   
     /**
      * @param args the command line arguments
      */

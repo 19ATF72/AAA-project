@@ -5,7 +5,7 @@ INSERT INTO user_status (user_status) VALUES ('blocked');
 INSERT INTO users (username, pass, email, created, last_access, logged_in, picture, user_status_usid) 
 VALUES ('root', 'root', 'root@admin.com', '2020-12-12', '2020-12-12', 0, 'default.png', 2);
 INSERT INTO users (username, pass, email, created, last_access, logged_in, picture, user_status_usid) 
-VALUES ('bobby', 'tables', 'bobby@tables.com', '2020-12-12', '2020-12-12', 0, 'default.png', 1);
+VALUES ('bobby', 'tables', 'bobby@tables.com', '2020-12-12', '2020-12-12', 0, 'default.png', 2);
 INSERT INTO users (username, pass, email, created, last_access, logged_in, picture, user_status_usid) 
 VALUES ('mehmet', 'aydin', 'mehmet@aydin.com', '2020-12-12', '2020-12-12', 0, 'default.png', 3);
 

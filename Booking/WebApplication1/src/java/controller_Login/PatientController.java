@@ -59,7 +59,6 @@ public class PatientController extends HttpServlet {
         DynamicDao dynamicDao = (DynamicDao)session.getAttribute("dynamicDao");
         UserModel user = (UserModel)session.getAttribute("User");
         PatientModel patient = (PatientModel)session.getAttribute("Patient");
-        request.setAttribute("message", user.getusername());
         if (dynamicDao == null)
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         
@@ -110,8 +109,9 @@ public class PatientController extends HttpServlet {
                         }
                       int first_index = Integer.parseInt(formatedSlots.get(0)[0]);
                       int last_index = Integer.parseInt( formatedSlots.get((ChosenSlots.length - 1))[0] );
-                      if( (first_index + ChosenSlots.length - 1) > last_index ){
-                          request.setAttribute("message", "please select consecutive");
+                      
+                      if( (last_index - first_index) != ChosenSlots.length - 1){
+                          request.setAttribute("message", "please select consecutive times");
                           request.getRequestDispatcher("/WEB-INF/book.jsp").forward(request, response);
                       }
                       EmployeeModel doctor = new EmployeeModel();
@@ -126,8 +126,13 @@ public class PatientController extends HttpServlet {
                       int end = LocalTime.parse((String)formatedSlots.get(formatedSlots.size()- 1)[1]).toSecondOfDay();
                       Double doc_salary = doctor.getEmployeeSalary(eid, dynamicDao);
                       double charge = doc_salary*ChosenSlots.length;
-                      ArrayList appointment_params = new ArrayList(Arrays.asList(ChosenSlots.length, "hnsyrjnj", (Double)charge, session.getAttribute("choosenDate"), start, end, patient.getPatientID(), eid, patient.getPatientType(), 1, 1, slot_ids));
+                      ArrayList appointment_params = new ArrayList(Arrays.asList(ChosenSlots.length, (Double)charge, session.getAttribute("choosenDate"), start, end, patient.getPatientID(), eid, patient.getPatientType(),1, slot_ids));
                       apointment_handling.CreateAppointment(appointment_params, dynamicDao);
+                      request.getSession().setAttribute("lengths", null);
+                      request.getSession().setAttribute("choosenDoctor", null);
+                      request.getSession().setAttribute("choosenDate", null);
+                      request.setAttribute("message", "booked successfully");
+                      request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
                       break;
                 default:
                     request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
