@@ -52,7 +52,6 @@ import org.hibernate.validator.internal.util.logging.Log;
 @WebServlet(name = "Login", urlPatterns = {"/Login.do"})
 public class Login extends HttpServlet {
 
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods for login and new user.
      * @brief  Upon login creates a new session and retrieves
@@ -101,71 +100,64 @@ public class Login extends HttpServlet {
         //uncoment to populate appointment slots type table
         //dynamicDao.addTimeSlots();
         
-        //
-        String [] query = new String[4];
-        query[0] = (String)request.getParameter("NewUser");
-        query[1] = (String)request.getParameter("Login");
         
+        String query = (String)request.getParameter("LoginOperation");
         
  
-       
-        if(query[0] != null){
-            request.getRequestDispatcher("/WEB-INF/NewUser.jsp").forward(request, response);
-        }
-        else if (query[1] != null){
-            query[2] = (String)request.getParameter("mail");
-            query[3] = (String)request.getParameter("password");
-
-            ArrayList params = new ArrayList(Arrays.asList(query[2], query[3]));
-            //retrieves user from data base if it exists 
-            ArrayList result = User.login_User(params, dynamicDao);
-            if ( result.size() > 1 ) {
-                
-                int userStatus = User.getAccountStatus();
-                if (userStatus == storedData.approved) {
-                    session.setAttribute("User", User);
-                    switch((String)result.get(2)) {
-                         case "patient":
-                             //patient login
-                             patient = new PatientModel();
-                             ArrayList<String[]> patient_details = new ArrayList<String[]>();
-                             patient_details.add((String[])result.get(1));
-                             patient.login_patient(patient_details, dynamicDao);
-                             session.setAttribute("Patient", patient);
-                             //patient page set up   
-                             //retrieve appointment for display and senthem to the page
-                             //ArrayList appointments = patient.retrieveAppointments( dynamicDao );
-                             //request.setAttribute("message", appointments);
-                             request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
+        switch(query) {
+                        case "NewUser":
+                            request.getRequestDispatcher("/WEB-INF/NewUser.jsp").forward(request, response);
                             break;
-                        case "employee":
-                               //TODO to be implemented
-//                             EmployeeModel employee = new EmployeeModel();
-//                             employee.((ArrayList<String[]>)result.get(1), dynamicDao);
-//                             session.setAttribute("Employee", employee);
-//                             request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);   
-                            break;
-                        case "admin":
-                            break;
-                        default:
-                            
-                }
-                }
-                else if (userStatus == storedData.pending)
-                {
-                    request.setAttribute("message","User has not been approved by admin yet");
-                    request.getRequestDispatcher("/login.jsp").forward(request, response);  
-                }
-                else
-                {
-                    request.setAttribute("message","User has been blocked by the admin");
-                    request.getRequestDispatcher("/login.jsp").forward(request, response);  
-                }
-    }
-    else{
-                
-        }
-        }
+                        case "Login":
+                                String mail = (String)request.getParameter("mail");
+                                String password = (String)request.getParameter("password");
+                                ArrayList params = new ArrayList(Arrays.asList(mail, password));
+                                //retrieves user from data base if it exists 
+                                ArrayList result = User.login_User(params, dynamicDao);
+                                String UserType = (String)result.get(1);
+                                String[] PatientDetails = (String[])result.get(0);
+                                if ( result.size() > 1 ) {
+                                    int userStatus = User.getAccountStatus();
+                                    
+                                    if (userStatus == storedData.approved) {
+                                        session.setAttribute("User", User);
+                                        switch(UserType) {
+                                             case "patient":
+                                                 //patient login
+                                                 patient = new PatientModel();  
+                                                 patient.login_patient(PatientDetails, dynamicDao);
+                                                 session.setAttribute("Patient", patient);
+                                                 //patient page set up   
+                                                 //retrieve appointment for display and senthem to the page
+                                                 ArrayList appointments = patient.retrieveAppointments( dynamicDao );
+                                                 request.setAttribute("message", appointments);
+                                                 request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
+                                                break;
+                                            case "employee":
+                                                   //TODO to be implemented
+                    //                             EmployeeModel employee = new EmployeeModel();
+                    //                             employee.((ArrayList<String[]>)result.get(1), dynamicDao);
+                    //                             session.setAttribute("Employee", employee);
+                    //                             request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);   
+                                                break;
+                                            case "admin":
+                                                break;
+                                            default:
+                                    }
+                                    }
+                                    else if (userStatus == storedData.pending)
+                                    {
+                                        request.setAttribute("message","User has not been approved by admin yet");
+                                        request.getRequestDispatcher("/login.jsp").forward(request, response);  
+                                    }
+                                    else
+                                    {
+                                        request.setAttribute("message","User has been blocked by the admin");
+                                        request.getRequestDispatcher("/login.jsp").forward(request, response);  
+                                    }
+                                }                     
+                            }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

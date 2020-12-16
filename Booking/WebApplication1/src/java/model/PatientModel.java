@@ -31,11 +31,10 @@ public void create_patient(ArrayList params, DynamicDao dynamicDao){
       result = "";
   }
 }
-public void login_patient(ArrayList<String[]> params, DynamicDao dynamicDao){
-           String[] patient = params.get(0);
-           setPatientID(Integer.parseInt(patient[0]));
-           setAddress(patient[1]);
-           setPatientType(Integer.parseInt(patient[2]));
+public void login_patient(String[] params, DynamicDao dynamicDao){
+           setPatientID(Integer.parseInt(params[0]));
+           setAddress(params[1]);
+           setPatientType(Integer.parseInt(params[2]));
 }
 
 public ArrayList get_patient(ArrayList params, DynamicDao dynamicDao){
