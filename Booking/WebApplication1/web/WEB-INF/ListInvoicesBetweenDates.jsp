@@ -8,11 +8,11 @@
     </head>
 <body>
     <%! int i=0;
-        String str="List"; 
+        String str="List Patients"; 
         String url = "ListController.do";
     %>
     <%
-        str="List"; 
+        str="List Patients"; 
         url = "ListController.do";
     %>
     <div align="center">
@@ -95,6 +95,10 @@
     <div align="center">
         <p><c:out value="${not empty message ? message: ''}" /></p>
     </div>
+    <%
+        ArrayList resultPatients = new ArrayList(); //not recommended.Pass this object from servlet
+        resultPatients = (ArrayList)request.getAttribute("resultPatients");   
+    %>
     <div align="center">
         <table border="1" cellpadding="5">
             <caption><h2>List of patients:</h2></caption>
@@ -103,48 +107,14 @@
                 <th>Name</th>
                 <th>Address</th>
                 <th>Patient Type</th>
-                <th>Created</th>
                 <th>Select</th>
             </tr>
-            <c:forEach items="${resultPatients}" var="row">
+            <c:forEach items="${result}" var="row">
                 <tr>
                     <td><c:out value="${row[0]}" /></td>
                     <td><c:out value="${row[1]}" /></td>
                     <td><c:out value="${row[2]}" /></td>
                     <td><c:out value="${row[3]}" /></td>
-                    <td><c:out value="${row[4]}" /></td>
-                    <td><input class="form-check-input" type="checkbox" value="<c:out value="${row[0]}" />" aria-label="Checkbox for following text input"></td>
-                </tr>
-            </c:forEach>
-        </table>
-    </div>
-    
-    <div align="center">
-        <table border="1" cellpadding="5">
-            <caption><h2>List of Invoices:</h2></caption>
-            <tr>
-                <th>UUID</th>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Patient Type</th>
-                <th>Appointment ID</th>
-                <th>Duration</th>
-                <th>Date</th>
-                <th>Charge</th>
-                <th>Status</th>
-                <th>Select</th>
-            </tr>
-            <c:forEach items="${resultInvoices}" var="row">
-                <tr>
-                    <td><c:out value="${row[0]}" /></td>
-                    <td><c:out value="${row[1]}" /></td>
-                    <td><c:out value="${row[2]}" /></td>
-                    <td><c:out value="${row[3]}" /></td>
-                    <td><c:out value="${row[4]}" /></td>
-                    <td><c:out value="${row[5]}" /></td>
-                    <td><c:out value="${row[6]}" /></td>
-                    <td><c:out value="${row[7]}" /></td>
-                    <td><c:out value="${row[8]}" /></td>
                     <td><input class="form-check-input" type="checkbox" value="<c:out value="${row[0]}" />" aria-label="Checkbox for following text input"></td>
                 </tr>
             </c:forEach>

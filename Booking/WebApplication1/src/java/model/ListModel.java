@@ -21,10 +21,10 @@ public class ListModel {
     
     public ListModel(){}
     
-    public ArrayList getPatientsBetweenDates(ArrayList<String> params, DynamicDao dynamicDao){
+    public ArrayList getPatientsBetweenDates(ArrayList params, DynamicDao dynamicDao){
         ArrayList result = new ArrayList();
         try {
-          result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getAllPatientsByType), Integer.parseInt(params.get(0)));
+          result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getPatientsBetweenDates), params.get(0), params.get(1));
         } catch (Exception e) {
           result.add("Could not retrieve patients with that type.");
         }
@@ -34,7 +34,7 @@ public class ListModel {
     public ArrayList getPatientsByTypeBetweenDates(ArrayList<String> params, DynamicDao dynamicDao){
         ArrayList result = new ArrayList();
         try {
-          result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getAllPatientsByType), Integer.parseInt(params.get(0)));
+          result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getPatientsByTypeBetweenDates), Integer.parseInt(params.get(0)), params.get(1), params.get(2));
         } catch (Exception e) {
           result.add("Could not retrieve patients with that type.");
         }
@@ -59,17 +59,48 @@ public class ListModel {
           result.add("Could not retrieve patients with that type.");
         }
         return result;
-    }
-
-    public ArrayList getDoctorsForDisplay(DynamicDao dynamicDao){
+    }   
+        
+    public ArrayList getInvoicesBetweenDates(ArrayList params, DynamicDao dynamicDao){
         ArrayList result = new ArrayList();
-        try {  
-          result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getAllEmployeesNamesTypesAndIds));
+        try {
+          result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getInvoicesBetweenDates), params.get(0), params.get(1));
         } catch (Exception e) {
-          result.add("Could not retrieve doctors.");
+          result.add("Could not retrieve patients with that type.");
         }
         return result;
-    } 
+    }
+    
+    public ArrayList getInvoicesByTypeBetweenDates(ArrayList<String> params, DynamicDao dynamicDao){
+        ArrayList result = new ArrayList();
+        try {
+          result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getInvoicesByTypeBetweenDates), Integer.parseInt(params.get(0)), params.get(1), params.get(2));
+        } catch (Exception e) {
+          result.add("Could not retrieve patients with that type.");
+        }
+        return result;
+    }
+
+    public ArrayList getInvoicesByType(ArrayList<String> params, DynamicDao dynamicDao){
+        ArrayList result = new ArrayList();
+        try {
+          result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getInvoicesByType), Integer.parseInt(params.get(0)));
+        } catch (Exception e) {
+          result.add("Could not retrieve patients with that type.");
+        }
+        return result;
+    }
+    
+    public ArrayList getInvoices(DynamicDao dynamicDao){
+        ArrayList result = new ArrayList();
+        try {  
+          result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getInvoices));
+        } catch (Exception e) {
+          result.add("Could not retrieve patients with that type.");
+        }
+        return result;
+    }   
+    
 }
 
 

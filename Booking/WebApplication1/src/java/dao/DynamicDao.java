@@ -109,6 +109,11 @@ public class DynamicDao{
                 case "Timestamp":
                     prep_statement.setTimestamp(param_index, (Timestamp)param);
                   break;
+                case "Date":
+                    //prep_statement.setDate(param_index, (Date)param);
+                    //prep_statement.setDate(param_index, new java.sql.Date((Date)param.getTime()));
+                    prep_statement.setDate(param_index, (java.sql.Date)param);
+                  break;
                 default:
                     int p = 0;
             }
