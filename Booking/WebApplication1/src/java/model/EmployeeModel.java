@@ -43,11 +43,11 @@ public void create_Employee(ArrayList params, DynamicDao dynamicDao)
     }
 }
 
-public Double getEmployeeSalary(Integer uuid, DynamicDao dynamicDao)
+public Double getEmployeeSalary(Integer eid, DynamicDao dynamicDao)
 {    
     Double result = 0.0;
     try {  
-           result = Double.parseDouble((String)dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getEmployeeSalary), uuid).get(0));
+           result = Double.parseDouble(((ArrayList<String[]>)dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getEmployeeSalary), eid)).get(0)[0]);
     } catch (Exception e) {
         
     }

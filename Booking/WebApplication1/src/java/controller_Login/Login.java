@@ -30,17 +30,37 @@ import javax.servlet.http.HttpSession;
 import model.*;
 import org.hibernate.validator.internal.util.logging.Log;
 
-/**
+/*
+ * 
+ * @class Login 
  *
- * @author me-aydin
+ * @brief Handles login users into the system and redirection to new user creation page.
+          On login operation it will redirect user to appropriate page depending if the user is a doctor or a patient.
+ * 
+ * @brief atribute_1 description
+ *      atribute_2 description
+ *        atribute_3 description
+ * 
+ * @brief method_1
+ *       method_2
+ *        method_3
+ *
+ * @brief last reviewed by: your_nmae
+ * 
+ * @date  last_review date
  */
 @WebServlet(name = "Login", urlPatterns = {"/Login.do"})
 public class Login extends HttpServlet {
 
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * @brief Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods for login and new user. Upon login creates a new session and retrieves
+     * a connection to the database from the servelet context. It generates a user object 
+     * based on login details and sets it as the user for the current session.
+     * Generates either a patient or a doctor object for the session based on 
+     * the user object attributes and redirects the user to the appropriate page. 
+       All Model objects  which are used more than once across pages are generated here. 
      *
      * @param request servlet request
      * @param response servlet response
@@ -56,8 +76,11 @@ public class Login extends HttpServlet {
         dynamicDao.connect((Connection)request.getServletContext().getAttribute("connection"));
         session.setAttribute("dynamicDao", dynamicDao);
         
-        //uncoment to populate time slots table
+        //uncoment to populate appointment slots type table
         //dynamicDao.addTimeSlots();
+        
+        ListModel listHandler = new ListModel();
+        session.setAttribute("ListHandler", listHandler);
         
         String [] query = new String[4];
         query[0] = (String)request.getParameter("NewUser");
@@ -93,8 +116,8 @@ public class Login extends HttpServlet {
                              session.setAttribute("Patient", patient);
                              //patient page set up   
                              //retrieve appointment for display and senthem to the page
-                             ArrayList appointments = patient.retrieveAppointments( dynamicDao );
-                             request.setAttribute("message", appointments);
+                             //ArrayList appointments = patient.retrieveAppointments( dynamicDao );
+                             //request.setAttribute("message", appointments);
                              request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
                             break;
                         case "employee":

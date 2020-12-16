@@ -83,7 +83,7 @@ public class NewUserController extends HttpServlet {
                 ArrayList result  = newUser.create_User(params, dynamicDao);
                 
 
-
+                
 
                 switch(query[4]) {
                     case "0":

@@ -44,7 +44,7 @@ public class ListController extends HttpServlet {
             throws ServletException, IOException {
         
         // THIS IS JUST FOR TESTING \TODO: REMOVE AFTER TESTING
-        HttpSession session = request.getSession(); // TODO: Remove line after testing done
+        HttpSession session = request.getSession(false); // TODO: Remove line after testing done
         DynamicDao dynamicDao = new DynamicDao();
         dynamicDao.connect((Connection)request.getServletContext().getAttribute("connection"));
         session.setAttribute("dynamicDao", dynamicDao);
@@ -53,7 +53,7 @@ public class ListController extends HttpServlet {
         //HttpSession session = request.getSession(false); // UNCOMMENT
         response.setContentType("text/html;charset=UTF-8");
         
-        ListModel list = new ListModel();
+        ListModel ListHandler = (ListModel)request.getAttribute("ListHandler");
         
         //DynamicDao dynamicDao = (DynamicDao)session.getAttribute("dynamicDao"); //UNCOMMENT
         if (dynamicDao == null)
@@ -69,10 +69,10 @@ public class ListController extends HttpServlet {
         ArrayList result;
         
         if (query[0].equals("0")) {
-            result = list.getPatients(dynamicDao);
+            result = ListHandler.getPatients(dynamicDao);
         }
         else {
-            result = list.getPatientsByType(params, dynamicDao);
+            result = ListHandler.getPatientsByType(params, dynamicDao);
         }
         
         request.setAttribute("message", result);

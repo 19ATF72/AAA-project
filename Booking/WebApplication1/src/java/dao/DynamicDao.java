@@ -263,7 +263,7 @@ public void addTimeSlots() {
             }
             time += TenMinutes;
             try {
-                agnostic_query("INSERT INTO timeslots ( start, endtime ) VALUES ( ?,? )",index, previousTime, time);
+                agnostic_query("INSERT INTO appointment_slots ( start_time, end_time ) VALUES ( ?,? )", previousTime, time);
             } catch (Exception e) {
             }
             index++;
