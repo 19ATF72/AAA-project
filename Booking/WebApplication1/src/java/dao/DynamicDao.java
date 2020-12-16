@@ -109,6 +109,11 @@ public class DynamicDao{
                 case "Timestamp":
                     prep_statement.setTimestamp(param_index, (Timestamp)param);
                   break;
+                case "Date":
+                    //prep_statement.setDate(param_index, (Date)param);
+                    //prep_statement.setDate(param_index, new java.sql.Date((Date)param.getTime()));
+                    prep_statement.setDate(param_index, (java.sql.Date)param);
+                  break;
                 default:
                     int p = 0;
             }
@@ -263,7 +268,7 @@ public void addTimeSlots() {
             }
             time += TenMinutes;
             try {
-                agnostic_query("INSERT INTO timeslots ( start, endtime ) VALUES ( ?,? )",index, previousTime, time);
+                agnostic_query("INSERT INTO appointment_slots ( start_time, end_time ) VALUES ( ?,? )", previousTime, time);
             } catch (Exception e) {
             }
             index++;

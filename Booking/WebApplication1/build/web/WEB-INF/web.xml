@@ -5,7 +5,7 @@
         <param-value>SmartCare_2</param-value>
     </context-param>
     <welcome-file-list>
-        <welcome-file>/WEB-INF/List.jsp</welcome-file>
+        <welcome-file>/login.jsp</welcome-file>
     </welcome-file-list>
     <servlet>
         <servlet-name>Book</servlet-name>

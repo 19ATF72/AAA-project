@@ -24,3 +24,9 @@ INNER JOIN employee e
 	ON e.users_uuid = u.uuid
 INNER JOIN employee_type et
         ON e.EMPLOYEE_TYPE_TID = et.etid
+        
+// SELECT USERS / EMPLOYEE WHERE
+
+SELECT *
+FROM employee_has_appointment_slots
+WHERE (date BETWEEN '2020-11-01' AND '2010-09-29');

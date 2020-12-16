@@ -10,6 +10,8 @@ import dao.StoredData;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -59,23 +61,80 @@ public class ListController extends HttpServlet {
         if (dynamicDao == null)
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         
-        String [] query = new String[3];
+        String [] query = new String[4];
         query[0] = (String)request.getParameter("patientType");
         query[1] = (String)request.getParameter("startTime");
         query[2] = (String)request.getParameter("endTime");
+        query[3] = (String)request.getParameter("recordType");
         
-        ArrayList params = new ArrayList(Arrays.asList(query[0], query[1], query[2]));
-        //ArrayList result = list.getPatientsByType(params, dynamicDao);
-        ArrayList result;
+//        Date startTime = null;
+//        Date endTime = null;
+//        try {
+//            SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
+//            startTime = formater.parse(query[1]);
+//            endTime = formater.parse(query[2]);
+//            //newDate = dateCreated;
+//        } catch (ParseException e ) {
+//            e.printStackTrace();
+//        } 
+        //java.sql.Date startTimeSQL = new java.sql.Date(startTime.getTime());
+        //java.sql.Date endTimeSQL = new java.sql.Date(endTime.getTime());
+        //setDate(6, new java.sql.Date(newDate.getTime()));
         
-        if (query[0].equals("0")) {
-            result = list.getPatients(dynamicDao);
+        //ArrayList params = new ArrayList(Arrays.asList(query[0], startTime, endTime));
+        //ArrayList resultPatients = list.getPatientsByType(params, dynamicDao);
+        ArrayList resultPatients = new ArrayList();
+        ArrayList resultInvoices = new ArrayList();
+        
+        if (query[0] == null || query[3] == null) {
+            resultPatients = null;
+            resultInvoices = null;
+            request.setAttribute("message", "Please make a selection");
+        } 
+        else if ( (!(query[1].equals("")) && query[2].equals("")) 
+               || (query[1].equals("") && !(query[2].equals(""))) ) {
+                resultPatients = null;
+                resultInvoices = null;
+                request.setAttribute("message", "Please enter Start & end Date");
+        } else {
+            switch (query[3]) {
+                case "retrievePatients":
+                    if (query[0].equals("0") && !(query[1].equals(""))) {
+                        ArrayList params = new ArrayList(Arrays.asList(query[1], query[2]));
+                        resultPatients = list.getPatientsBetweenDates(params, dynamicDao);
+                    } else if (query[0].equals("0")) {
+                        resultPatients = list.getPatients(dynamicDao);
+                    } else {                 
+                        if (!(query[1].equals(""))) {
+                            ArrayList params = new ArrayList(Arrays.asList(query[0], query[1], query[2]));
+                            resultPatients = list.getPatientsByTypeBetweenDates(params, dynamicDao); //TODO
+                        } else {
+                            ArrayList params = new ArrayList(Arrays.asList(query[0]));
+                            resultPatients = list.getPatientsByType(params, dynamicDao);
+                        }   
+                    }
+                    request.setAttribute("resultPatients", resultPatients);
+                    break;
+                case "retrieveInvoices":
+                    if (query[0].equals("0") && !(query[1].equals(""))) {
+                        ArrayList params = new ArrayList(Arrays.asList(query[1], query[2]));
+                        resultInvoices = list.getInvoicesBetweenDates(params, dynamicDao);
+                    } else if (query[0].equals("0")) {
+                        resultInvoices = list.getInvoices(dynamicDao);
+                    } else {                 
+                        if (!(query[1].equals(""))) {
+                            ArrayList params = new ArrayList(Arrays.asList(query[0], query[1], query[2]));
+                            resultInvoices = list.getInvoicesByTypeBetweenDates(params, dynamicDao); //TODO
+                        } else {
+                            ArrayList params = new ArrayList(Arrays.asList(query[0]));
+                            resultInvoices = list.getInvoicesByType(params, dynamicDao);
+                        }   
+                    }
+                    request.setAttribute("resultInvoices", resultInvoices);
+                    break;
+            }
         }
-        else {
-            result = list.getPatientsByType(params, dynamicDao);
-        }
         
-        request.setAttribute("message", result);
         request.getRequestDispatcher("/WEB-INF/List.jsp").forward(request, response);
     }
     

@@ -60,7 +60,6 @@ public ArrayList login_User(ArrayList params, DynamicDao dynamicDao)
 {    
     ArrayList result = new ArrayList();
     
-    //    , query[0], query[1], query[2], created, access, login, query[3], user_status
     try { 
            ArrayList<String[]> user_string = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.LoginUser), params.get(0), params.get(1));
            String[] user = user_string.get(0);
