@@ -130,7 +130,7 @@ public class Login extends HttpServlet {
                                                  //patient page set up   
                                                  //retrieve appointment for display and senthem to the page
                                                  ArrayList appointments = patient.retrieveAppointments( dynamicDao );
-                                                 request.setAttribute("message", appointments);
+                                                 request.setAttribute("schedule", appointments);
                                                  request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
                                                 break;
                                             case "employee":
