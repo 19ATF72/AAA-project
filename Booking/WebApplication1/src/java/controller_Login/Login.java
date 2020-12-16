@@ -54,16 +54,23 @@ public class Login extends HttpServlet {
 
 
     /**
-     * @brief Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods for login and new user. Upon login creates a new session and retrieves
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods for login and new user.
+     * @brief  Upon login creates a new session and retrieves
      * a connection to the database from the servelet context. It generates a user object 
      * based on login details and sets it as the user for the current session.
      * Generates either a patient or a doctor object for the session based on 
      * the user object attributes and redirects the user to the appropriate page. 
-       All Model objects  which are used more than once across pages are generated here. 
+     * All Model objects  which are used more than once across pages are generated here. 
      *
      * @param request servlet request
      * @param response servlet response
+     * @param[out] HttpSession session A containing all attributes which will be used in other pages  
+     * @attribute dynamicDao session 
+     * 
+     * 
+     * @param[in] input_name input_description 
+     *
+     * @returns returned_variable returned_description
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
@@ -78,14 +85,14 @@ public class Login extends HttpServlet {
         
         //uncoment to populate appointment slots type table
         //dynamicDao.addTimeSlots();
-        
+        //@{
         ListModel listHandler = new ListModel();
         session.setAttribute("ListHandler", listHandler);
         
         String [] query = new String[4];
         query[0] = (String)request.getParameter("NewUser");
         query[1] = (String)request.getParameter("Login");
-        
+        //@}
         UserModel User = new UserModel();
         session.setAttribute("User", User); 
  
