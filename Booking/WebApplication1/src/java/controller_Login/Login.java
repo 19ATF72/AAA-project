@@ -115,7 +115,6 @@ public class Login extends HttpServlet {
                                 //retrieves user from data base if it exists 
                                 ArrayList result = User.login_User(params, dynamicDao);
                                 String UserType = (String)result.get(1);
-                                String[] PatientDetails = (String[])result.get(0);
                                 if ( result.size() > 1 ) {
                                     int userStatus = User.getAccountStatus();
                                     
@@ -124,6 +123,7 @@ public class Login extends HttpServlet {
                                         switch(UserType) {
                                              case "patient":
                                                  //patient login
+                                                 String[] PatientDetails = (String[])result.get(0);
                                                  patient = new PatientModel();  
                                                  patient.login_patient(PatientDetails, dynamicDao);
                                                  session.setAttribute("Patient", patient);
@@ -134,11 +134,18 @@ public class Login extends HttpServlet {
                                                  request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
                                                 break;
                                             case "employee":
-                                                   //TODO to be implemented
-                    //                             EmployeeModel employee = new EmployeeModel();
-                    //                             employee.((ArrayList<String[]>)result.get(1), dynamicDao);
-                    //                             session.setAttribute("Employee", employee);
-                    //                             request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);   
+                                                 //Employee login
+                                                 String[] employeeDetails = (String[])result.get(0);
+                                                 employee = new EmployeeModel();  
+                                                 employee.loginEmployee(employeeDetails, dynamicDao);
+                                                 session.setAttribute("Employee", employee);
+                                                 //Employee page set up   
+                                                 //retrieve appointment for display and senthem to the page
+                                                 ArrayList employeeAppointments = employee.retrieveEmployeeDisplayableAppointments(dynamicDao);
+                                                 request.setAttribute("schedule", employeeAppointments);
+                                                 ArrayList employeeDailyAppointments = employee.retrieveEmployeeDailyDisplayableAppointments(dynamicDao);
+                                                 request.setAttribute("dailySchedule", employeeDailyAppointments);
+                                                 request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);  
                                                 break;
                                             case "admin":
                                                 break;

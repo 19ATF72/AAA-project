@@ -20,7 +20,6 @@ public class PatientModel {
     private String address;
     private int patientType;
     
-    
 public PatientModel(){}
     
 public void create_patient(ArrayList params, DynamicDao dynamicDao){
@@ -71,23 +70,6 @@ public ArrayList retrievePatientDisplayableAppointments( DynamicDao dynamicDao )
         result.add("User has no appointments");
     }
         for (int appointment = 0; appointment < result.size(); appointment++) {
-            switch(((String [])result.get(appointment))[6]){
-               case "1":
-                   ((String [])result.get(appointment))[6] = "scheduled";
-                    break;
-               case "2":
-                   ((String [])result.get(appointment))[6] = "completed";
-                   break;
-               case "3":
-                   ((String [])result.get(appointment))[6] = "cancelled";
-                   break;
-               case "4":
-                   ((String [])result.get(appointment))[6] = "invoiced";
-                   break;
-               case "5":
-                   ((String [])result.get(appointment))[6] = "paid";
-                   break;
-                }
             ((String [])result.get(appointment))[5] = LocalTime.ofSecondOfDay( Integer.parseInt(((String [])result.get(appointment))[5])).toString();
             ((String [])result.get(appointment))[4] = LocalTime.ofSecondOfDay( Integer.parseInt(((String [])result.get(appointment))[4])).toString();
         }

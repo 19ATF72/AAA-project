@@ -132,6 +132,8 @@ public class PatientController extends HttpServlet {
                       request.getSession().setAttribute("choosenDoctor", null);
                       request.getSession().setAttribute("choosenDate", null);
                       request.setAttribute("message", "booked successfully");
+                      ArrayList appointments = patient.retrievePatientDisplayableAppointments(dynamicDao);
+                      request.setAttribute("schedule", appointments);
                       request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
                       break;
                 default:

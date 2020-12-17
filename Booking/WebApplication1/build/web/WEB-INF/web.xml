@@ -16,6 +16,10 @@
         <servlet-class>controller_Login.PatientController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>employeeController</servlet-name>
+        <servlet-class>controller_Login.employeeController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>NewUser</servlet-name>
         <servlet-class>controller_Login.NewUserController</servlet-class>
     </servlet>
@@ -50,6 +54,10 @@
     <servlet-mapping>
         <servlet-name>PatientController</servlet-name>
         <url-pattern>/PatientController.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>employeeController</servlet-name>
+        <url-pattern>/employeeController.do</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ListController</servlet-name>

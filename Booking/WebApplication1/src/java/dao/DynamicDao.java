@@ -154,7 +154,7 @@ public class DynamicDao{
                 choose_type(param_type, prep_statement, (parameter+1), Params[parameter]);
             }
             // might need to be adapted to return multiple generated keys
-            if(query.contains("INSERT")){
+            if(query.contains("INSERT") || query.contains("UPDATE")){
                 prep_statement.executeUpdate();
                 rs = prep_statement.getGeneratedKeys();
                 while(rs.next() && rs != null)

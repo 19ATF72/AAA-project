@@ -89,23 +89,27 @@ public ArrayList get_user_role(DynamicDao dynamicDao){
     ArrayList role = new ArrayList();
     try {
        role = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getPatient), uniqueUserId);
-       role.add("patient");
+       if(role.size() != 0){
+            role.add("patient");
+       }
+       else{
+           role = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getEmployee), uniqueUserId);
+           if(role.size() != 0){
+            role.add("employee");
+            }
+            else{
+                role = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getEmployee), uniqueUserId);
+                if(role.size() != 0){
+                role.add("admin");
+                }
+                else{
+                role = null;
+                }
+            }
+       }
+       
     } catch (Exception p) {
         
-        try {
-            role = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getEmployee), uniqueUserId);
-            role.add("employee");
-        } catch (Exception e) {
-            
-            try {
-                role = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getEmployee), uniqueUserId);
-                role.add("admin");
-            } catch (Exception a) {
-                
-                role = null;
-                
-            }
-        }
     } 
     return role;
 }
