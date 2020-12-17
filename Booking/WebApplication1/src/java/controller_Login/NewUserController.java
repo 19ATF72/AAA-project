@@ -95,25 +95,30 @@ public class NewUserController extends HttpServlet {
                         ArrayList patient_params = new ArrayList(Arrays.asList(query[5],patientType, result.get(1)));
                         PatientModel patient = new PatientModel();
                         patient.create_patient(patient_params,dynamicDao);
+                        request.setAttribute("message", "patient "+ query[0] +" created successfully" );
+                        request.getRequestDispatcher("/login.jsp").forward(request, response);
                       break;
                     case "1":
-                        ArrayList doc_params = new ArrayList(Arrays.asList((Double)session.getAttribute("docSalary"), query[5], Integer.parseInt(query[4]), (String)request.getParameter("organizationName"), result.get(1)));
+                        ArrayList doc_params = new ArrayList(Arrays.asList((Double)session.getAttribute("docSalary"), query[5], Integer.parseInt(query[4]), "testpital", result.get(1)));
                         EmployeeModel employee_doc = new EmployeeModel();
                         employee_doc.create_Employee(doc_params,dynamicDao);
+                        request.setAttribute("message", "doctor "+ query[0] +" created successfully" );
+                        request.getRequestDispatcher("/login.jsp").forward(request, response);
                       break;
                     case "2":
                         ArrayList nurse_params = new ArrayList(Arrays.asList((Double)session.getAttribute("nurseSalary"), query[5], Integer.parseInt(query[4]), (String)request.getParameter("organizationName"), result.get(1)));
                         EmployeeModel employee_nurse = new EmployeeModel();
                         employee_nurse.create_Employee(nurse_params,dynamicDao);
+                        request.setAttribute("message", "nurse "+ query[0] +" created successfully" );
+                        request.getRequestDispatcher("/login.jsp").forward(request, response);
                       break;
                     default:
                         int p = 0;
+                    
 
                     }
                 }
                 
-                request.setAttribute("message", result.get(0));
-                request.getRequestDispatcher("/WEB-INF/NewUser.jsp").forward(request, response);
 
     }
 

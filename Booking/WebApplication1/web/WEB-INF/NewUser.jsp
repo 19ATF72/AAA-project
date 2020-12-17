@@ -38,7 +38,7 @@
                      <td><span>Email:</span><input type="text" name="email" required/></td>
                 </tr>
                 <tr>
-                    <td><span>Password:</span><input type="text" name="password" required/></td>
+                    <td><span>Password:</span><input type="password" name="password" required/></td>
                 </tr>
                  <tr>
                      <td><span>Picture Url:</span><input type="file" name="picUrl" required/></td>
