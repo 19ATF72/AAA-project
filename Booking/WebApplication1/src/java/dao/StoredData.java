@@ -49,6 +49,12 @@ public class StoredData {
         getInvoicesByTypeBetweenDates,
         getInvoicesBetweenDates,
         getPatientDisplayableAppointments,
+        getTurnoverByDates,
+        getIncomeByDates,
+        getOutgoingsByDates,
+        getTurnoverByTypeBetweenDates,
+        getIncomeByTypeBetweenDates,
+        getOutgoingsByTypeBetweenDates,
         getEmployeeDisplayableAppointments,
         getEmployeeDisplayableDailyAppointments,
         updateAppointment,
@@ -82,6 +88,13 @@ public class StoredData {
         sqlQueryMap.put(SqlQueryEnum.getPatientsByTypeBetweenDates, "SELECT u.uuid, u.username, p.address, pt.type_name, u.created FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID WHERE pt.PTID = ? AND (u.created BETWEEN ? AND ?)  FETCH FIRST 10 ROWS ONLY");
         sqlQueryMap.put(SqlQueryEnum.getPatientsBetweenDates, "SELECT u.uuid, u.username, p.address, pt.type_name, u.created FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID WHERE (u.created BETWEEN ? AND ?) FETCH FIRST 10 ROWS ONLY");
         sqlQueryMap.put(SqlQueryEnum.getPatientAppointments, "SELECT * FROM appointment WHERE patient_pid=?");
+        
+        sqlQueryMap.put(SqlQueryEnum.getTurnoverByDates, "SELECT a.aid, a.charge, pt.type_name, e.salary, a.DATE_PAID FROM appointment a INNER JOIN employee e ON a.employee_eid = e.EID INNER JOIN patient p ON a.PATIENT_PID = p.PATIENT_TYPE_PTID INNER JOIN patient_type pt ON p.PATIENT_TYPE_PTID = pt.PTID AND (a.DATE_PAID BETWEEN ? AND ?)");
+        sqlQueryMap.put(SqlQueryEnum.getIncomeByDates, "SELECT SUM(charge) FROM appointment WHERE APPOINTMENT_STATUS_ASID = 5 AND (DATE_PAID BETWEEN ? AND ?)");
+        sqlQueryMap.put(SqlQueryEnum.getOutgoingsByDates, "SELECT SUM(e.salary) FROM appointment a INNER JOIN employee e ON a.EMPLOYEE_EID = e.EID WHERE APPOINTMENT_STATUS_ASID = 5 AND (DATE_PAID BETWEEN ? AND ?)");
+        sqlQueryMap.put(SqlQueryEnum.getTurnoverByTypeBetweenDates, "SELECT a.aid, a.charge, pt.type_name, e.salary, a.DATE_PAID FROM appointment a INNER JOIN employee e ON a.employee_eid = e.EID INNER JOIN patient p ON a.PATIENT_PID = p.PATIENT_TYPE_PTID INNER JOIN patient_type pt ON p.PATIENT_TYPE_PTID = pt.PTID WHERE pt.TYPE_NAME = ? AND (a.DATE_PAID BETWEEN ? AND ?)");
+        sqlQueryMap.put(SqlQueryEnum.getIncomeByTypeBetweenDates, "SELECT SUM(charge) FROM appointment a INNER JOIN patient p ON a.PATIENT_PID = p.PID INNER JOIN patient_type pt ON p.PATIENT_TYPE_PTID = pt.PTID WHERE APPOINTMENT_STATUS_ASID = 5 AND pt.TYPE_NAME = ? AND (DATE_PAID BETWEEN ? AND ?)");
+        sqlQueryMap.put(SqlQueryEnum.getOutgoingsByTypeBetweenDates, "SELECT SUM(e.salary) FROM appointment a INNER JOIN employee e ON a.EMPLOYEE_EID = e.EID INNER JOIN patient p ON a.PATIENT_PID = p.PID INNER JOIN patient_type pt ON p.PATIENT_TYPE_PTID = pt.PTID WHERE APPOINTMENT_STATUS_ASID = 5 AND pt.TYPE_NAME = ? AND (DATE_PAID BETWEEN ? AND ?)");
         sqlQueryMap.put(SqlQueryEnum.getPatientDisplayableAppointments, "SELECT a.duration,a.notes,a.charge,a.date,a.start_time,a.end_time,aps.appointment_status FROM appointment AS a INNER JOIN appointment_status as aps ON a.appointment_status_asid = aps.asid WHERE patient_pid=?");
         sqlQueryMap.put(SqlQueryEnum.getEmployeeDisplayableAppointments, "SELECT a.duration,a.notes,a.charge,a.date,a.start_time,a.end_time, aps.appointment_status, a.aid, a.PATIENT_PID, u.USERNAME FROM appointment AS a INNER JOIN appointment_status as aps ON a.appointment_status_asid = aps.asid INNER JOIN patient as p ON a.PATIENT_PID = p.pid INNER JOIN users as u ON p.users_uuid = u.UUID WHERE employee_eid=? AND aps.asid = 1");
         sqlQueryMap.put(SqlQueryEnum.getEmployeeDisplayableDailyAppointments, "SELECT a.duration,a.notes,a.charge,a.date,a.start_time,a.end_time, aps.appointment_status, a.aid, a.PATIENT_PID, u.USERNAME FROM appointment AS a INNER JOIN appointment_status as aps ON a.appointment_status_asid = aps.asid INNER JOIN patient as p ON a.PATIENT_PID = p.pid INNER JOIN users as u ON p.users_uuid = u.UUID WHERE employee_eid=? AND aps.asid = 1 AND a.date=CURRENT_DATE");
@@ -100,6 +113,7 @@ public class StoredData {
         sqlQueryMap.put(SqlQueryEnum.getInvoices, "SELECT u.uuid,u.username,p.address,pt.type_name,a.aid,a.duration,a.date,a.charge,aps.appointment_status FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID INNER JOIN appointment a ON p.PID = a.PATIENT_PID INNER JOIN appointment_status aps ON a.APPOINTMENT_STATUS_ASID = aps.asid WHERE aps.asid = 4 FETCH FIRST 10 ROWS ONLY");
         sqlQueryMap.put(SqlQueryEnum.getInvoicesByTypeBetweenDates, "SELECT u.uuid,u.username,p.address,pt.type_name,a.aid,a.duration,a.date,a.charge,aps.appointment_status FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID INNER JOIN appointment a ON p.PID = a.PATIENT_PID INNER JOIN appointment_status aps ON a.APPOINTMENT_STATUS_ASID = aps.asid WHERE aps.asid = 4 AND p.PATIENT_TYPE_PTID = ? AND (a.date BETWEEN ? AND ?) FETCH FIRST 10 ROWS ONLY");
         sqlQueryMap.put(SqlQueryEnum.getInvoicesBetweenDates, "SELECT u.uuid,u.username,p.address,pt.type_name,a.aid,a.duration,a.date,a.charge,aps.appointment_status FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID INNER JOIN appointment a ON p.PID = a.PATIENT_PID INNER JOIN appointment_status aps ON a.APPOINTMENT_STATUS_ASID = aps.asid WHERE aps.asid = 4 AND (a.date BETWEEN ? AND ?) FETCH FIRST 10 ROWS ONLY");
+        
         
 
 
