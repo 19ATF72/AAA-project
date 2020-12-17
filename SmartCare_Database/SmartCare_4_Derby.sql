@@ -122,7 +122,7 @@ CREATE TABLE PATIENT_PRESCRIPTIONS (
 	PRID                 integer NOT NULL  GENERATED ALWAYS AS IDENTITY,
 	PATIENT_PID          integer NOT NULL  ,
 	MEDICINE             varchar(45) NOT NULL  ,
-	REPEAT               boolean() DEFAULT FALSE,
+	REPEAT               boolean DEFAULT FALSE,
 	CONSTRAINT PRIMARY10 PRIMARY KEY ( PRID )
  );
 
