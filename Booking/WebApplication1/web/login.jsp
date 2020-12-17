@@ -36,6 +36,7 @@
                     <tr>
                         <td><input type="submit" name="LoginOperation" value="Login"/></td>
                     </tr>
+ 
                 </table>
             </form>
             <form method="POST" action="<%=url%>">     

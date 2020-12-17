@@ -165,7 +165,7 @@ public class Login extends HttpServlet {
                                         request.setAttribute("message","User has been blocked by the admin");
                                         request.getRequestDispatcher("/login.jsp").forward(request, response);  
                                     }
-                                }                     
+                                }
                             }
         
     }

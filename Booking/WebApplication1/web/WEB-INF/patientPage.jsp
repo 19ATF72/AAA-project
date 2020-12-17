@@ -54,6 +54,12 @@
                     <tr>
                       <td> <button type="submit" name="patientOperation" value="bookAppointment">Book new appointment</button></td>
                     </tr>
+                                       <tr>
+                        <td><input type="submit" name="patientOperation" value="list"/></td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" name="patientOperation" value="turnover"/></td>
+                    </tr>
             </table>
             </form>
             <p><c:out value="${not empty message ? message: ''}" /></p>

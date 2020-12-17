@@ -106,7 +106,6 @@
             </form>   
             <p><c:out value="${not empty message ? message: ''}" /></p>
             </br>
-            <jsp:include page="foot.jsp"/>
         </div>
     </body>
 </html>

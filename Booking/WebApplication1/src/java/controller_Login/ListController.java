@@ -53,7 +53,7 @@ public class ListController extends HttpServlet {
         //HttpSession session = request.getSession(false); // UNCOMMENT
         response.setContentType("text/html;charset=UTF-8");
         
-        ListModel ListHandler = (ListModel)request.getAttribute("ListHandler");
+        ListModel ListHandler = (ListModel)session.getAttribute("ListHandler");
         
         //DynamicDao dynamicDao = (DynamicDao)session.getAttribute("dynamicDao"); //UNCOMMENT
         if (dynamicDao == null)
