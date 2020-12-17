@@ -109,6 +109,11 @@ public class DynamicDao{
                 case "Timestamp":
                     prep_statement.setTimestamp(param_index, (Timestamp)param);
                   break;
+                case "Date":
+                    //prep_statement.setDate(param_index, (Date)param);
+                    //prep_statement.setDate(param_index, new java.sql.Date((Date)param.getTime()));
+                    prep_statement.setDate(param_index, (java.sql.Date)param);
+                  break;
                 default:
                     int p = 0;
             }
@@ -149,7 +154,7 @@ public class DynamicDao{
                 choose_type(param_type, prep_statement, (parameter+1), Params[parameter]);
             }
             // might need to be adapted to return multiple generated keys
-            if(query.contains("INSERT")){
+            if(query.contains("INSERT") || query.contains("UPDATE")){
                 prep_statement.executeUpdate();
                 rs = prep_statement.getGeneratedKeys();
                 while(rs.next() && rs != null)
@@ -165,7 +170,9 @@ public class DynamicDao{
            return result; //statement.close();
     }
     
-    
+public Connection getCon(){
+    return this.connection;
+}    
 //    public void registerAppointment(UserModel bookingModel){
 //        System.out.println("reeee");
 //        tryConnect();
@@ -256,24 +263,33 @@ public void addTimeSlots() {
         int time = EghitOclock;
         int previousTime = time;
         int index = 0;
+        try {
+         ArrayList isAppointmentPopulated =agnostic_query("SELECT * FROM appointment_slots");
+        
+       
+        if(isAppointmentPopulated.size() == 0){
         while (true) {
             if(time == FiveOclock)
             {
                 break;
             }
             time += TenMinutes;
+            
             try {
-                agnostic_query("INSERT INTO timeslots ( start, endtime ) VALUES ( ?,? )",index, previousTime, time);
+
+                agnostic_query("INSERT INTO appointment_slots ( start_time, end_time ) VALUES ( ?,? )", previousTime, time);
+                
             } catch (Exception e) {
             }
             index++;
             previousTime = time;
         }
-        
-    
+        }
+    } catch (Exception e) {
+        }
 }
    
-    
+   
     /**
      * @param args the command line arguments
      */

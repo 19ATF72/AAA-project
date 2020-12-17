@@ -1,3 +1,4 @@
+// GETS PATIENTS WITH NAME AND TYPE
 SELECT 
     u.uuid,
     u.username,
@@ -10,3 +11,16 @@ INNER JOIN patient_type pt
 INNER JOIN users u
         ON p.USERS_UUID = u.UUID
 WHERE p.patient_type_ptid = 1;
+
+
+// GETS EMPLOYEES WITH NAME AND TYPE
+SELECT 
+    e.eid, 
+    et.type_name,
+    u.username
+FROM
+    users u
+INNER JOIN employee e
+	ON e.users_uuid = u.uuid
+INNER JOIN employee_type et
+        ON e.EMPLOYEE_TYPE_TID = et.etid

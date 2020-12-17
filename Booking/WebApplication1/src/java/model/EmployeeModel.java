@@ -7,6 +7,7 @@ package model;
 
 import dao.DynamicDao;
 import dao.StoredData;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 enum Role {  //TODO: RENAME?? 
@@ -22,11 +23,51 @@ enum Role {  //TODO: RENAME??
  */
 public class EmployeeModel extends UserModel {
    private StoredData storedStatements = new StoredData();    
-   private String calander;
-   private Role employmentRole;
-   private String[] bookedAppointments;
-   private double salarayRate;
-   //TODO add more but need to think
+   private int EmployeeId = 0;
+   private double Salary = 0.0;
+   private String address = "";
+   private int Type = 0;
+   private int Organization = 0;
+
+    public int getEmployeeId() {
+        return EmployeeId;
+    }
+
+    public void setEmployeeId(int EmployeeId) {
+        this.EmployeeId = EmployeeId;
+    }
+
+    public double getSalary() {
+        return Salary;
+    }
+
+    public void setSalary(double Salary) {
+        this.Salary = Salary;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getType() {
+        return Type;
+    }
+
+    public void setType(int Type) {
+        this.Type = Type;
+    }
+
+    public int getOrganization() {
+        return Organization;
+    }
+
+    public void setOrganization(int Organization) {
+        this.Organization = Organization;
+    }
   
 public void create_Employee(ArrayList params, DynamicDao dynamicDao)
 {    
@@ -42,47 +83,61 @@ public void create_Employee(ArrayList params, DynamicDao dynamicDao)
       result = "";
     }
 }
-
-public Double getEmployeeSalary(Integer uuid, DynamicDao dynamicDao)
+public void loginEmployee(String[] params, DynamicDao dynamicDao){
+           setEmployeeId(Integer.parseInt(params[0]));
+           setSalary(Double.parseDouble(params[1]));
+           setAddress(params[2]);
+           setType(Integer.parseInt(params[3]));
+           
+//           setOrganization(Organization) does not exist yet; 
+}
+public Double getEmployeeSalary(Integer eid, DynamicDao dynamicDao)
 {    
     Double result = 0.0;
     try {  
-           result = Double.parseDouble((String)dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getEmployeeSalary), uuid).get(0));
+           result = Double.parseDouble(((ArrayList<String[]>)dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getEmployeeSalary), eid)).get(0)[0]);
     } catch (Exception e) {
         
     }
     return result;
 }
-   public void setCalander(String calander){
-        this.calander = calander;
-   }
+public ArrayList retrieveEmployeeDisplayableAppointments( DynamicDao dynamicDao ){
+        
+    ArrayList result = new ArrayList();
+    try {
+        result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getEmployeeDisplayableAppointments), EmployeeId);
+    } catch (Exception e) {
+        result.add("User has no appointments");
+    }
+        for (int appointment = 0; appointment < result.size(); appointment++) {
+            ((String [])result.get(appointment))[5] = LocalTime.ofSecondOfDay( Integer.parseInt(((String [])result.get(appointment))[5])).toString();
+            ((String [])result.get(appointment))[4] = LocalTime.ofSecondOfDay( Integer.parseInt(((String [])result.get(appointment))[4])).toString();
+        }
+    return result;
+}
+public ArrayList retrieveEmployeeDailyDisplayableAppointments( DynamicDao dynamicDao ){
+        
+    ArrayList result = new ArrayList();
+    try {
+        result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getEmployeeDisplayableDailyAppointments), EmployeeId);
+    } catch (Exception e) {
+        result.add("User has no appointments");
+    }
+        for (int appointment = 0; appointment < result.size(); appointment++) {
+            ((String [])result.get(appointment))[5] = LocalTime.ofSecondOfDay( Integer.parseInt(((String [])result.get(appointment))[5])).toString();
+            ((String [])result.get(appointment))[4] = LocalTime.ofSecondOfDay( Integer.parseInt(((String [])result.get(appointment))[4])).toString();
+        }
+    return result;
+}
+public void UpdateAppointment(ArrayList params,DynamicDao dynamicDao){
+
+    ArrayList result = new ArrayList();
+    try {
+        result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.newPrescription), params.get(0), params.get(1), params.get(2));
+        result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.updateAppointment), params.get(3), result.get(0), params.get(4));
+    } catch (Exception e) {
+    }
     
-   public String getCalander(){
-        return calander; 
-   }
-   
-   public void setEmploymentRole(Role employmentRole){
-        this.employmentRole = employmentRole;
-   }
-    
-   public Role getemploymentRole(){
-        return employmentRole; 
-   }
-   
-   public void setBookedAppointments(String[] bookedAppointments){
-        this.bookedAppointments = bookedAppointments;
-   }
-    
-   public String[] getBookedAppointments(){
-        return bookedAppointments; 
-   }
-   
-   public void setSalaryRate(double salarayRate){
-        this.salarayRate = salarayRate;
-   }
-    
-   public double getSalaryRate(){
-        return salarayRate; 
-   }
-    
+}
+
 }
