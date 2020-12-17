@@ -79,9 +79,15 @@ public class PatientController extends HttpServlet {
                     ArrayList lengths  = new ArrayList();
                     ArrayList temp_lengths  = new ArrayList();
                     Integer lengthIndex = 1;
-                    for (int i = 1; i < slots.size(); i++) {                     
+                    for (int i = 1; i < slots.size(); i++) {
+                        if(Integer.parseInt(slots.get(i)[1]) == 36000){
+                            int p = 0;}
                         if (Integer.parseInt(slots.get(i)[1])%3600 == 0 && temp_lengths.size() != 0){
-                            ArrayList composed = new ArrayList(Arrays.asList(LocalTime.ofSecondOfDay(Integer.parseInt(slots.get(i)[1])).toString(), temp_lengths));
+                            String start = LocalTime.ofSecondOfDay(Integer.parseInt(slots.get(i)[1])).toString();
+                            String end = LocalTime.ofSecondOfDay(Integer.parseInt(slots.get(i)[2])).toString();
+                            String[] times = {slots.get(i)[0], start, end,"slot_" + lengthIndex.toString()};
+                            temp_lengths.add(times);
+                            ArrayList composed = new ArrayList(Arrays.asList(LocalTime.ofSecondOfDay(Integer.parseInt(slots.get(i-6)[1])).toString(), temp_lengths));
                             lengths.add(composed);
                             temp_lengths  = new ArrayList();
                             lengthIndex = 1;
@@ -114,6 +120,7 @@ public class PatientController extends HttpServlet {
                           request.setAttribute("message", "please select consecutive times");
                           request.getRequestDispatcher("/WEB-INF/book.jsp").forward(request, response);
                       }
+                      
                       EmployeeModel doctor = new EmployeeModel();
                       
                       ArrayList slot_ids = new ArrayList();
@@ -124,8 +131,13 @@ public class PatientController extends HttpServlet {
                       ArrayList length = (ArrayList)session.getAttribute("lengths");
                       int start = LocalTime.parse((String)formatedSlots.get(0)[1]).toSecondOfDay();
                       int end = LocalTime.parse((String)formatedSlots.get(formatedSlots.size()- 1)[1]).toSecondOfDay();
+                      int one_hour = 3600;
+                      if( (end - start) > 3600 ){
+                          request.setAttribute("message", "you cannot book more than hour");
+                          request.getRequestDispatcher("/WEB-INF/book.jsp").forward(request, response);
+                      }
                       Double doc_salary = doctor.getEmployeeSalary(eid, dynamicDao);
-                      double charge = doc_salary*ChosenSlots.length;
+                      double charge = (Double)session.getAttribute("clientCharge")*ChosenSlots.length;
                       ArrayList appointment_params = new ArrayList(Arrays.asList(ChosenSlots.length, (Double)charge, session.getAttribute("choosenDate"), start, end, patient.getPatientID(), eid, patient.getPatientType(),1, slot_ids));
                       apointment_handling.CreateAppointment(appointment_params, dynamicDao);
                       request.getSession().setAttribute("lengths", null);

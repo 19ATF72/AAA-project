@@ -46,15 +46,11 @@ public class TurnoverController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // THIS IS JUST FOR TESTING \TODO: REMOVE AFTER TESTING
-        HttpSession session = request.getSession();
-        DynamicDao dynamicDao = new DynamicDao();
-        dynamicDao.connect((Connection)request.getServletContext().getAttribute("connection"));
-        // END OF TESTING BLOCK
+
         
         // Reactivate after testing
-        //HttpSession session = request.getSession(false);
-        //DynamicDao dynamicDao = (DynamicDao)session.getAttribute("dynamicDao");
+        HttpSession session = request.getSession(false);
+        DynamicDao dynamicDao = (DynamicDao)session.getAttribute("dynamicDao");
         
         //HttpSession session = request.getSession(false); // UNCOMMENT
         response.setContentType("text/html;charset=UTF-8");

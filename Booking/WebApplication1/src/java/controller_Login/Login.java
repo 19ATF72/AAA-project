@@ -97,6 +97,9 @@ public class Login extends HttpServlet {
         session.setAttribute("ListHandler", listHandler);
         session.setAttribute("User", User);     
         session.setAttribute("storedData", storedData);
+        session.setAttribute("docSalary", (Double)request.getServletContext().getAttribute("docSalary"));
+        session.setAttribute("nurseSalary", (Double)request.getServletContext().getAttribute("nurseSalary"));
+        session.setAttribute("clientCharge", (Double)request.getServletContext().getAttribute("clientCharge"));
         //uncoment to populate appointment slots type table
         //dynamicDao.addTimeSlots();
         

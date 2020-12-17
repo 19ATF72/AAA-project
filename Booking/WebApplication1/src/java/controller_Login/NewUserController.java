@@ -97,9 +97,14 @@ public class NewUserController extends HttpServlet {
                         patient.create_patient(patient_params,dynamicDao);
                       break;
                     case "1":
-                        ArrayList employee_params = new ArrayList(Arrays.asList(0, query[5], Integer.parseInt(query[4]), (String)request.getParameter("organizationName"), result.get(1)));
-                        EmployeeModel employee = new EmployeeModel();
-                        employee.create_Employee(employee_params,dynamicDao);
+                        ArrayList doc_params = new ArrayList(Arrays.asList((Double)session.getAttribute("docSalary"), query[5], Integer.parseInt(query[4]), (String)request.getParameter("organizationName"), result.get(1)));
+                        EmployeeModel employee_doc = new EmployeeModel();
+                        employee_doc.create_Employee(doc_params,dynamicDao);
+                      break;
+                    case "2":
+                        ArrayList nurse_params = new ArrayList(Arrays.asList((Double)session.getAttribute("nurseSalary"), query[5], Integer.parseInt(query[4]), (String)request.getParameter("organizationName"), result.get(1)));
+                        EmployeeModel employee_nurse = new EmployeeModel();
+                        employee_nurse.create_Employee(nurse_params,dynamicDao);
                       break;
                     default:
                         int p = 0;

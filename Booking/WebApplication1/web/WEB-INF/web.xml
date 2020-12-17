@@ -4,8 +4,20 @@
         <param-name>dbname</param-name>
         <param-value>SmartCare_4</param-value>
     </context-param>
+    <context-param>
+        <param-name>docSalary</param-name>
+        <param-value>9.0</param-value>
+    </context-param>
+    <context-param>
+        <param-name>nurseSalary</param-name>
+        <param-value>4.0</param-value>
+    </context-param>
+    <context-param>
+        <param-name>clientCharge</param-name>
+        <param-value>20.0</param-value>
+    </context-param>
     <welcome-file-list>
-        <welcome-file>/WEB-INF/Turnover.jsp</welcome-file>
+        <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
     <servlet>
         <servlet-name>Book</servlet-name>
