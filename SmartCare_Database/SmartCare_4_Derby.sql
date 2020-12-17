@@ -133,6 +133,7 @@ CREATE TABLE APPOINTMENT (
 	NOTES                varchar(45)  ,
 	CHARGE               double NOT NULL  ,
 	DATE                 date NOT NULL DEFAULT CURRENT_DATE ,
+	DATE_PAID            date DEFAULT '1970-01-02',
 	START_TIME           integer   ,
 	END_TIME             integer   ,
 	PATIENT_PID          integer   ,

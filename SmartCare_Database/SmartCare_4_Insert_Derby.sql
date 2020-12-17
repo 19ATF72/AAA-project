@@ -82,5 +82,5 @@ INSERT INTO appointment (duration, notes, charge, date, start_time, end_time, pa
 VALUES (1, 'This seesion produced B', 40.0, '2020-12-17', 32400, 33600, 1, 1, 2, 3, 4);
 
 INSERT INTO appointment (duration, notes, charge, date, start_time, end_time, patient_pid, employee_eid, appointment_type_atid, patient_prescriptions_prid, appointment_status_asid) 
-VALUES (1, 'Wow it is Stan Lee', 100.0, '2020-12-17', 32400, 33600, 2, 1, 1, 4, 4);
+VALUES (1, 'Wow it is Stan Lee', 100.0, '2020-12-17', 32400, 33600, 2, 1, 1, 4, 5);
 

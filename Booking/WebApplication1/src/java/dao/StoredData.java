@@ -49,6 +49,12 @@ public class StoredData {
         getInvoicesByTypeBetweenDates,
         getInvoicesBetweenDates,
         getPatientDisplayableAppointments,
+        getTurnoverByDates,
+        getIncomeByDates,
+        getOutgoingsByDates,
+        getTurnoverByTypeBetweenDates,
+        getIncomeByTypeBetweenDates,
+        getOutgoingsByTypeBetweenDates,
 
     }
     
@@ -79,6 +85,12 @@ public class StoredData {
         sqlQueryMap.put(SqlQueryEnum.getPatientAppointments, "SELECT * FROM appointment WHERE patient_pid=?");
         sqlQueryMap.put(SqlQueryEnum.getPatientDisplayableAppointments, "SELECT duration,notes,charge,date,start_time,end_time,appointment_status_asid FROM appointment WHERE patient_pid=?");
         
+        sqlQueryMap.put(SqlQueryEnum.getTurnoverByDates, "SELECT a.aid, a.charge, pt.type_name, e.salary, a.DATE_PAID FROM appointment a INNER JOIN employee e ON a.employee_eid = e.EID INNER JOIN patient p ON a.PATIENT_PID = p.PATIENT_TYPE_PTID INNER JOIN patient_type pt ON p.PATIENT_TYPE_PTID = pt.PTID AND (a.DATE_PAID BETWEEN ? AND ?)");
+        sqlQueryMap.put(SqlQueryEnum.getIncomeByDates, "SELECT SUM(charge) FROM appointment WHERE APPOINTMENT_STATUS_ASID = 5 AND (DATE_PAID BETWEEN ? AND ?)");
+        sqlQueryMap.put(SqlQueryEnum.getOutgoingsByDates, "SELECT SUM(e.salary) FROM appointment a INNER JOIN employee e ON a.EMPLOYEE_EID = e.EID WHERE APPOINTMENT_STATUS_ASID = 5 AND (DATE_PAID BETWEEN ? AND ?)");
+        sqlQueryMap.put(SqlQueryEnum.getTurnoverByTypeBetweenDates, "SELECT a.aid, a.charge, pt.type_name, e.salary, a.DATE_PAID FROM appointment a INNER JOIN employee e ON a.employee_eid = e.EID INNER JOIN patient p ON a.PATIENT_PID = p.PATIENT_TYPE_PTID INNER JOIN patient_type pt ON p.PATIENT_TYPE_PTID = pt.PTID WHERE pt.TYPE_NAME = ? AND (a.DATE_PAID BETWEEN ? AND ?)");
+        sqlQueryMap.put(SqlQueryEnum.getIncomeByTypeBetweenDates, "SELECT SUM(charge) FROM appointment a INNER JOIN patient p ON a.PATIENT_PID = p.PID INNER JOIN patient_type pt ON p.PATIENT_TYPE_PTID = pt.PTID WHERE APPOINTMENT_STATUS_ASID = 5 AND pt.TYPE_NAME = ? AND (DATE_PAID BETWEEN ? AND ?)");
+        sqlQueryMap.put(SqlQueryEnum.getOutgoingsByTypeBetweenDates, "SELECT SUM(e.salary) FROM appointment a INNER JOIN employee e ON a.EMPLOYEE_EID = e.EID INNER JOIN patient p ON a.PATIENT_PID = p.PID INNER JOIN patient_type pt ON p.PATIENT_TYPE_PTID = pt.PTID WHERE APPOINTMENT_STATUS_ASID = 5 AND pt.TYPE_NAME = ? AND (DATE_PAID BETWEEN ? AND ?)");
 
         sqlQueryMap.put(SqlQueryEnum.getAllPossibleAppointments, "SELECT * FROM appointment_slots");
         sqlQueryMap.put(SqlQueryEnum.getPatient, "SELECT * FROM patient WHERE users_uuid=?");
@@ -90,6 +102,7 @@ public class StoredData {
         sqlQueryMap.put(SqlQueryEnum.getInvoices, "SELECT u.uuid,u.username,p.address,pt.type_name,a.aid,a.duration,a.date,a.charge,aps.appointment_status FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID INNER JOIN appointment a ON p.PID = a.PATIENT_PID INNER JOIN appointment_status aps ON a.APPOINTMENT_STATUS_ASID = aps.asid WHERE aps.asid = 4 FETCH FIRST 10 ROWS ONLY");
         sqlQueryMap.put(SqlQueryEnum.getInvoicesByTypeBetweenDates, "SELECT u.uuid,u.username,p.address,pt.type_name,a.aid,a.duration,a.date,a.charge,aps.appointment_status FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID INNER JOIN appointment a ON p.PID = a.PATIENT_PID INNER JOIN appointment_status aps ON a.APPOINTMENT_STATUS_ASID = aps.asid WHERE aps.asid = 4 AND p.PATIENT_TYPE_PTID = ? AND (a.date BETWEEN ? AND ?) FETCH FIRST 10 ROWS ONLY");
         sqlQueryMap.put(SqlQueryEnum.getInvoicesBetweenDates, "SELECT u.uuid,u.username,p.address,pt.type_name,a.aid,a.duration,a.date,a.charge,aps.appointment_status FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID INNER JOIN appointment a ON p.PID = a.PATIENT_PID INNER JOIN appointment_status aps ON a.APPOINTMENT_STATUS_ASID = aps.asid WHERE aps.asid = 4 AND (a.date BETWEEN ? AND ?) FETCH FIRST 10 ROWS ONLY");
+        
         
 
 
