@@ -7,7 +7,7 @@
         <title>JSP List Users Records</title>
     </head>
 <body>
-    <%! int i=0;
+    <%!
         String str="List"; 
         String url = "ListController.do";
     %>
@@ -15,6 +15,8 @@
         str="List"; 
         url = "ListController.do";
     %>
+    <c:set var="List" value="ListController.do"/> 
+    
     <div align="center">
         <form method="POST" action="<%=url%>">
             <div>
@@ -91,11 +93,9 @@
             </div>
 
         </form>
-    </div>
-    <div align="center">
+ 
         <p><c:out value="${not empty message ? message: ''}" /></p>
-    </div>
-    <div align="center">
+
         <table border="1" cellpadding="5">
             <caption><h2>List of patients:</h2></caption>
             <tr>
@@ -117,9 +117,7 @@
                 </tr>
             </c:forEach>
         </table>
-    </div>
     
-    <div align="center">
         <table border="1" cellpadding="5">
             <caption><h2>List of Invoices:</h2></caption>
             <tr>
@@ -149,14 +147,6 @@
                 </tr>
             </c:forEach>
         </table>
-    </div>
-    
-    <div align="center">
-        <form method="POST" action="<%=url%>">
-           
-
-            
-        </form>
     </div>
     <jsp:include page="foot.jsp"/>  
 </body>

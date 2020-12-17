@@ -69,11 +69,9 @@
             </div>
 
         </form>
-    </div>
-    <div align="center">
+
         <p><c:out value="${not empty message ? message: ''}" /></p>
-    </div>
-    <div align="center">
+
         <table border="1" cellpadding="5">
             <caption><h2>Transactions:</h2></caption>
             <tr>
@@ -124,18 +122,6 @@
                 <td><c:out value="${not empty resultProfit ? resultProfit: ''}" /></td>
             </tr>                 
         </table>
-    </div>
-    
-    <div align="center">
-
-    </div>
-    
-    <div align="center">
-        <form method="POST" action="<%=url%>">
-           
-
-            
-        </form>
     </div>
     <jsp:include page="foot.jsp"/>  
 </body>

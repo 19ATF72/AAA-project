@@ -5,13 +5,14 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page session="false" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>this is a foot</title>
+        <title>this is a footer</title>
     </head>
     <body>
-        <h4><a>return to home</a></h4>
+        <a class="btn btn-sm btn-default"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
     </body>
 </html>
