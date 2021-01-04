@@ -15,39 +15,36 @@
     </head>
     <body>
         <div align="center">
-            <h2>Login</h2>
+            <h2>Create Prescription</h2>
             <%! int i=0;
-                String str="Login"; 
-                String url = "Login.do";
+                String str="employeeController"; 
+                String url = "employeeController.do";
             %>
             <% 
-                 str="Login"; 
-                 url = "Login.do";
+                 str="employeeController"; 
+                 url = "employeeController.do";
             %>
             <form method="POST" action="<%=url%>">     
                 <table>
                     <tr>
-                        <td>Email:</td>
-                        <td><input type="text" name="mail" required /></td>
+                        <td>Medicine:</td>
+                        <td><input type="text" name="prescription" /></td>
+                        <td><input type="checkbox" name="prescription"  value="repeat" />Repeat prescription</td>
                     </tr>
                     <tr>
-                        <td>Password:</td>
-                        <td><input type="password" name="password" required /></td>
+                        <td>Notes:</td>
+                        <td><input type="text" name="notes" /></td>
                     </tr>
-                    <tr>
-                        <td><input type="submit" name="LoginOperation" value="Login"/></td>
-                    </tr>
- 
-                </table>
-            </form>
-            <form method="POST" action="<%=url%>">     
-                <table>
-                     <tr> 
-                        <td><button type="submit" name="LoginOperation" value="NewUser">New user</button></td>
+                    <tr> 
+                        <td>
+                            <input type="submit" name="employeeOperation" value="recorded"/>
+                        </td>
                     </tr>
                 </table>
             </form>
             <p><c:out value="${not empty message ? message: ''}" /></p>
+            </br>
+            <jsp:include page="/WEB-INF/foot.jsp"/>
         </div>
     </body>
 </html>

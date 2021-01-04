@@ -60,7 +60,6 @@ public ArrayList login_User(ArrayList params, DynamicDao dynamicDao)
 {    
     ArrayList result = new ArrayList();
     
-    //    , query[0], query[1], query[2], created, access, login, query[3], user_status
     try { 
            ArrayList<String[]> user_string = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.LoginUser), params.get(0), params.get(1));
            String[] user = user_string.get(0);
@@ -75,7 +74,6 @@ public ArrayList login_User(ArrayList params, DynamicDao dynamicDao)
            setAccountStatus(Integer.parseInt(user[8]));
            ArrayList role = get_user_role(dynamicDao);
            if (role!=null) {
-                result.add(user);
                 result.add(role.get(0));
                 result.add(role.get(1));
             }
@@ -91,23 +89,27 @@ public ArrayList get_user_role(DynamicDao dynamicDao){
     ArrayList role = new ArrayList();
     try {
        role = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getPatient), uniqueUserId);
-       role.add("patient");
+       if(role.size() != 0){
+            role.add("patient");
+       }
+       else{
+           role = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getEmployee), uniqueUserId);
+           if(role.size() != 0){
+            role.add("employee");
+            }
+            else{
+                role = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getEmployee), uniqueUserId);
+                if(role.size() != 0){
+                role.add("admin");
+                }
+                else{
+                role = null;
+                }
+            }
+       }
+       
     } catch (Exception p) {
         
-        try {
-            role = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getEmployee), uniqueUserId);
-            role.add("employee");
-        } catch (Exception e) {
-            
-            try {
-                role = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getEmployee), uniqueUserId);
-                role.add("admin");
-            } catch (Exception a) {
-                
-                role = null;
-                
-            }
-        }
     } 
     return role;
 }

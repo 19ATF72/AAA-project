@@ -7,6 +7,7 @@ package model;
 
 import dao.DynamicDao;
 import dao.StoredData;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 /**
@@ -19,7 +20,6 @@ public class PatientModel {
     private String address;
     private int patientType;
     
-    
 public PatientModel(){}
     
 public void create_patient(ArrayList params, DynamicDao dynamicDao){
@@ -31,11 +31,10 @@ public void create_patient(ArrayList params, DynamicDao dynamicDao){
       result = "";
   }
 }
-public void login_patient(ArrayList<String[]> params, DynamicDao dynamicDao){
-           String[] patient = params.get(0);
-           setPatientID(Integer.parseInt(patient[0]));
-           setAddress(patient[1]);
-           setPatientType(Integer.parseInt(patient[2]));
+public void login_patient(String[] params, DynamicDao dynamicDao){
+           setPatientID(Integer.parseInt(params[0]));
+           setAddress(params[1]);
+           setPatientType(Integer.parseInt(params[2]));
 }
 
 public ArrayList get_patient(ArrayList params, DynamicDao dynamicDao){
@@ -52,7 +51,7 @@ public ArrayList get_patient(ArrayList params, DynamicDao dynamicDao){
     }
     return result;
 }
-public ArrayList retrieveAppointments( DynamicDao dynamicDao ){
+public ArrayList retrievePatientAppointments( DynamicDao dynamicDao ){
         
     ArrayList result = new ArrayList();
     try {
@@ -60,6 +59,20 @@ public ArrayList retrieveAppointments( DynamicDao dynamicDao ){
     } catch (Exception e) {
         result.add("User has no appointments");
     }
+    return result;
+}
+public ArrayList retrievePatientDisplayableAppointments( DynamicDao dynamicDao ){
+        
+    ArrayList result = new ArrayList();
+    try {
+           result = dynamicDao.agnostic_query(storedStatements.sqlQueryMap.get(StoredData.SqlQueryEnum.getPatientDisplayableAppointments), patientID);
+    } catch (Exception e) {
+        result.add("User has no appointments");
+    }
+        for (int appointment = 0; appointment < result.size(); appointment++) {
+            ((String [])result.get(appointment))[5] = LocalTime.ofSecondOfDay( Integer.parseInt(((String [])result.get(appointment))[5])).toString();
+            ((String [])result.get(appointment))[4] = LocalTime.ofSecondOfDay( Integer.parseInt(((String [])result.get(appointment))[4])).toString();
+        }
     return result;
 }  
 public void createAppointment( ArrayList Params, DynamicDao dynamicDao ){

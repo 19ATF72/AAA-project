@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller_Login;
+package controller;
 
 import dao.DynamicDao;
 import dao.StoredData;
@@ -25,14 +25,15 @@ import model.EmployeeModel;
 import model.ListModel;
 import model.PatientModel;
 import model.UserModel;
+import model.TurnoverModel;
 
 /**
  *
  * @author atf1972
  */
 
-@WebServlet(name = "ListController", urlPatterns = {"/WEB-INF/ListController.do"})
-public class ListController extends HttpServlet {
+@WebServlet(name = "TurnoverController", urlPatterns = {"/WEB-INF/TurnoverController.do"})
+public class TurnoverController extends HttpServlet {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -45,25 +46,21 @@ public class ListController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // THIS IS JUST FOR TESTING \TODO: REMOVE AFTER TESTING
+
+        
+        // Reactivate after testing
         HttpSession session = request.getSession(false);
         DynamicDao dynamicDao = (DynamicDao)session.getAttribute("dynamicDao");
-        // END OF TESTING BLOCK
         
         //HttpSession session = request.getSession(false); // UNCOMMENT
         response.setContentType("text/html;charset=UTF-8");
         
-        ListModel ListHandler = (ListModel)session.getAttribute("ListHandler");
+        TurnoverModel TurnoverHandler = new TurnoverModel();
         
-        //DynamicDao dynamicDao = (DynamicDao)session.getAttribute("dynamicDao"); //UNCOMMENT
-        if (dynamicDao == null)
-            request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
-        
-        String [] query = new String[4];
-        query[0] = (String)request.getParameter("patientType");
+        String [] query = new String[3];
+        query[0] = (String)request.getParameter("turnoverOperation");
         query[1] = (String)request.getParameter("startTime");
         query[2] = (String)request.getParameter("endTime");
-        query[3] = (String)request.getParameter("recordType");
         
 //        Date startTime = null;
 //        Date endTime = null;
@@ -81,59 +78,51 @@ public class ListController extends HttpServlet {
         
         //ArrayList params = new ArrayList(Arrays.asList(query[0], startTime, endTime));
         //ArrayList resultPatients = list.getPatientsByType(params, dynamicDao);
-        ArrayList resultPatients = new ArrayList();
-        ArrayList resultInvoices = new ArrayList();
         
-        if (query[0] == null || query[3] == null) {
-            resultPatients = null;
-            resultInvoices = null;
-            request.setAttribute("message", "Please make a selection");
-        } 
-        else if ( (!(query[1].equals("")) && query[2].equals("")) 
-               || (query[1].equals("") && !(query[2].equals(""))) ) {
-                resultPatients = null;
-                resultInvoices = null;
-                request.setAttribute("message", "Please enter Start & end Date");
+        
+        
+        ArrayList resultIncome = new ArrayList();
+        ArrayList resultOutgoings = new ArrayList();
+        ArrayList resultTurnover = new ArrayList();
+        ArrayList params = new ArrayList();
+
+        double resultProfit = 0;
+        
+        if (query[0] == null || query[1].equals("") || query[2].equals("")) {
+            resultTurnover = null;
+            request.setAttribute("message", "Please enter all fields");
         } else {
-            switch (query[3]) {
-                case "retrievePatients":
-                    if (query[0].equals("0") && !(query[1].equals(""))) {
-                        ArrayList params = new ArrayList(Arrays.asList(query[1], query[2]));
-                        resultPatients = ListHandler.getPatientsBetweenDates(params, dynamicDao);
-                    } else if (query[0].equals("0")) {
-                        resultPatients = ListHandler.getPatients(dynamicDao);
-                    } else {                 
-                        if (!(query[1].equals(""))) {
-                            ArrayList params = new ArrayList(Arrays.asList(query[0], query[1], query[2]));
-                            resultPatients = ListHandler.getPatientsByTypeBetweenDates(params, dynamicDao); //TODO
-                        } else {
-                            ArrayList params = new ArrayList(Arrays.asList(query[0]));
-                            resultPatients = ListHandler.getPatientsByType(params, dynamicDao);
-                        }   
-                    }
-                    request.setAttribute("resultPatients", resultPatients);
+            switch (query[0]) {
+                case "turnover":
+                    params = new ArrayList(Arrays.asList(query[1], query[2]));
+                    resultTurnover = TurnoverHandler.getTurnoverByDates(params, dynamicDao);
+                    resultIncome = TurnoverHandler.getIncomeByDates(params, dynamicDao);
+                    resultOutgoings = TurnoverHandler.getOutgoingsByDates(params, dynamicDao);
+                    resultProfit = (Double.parseDouble(((String[])resultIncome.get(0))[0]) - Double.parseDouble(((String[])resultOutgoings.get(0))[0]));
+                            
+                    request.setAttribute("resultTurnover", resultTurnover);
+                    request.setAttribute("resultIncome", resultIncome);
+                    request.setAttribute("resultOutgoings", resultOutgoings);
+                    request.setAttribute("resultProfit", resultProfit);
                     break;
-                case "retrieveInvoices":
-                    if (query[0].equals("0") && !(query[1].equals(""))) {
-                        ArrayList params = new ArrayList(Arrays.asList(query[1], query[2]));
-                        resultInvoices = ListHandler.getInvoicesBetweenDates(params, dynamicDao);
-                    } else if (query[0].equals("0")) {
-                        resultInvoices = ListHandler.getInvoices(dynamicDao);
-                    } else {                 
-                        if (!(query[1].equals(""))) {
-                            ArrayList params = new ArrayList(Arrays.asList(query[0], query[1], query[2]));
-                            resultInvoices = ListHandler.getInvoicesByTypeBetweenDates(params, dynamicDao); //TODO
-                        } else {
-                            ArrayList params = new ArrayList(Arrays.asList(query[0]));
-                            resultInvoices = ListHandler.getInvoicesByType(params, dynamicDao);
-                        }   
-                    }
-                    request.setAttribute("resultInvoices", resultInvoices);
+                case "private":
+                case "nhs":
+                    params = new ArrayList(Arrays.asList(query[0], query[1], query[2]));
+                    resultTurnover = TurnoverHandler.getTurnoverByTypeBetweenDates(params, dynamicDao);
+                    resultIncome = TurnoverHandler.getIncomeByTypeBetweenDates(params, dynamicDao);
+                    resultOutgoings = TurnoverHandler.getOutgoingsByTypeBetweenDates(params, dynamicDao);
+                    resultProfit = (Double.parseDouble(((String[])resultIncome.get(0))[0]) - Double.parseDouble(((String[])resultOutgoings.get(0))[0]));
+                            
+                    request.setAttribute("resultTurnover", resultTurnover);
+                    request.setAttribute("resultIncome", resultIncome);
+                    request.setAttribute("resultOutgoings", resultOutgoings);
+                    request.setAttribute("resultProfit", resultProfit);
                     break;
+
             }
         }
         
-        request.getRequestDispatcher("/WEB-INF/List.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/Turnover.jsp").forward(request, response);
     }
     
         // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
