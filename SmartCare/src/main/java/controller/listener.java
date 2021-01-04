@@ -28,11 +28,15 @@ public class listener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext sc = sce.getServletContext();
         String db = sc.getInitParameter("dbname");
+        //todo has to be a type table on the data base
+        sc.setAttribute("docSalary", 11.0);
+        sc.setAttribute("nurseSalary", 6.0);
+        sc.setAttribute("clientCharge", 20.0);
         
         try {
             //Class.forName("com.mysql.jdbc.Driver");
                 Class.forName("org.apache.derby.jdbc.ClientDriver");
-                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/SmartCare_2","root","OqpWJsbw0X9164b38noF");
+                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/SmartCare","root","root");
                 
         }
         catch(ClassNotFoundException | SQLException e){
