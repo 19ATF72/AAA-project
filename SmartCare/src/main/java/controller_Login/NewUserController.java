@@ -15,11 +15,13 @@ import dao.StoredData;
 import dao.StoredData.SqlQueryEnum;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
-import java.sql.Timestamp;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.time.LocalDate;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -62,48 +64,61 @@ public class NewUserController extends HttpServlet {
         query[4] = (String)request.getParameter("Role");
         query[5] = (String)request.getParameter("Address");
         
-        
-
-            
-       
-
-                Date date= new Date();
-                long time = date.getTime();
-                Timestamp created = new Timestamp(time);
-                Timestamp access = new Timestamp(time);
+                
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                Date date = Date.valueOf(LocalDate.now());
+                
+                
+                // THIS WILL TAKE STRING MAKE IT SQL DATE INSERTABLE
+                //String dateCreate = request.getParameter("dateCreate");
+                
+                //SimpleDateFormat formater = new SimpleDateFormat("yyyy-mm-dd");
+                //Date dateCreated = formater.parse(dateCreate);
+                //Date dateCreated = formater.parse();
+                //newDate = dateCreated;
+                    
+                //pst.setDate(6, new java.sql.Date(newDate.getTime()));
+                
                 int login = 1;
-                int status = 1;
                 int user_status = 1;
-                int uuid = 0;
                 if(query[4].equals("0")){
                     user_status = 2;
                 }
 
-                ArrayList params = new ArrayList(Arrays.asList(query[0], query[1], query[2], created, access, login, query[3], user_status));
+                ArrayList params = new ArrayList(Arrays.asList(query[0], query[1], query[2], date, date, login, query[3], user_status));
                 ArrayList result  = newUser.create_User(params, dynamicDao);
                 
-
-
-
-                switch(query[4]) {
+                if(result.size() > 1) {
+                    switch(query[4]) {
                     case "0":
                         int patientType = Integer.parseInt((String)request.getParameter("patientType"));
                         ArrayList patient_params = new ArrayList(Arrays.asList(query[5],patientType, result.get(1)));
                         PatientModel patient = new PatientModel();
                         patient.create_patient(patient_params,dynamicDao);
+                        request.setAttribute("message", "patient "+ query[0] +" created successfully" );
+                        request.getRequestDispatcher("/login.jsp").forward(request, response);
                       break;
                     case "1":
-                        ArrayList employee_params = new ArrayList(Arrays.asList(0, query[5], Integer.parseInt(query[4]), (String)request.getParameter("organizationName"), result.get(1)));
-                        EmployeeModel employee = new EmployeeModel();
-                        employee.create_Employee(employee_params,dynamicDao);
+                        ArrayList doc_params = new ArrayList(Arrays.asList((Double)session.getAttribute("docSalary"), query[5], Integer.parseInt(query[4]), "testpital", result.get(1)));
+                        EmployeeModel employee_doc = new EmployeeModel();
+                        employee_doc.create_Employee(doc_params,dynamicDao);
+                        request.setAttribute("message", "doctor "+ query[0] +" created successfully" );
+                        request.getRequestDispatcher("/login.jsp").forward(request, response);
+                      break;
+                    case "2":
+                        ArrayList nurse_params = new ArrayList(Arrays.asList((Double)session.getAttribute("nurseSalary"), query[5], Integer.parseInt(query[4]), (String)request.getParameter("organizationName"), result.get(1)));
+                        EmployeeModel employee_nurse = new EmployeeModel();
+                        employee_nurse.create_Employee(nurse_params,dynamicDao);
+                        request.setAttribute("message", "nurse "+ query[0] +" created successfully" );
+                        request.getRequestDispatcher("/login.jsp").forward(request, response);
                       break;
                     default:
                         int p = 0;
+                    
 
                     }
-
-                   request.setAttribute("message", result.get(0));
-                   request.getRequestDispatcher("/WEB-INF/NewUser.jsp").forward(request, response);
+                }
+                
 
     }
 
