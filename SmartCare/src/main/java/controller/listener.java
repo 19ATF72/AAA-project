@@ -34,9 +34,10 @@ public class listener implements ServletContextListener {
         sc.setAttribute("clientCharge", 20.0);
         
         try {
-            //Class.forName("com.mysql.jdbc.Driver");
+                //Class.forName("com.mysql.jdbc.Driver");
                 Class.forName("org.apache.derby.jdbc.ClientDriver");
-                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/SmartCare","root","root");
+                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/SmartCare_2","root","OqpWJsbw0X9164b38noF");
+                //conn = DriverManager.getConnection("jdbc:derby://localhost:1527/SmartCare","root","root");
                 
         }
         catch(ClassNotFoundException | SQLException e){

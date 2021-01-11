@@ -40,21 +40,21 @@ public class DynamicDao{
     
     public DynamicDao() {}
 
-    public void tryConnect(){
-        
-        DynamicDao bookingDao = new DynamicDao();
-        Connection conn = null;
-        try {
-                Class.forName("org.apache.derby.jdbc.ClientDriver");
-                //conn = DriverManager.getConnection("jdbc:derby://localhost:1527/SmartCare_2","root","OqpWJsbw0X9164b38noF");
-                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/SmartCare","root","root");
-        }
-        catch(ClassNotFoundException | SQLException e){
-            System.out.println(e);
-        }
-        connect(conn);
-    }
-    
+//    public void tryConnect(){
+//        
+//        DynamicDao bookingDao = new DynamicDao();
+//        Connection conn = null;
+//        try {
+//                Class.forName("org.apache.derby.jdbc.ClientDriver");
+//                conn = DriverManager.getConnection("jdbc:derby://localhost:1527/SmartCare_2","root","OqpWJsbw0X9164b38noF");
+//                //conn = DriverManager.getConnection("jdbc:derby://localhost:1527/SmartCare","root","root");
+//        }
+//        catch(ClassNotFoundException | SQLException e){
+//            System.out.println(e);
+//        }
+//        connect(conn);
+//    }
+//    
     protected void disconnect() throws SQLException {
         if (connection != null && !connection.isClosed()) {
             connection.close();
