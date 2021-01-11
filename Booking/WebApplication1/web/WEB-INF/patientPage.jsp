@@ -37,8 +37,8 @@
                             </tr>
                             <c:forEach items="${schedule}" var="row">
                                 <tr>
-                                   <td><c:out value="${row[7]}" /> minutes</td>
-                                   <td><c:out value="${row[0]*10}" /> minutes</td>
+                                   <td><c:out value="${row[7]}" /></td>
+                                   <td><c:out value="${row[0]*10}" /></td>
                                    <td><c:out value="${row[1]}" /></td>
                                    <td><c:out value="${row[2]}" /></td>
                                    <td><c:out value="${row[3]}" /></td>
@@ -55,10 +55,10 @@
                       <td> <button type="submit" name="patientOperation" value="bookAppointment">Book new appointment</button></td>
                     </tr>
                                        <tr>
-                        <td><input type="submit" name="patientOperation" value="list"/></td>
+                        <td><input type="submit" name="patientOperation" value="List"/></td>
                     </tr>
                     <tr>
-                        <td><input type="submit" name="patientOperation" value="turnover"/></td>
+                        <td><input type="submit" name="patientOperation" value="Turnover"/></td>
                     </tr>
             </table>
             </form>

@@ -6,6 +6,7 @@
 
 <%@page import="dao.DynamicDao"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -42,7 +43,7 @@
             <form method="POST" action="<%=url%>">     
                 <table>
                      <tr> 
-                        <td> <button type="submit" name="LoginOperation" value="NewUser">New user</button></td>
+                        <td><button type="submit" name="LoginOperation" value="NewUser">New user</button></td>
                     </tr>
                 </table>
             </form>
