@@ -3,16 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.Entity;
 
-import dao.DynamicDao;
+import model.Dao.DynamicDao;
 
 /**
  *
  * @author rob
  */
 public class OrganisationEntity {
-    
     
     protected  String oId = ""; 
     protected  String name;

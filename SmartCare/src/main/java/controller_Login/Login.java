@@ -10,9 +10,13 @@ package controller_Login;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import dao.DynamicDao;
-import dao.StoredData;
-import dao.StoredData.SqlQueryEnum;
+import model.Entity.EmployeeEntity;
+import model.Entity.PatientEntity;
+import model.Entity.UserEntity;
+import model.Dao.DynamicDao;
+import model.Helper.StoredProcedures;
+import model.Helper.Enums;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -28,7 +32,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.*;
-
+import model.Service.EmployeeService;
+import model.Service.UserService;
+import model.Service.PatientService;
 
 /*
  * 
@@ -81,12 +87,16 @@ public class Login extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         //data objects to be used in every page
         //TODO delete this from other controller it is now saved on the session 
-        StoredData storedData = new StoredData(); 
+        StoredProcedures storedData = new StoredProcedures(); 
+        
+        // IS THIS NEEDED?? I thought it was created in the listener?
         DynamicDao dynamicDao = new DynamicDao();
+        
+        
+        
         ListModel listHandler = new ListModel();
-        UserModel User = new UserModel();
-        PatientModel patient;
-        EmployeeModel employee;
+        UserEntity user = new UserEntity();
+        UserService userService = new UserService(dynamicDao);
         //set database object connection 
         dynamicDao.connect((Connection)request.getServletContext().getAttribute("connection"));
         //check if connection was stablished only needs to be done here TODO remove from other classes
@@ -95,7 +105,7 @@ public class Login extends HttpServlet {
         //saves data objects in the session
         session.setAttribute("dynamicDao", dynamicDao);
         session.setAttribute("ListHandler", listHandler);
-        session.setAttribute("User", User);     
+        session.setAttribute("User", user);     
         session.setAttribute("storedData", storedData);
         session.setAttribute("docSalary", (Double)request.getServletContext().getAttribute("docSalary"));
         session.setAttribute("nurseSalary", (Double)request.getServletContext().getAttribute("nurseSalary"));
@@ -108,65 +118,63 @@ public class Login extends HttpServlet {
         
  
         switch(query) {
-                        case "NewUser":
-                            request.getRequestDispatcher("/WEB-INF/NewUser.jsp").forward(request, response);
-                            break;
-                        case "Login":
-                                String mail = (String)request.getParameter("mail");
-                                String password = (String)request.getParameter("password");
-                                ArrayList params = new ArrayList(Arrays.asList(mail, password));
-                                //retrieves user from data base if it exists 
-                                ArrayList result = User.login_User(params, dynamicDao);
-                                String UserType = (String)result.get(1);
-                                if ( result.size() > 1 ) {
-                                    int userStatus = User.getAccountStatus();
-                                    
-                                    if (userStatus == storedData.approved) {
-                                        session.setAttribute("User", User);
-                                        switch(UserType) {
-                                             case "patient":
-                                                 //patient login
-                                                 String[] PatientDetails = (String[])result.get(0);
-                                                 patient = new PatientModel();  
-                                                 patient.login_patient(PatientDetails, dynamicDao);
-                                                 session.setAttribute("Patient", patient);
-                                                 //patient page set up   
-                                                 //retrieve appointment for display and senthem to the page
-                                                 ArrayList appointments = patient.retrievePatientDisplayableAppointments(dynamicDao);
-                                                 request.setAttribute("schedule", appointments);
-                                                 request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
-                                                break;
-                                            case "employee":
-                                                 //Employee login
-                                                 String[] employeeDetails = (String[])result.get(0);
-                                                 employee = new EmployeeModel();  
-                                                 employee.loginEmployee(employeeDetails, dynamicDao);
-                                                 session.setAttribute("Employee", employee);
-                                                 //Employee page set up   
-                                                 //retrieve appointment for display and senthem to the page
-                                                 ArrayList employeeAppointments = employee.retrieveEmployeeDisplayableAppointments(dynamicDao);
-                                                 request.setAttribute("schedule", employeeAppointments);
-                                                 ArrayList employeeDailyAppointments = employee.retrieveEmployeeDailyDisplayableAppointments(dynamicDao);
-                                                 request.setAttribute("dailySchedule", employeeDailyAppointments);
-                                                 request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);  
-                                                break;
-                                            case "admin":
-                                                break;
-                                            default:
-                                    }
-                                    }
-                                    else if (userStatus == storedData.pending)
-                                    {
-                                        request.setAttribute("message","User has not been approved by admin yet");
-                                        request.getRequestDispatcher("/login.jsp").forward(request, response);  
-                                    }
-                                    else
-                                    {
-                                        request.setAttribute("message","User has been blocked by the admin");
-                                        request.getRequestDispatcher("/login.jsp").forward(request, response);  
-                                    }
-                                }
-                            }
+            case "NewUser":
+                request.getRequestDispatcher("/WEB-INF/NewUser.jsp").forward(request, response);
+                break;
+            case "Login":
+                String email = (String)request.getParameter("mail");
+                String password = (String)request.getParameter("password");
+                //retrieves user from database if it exists  
+                user = userService.loginUser(email, password);
+                String UserType = user.getUserRole();
+
+                if (user != null) {
+                    int userStatus = user.getAccountStatus();
+
+                switch (userStatus) {
+                    case Enums.APPROVED:
+                        session.setAttribute("User", user);
+                        switch(UserType) {
+                            case "patient":
+                                PatientService patientService = new PatientService(dynamicDao);
+                                PatientEntity patient = patientService.getEmployee(user.getUniqueUserId());
+                                patient.setPatientEntityFromUser(user);
+                                session.setAttribute("Patient", patient);
+
+                                //retrieve appointment for display and senthem to the page
+                                ArrayList appointments = patientService.retrievePatientDisplayableAppointments(patient);
+                                request.setAttribute("schedule", appointments);
+                                request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
+                                break;
+                            case "employee":
+                                EmployeeService employeeService = new EmployeeService(dynamicDao);
+                                EmployeeEntity employee = employeeService.getEmployee(user.getUniqueUserId());
+                                employee.setEmployeeEntityFromUser(user);
+                                session.setAttribute("Employee", employee);
+
+                                ArrayList employeeAppointments = employeeService.retrieveEmployeeDisplayableAppointments(employee);
+                                request.setAttribute("schedule", employeeAppointments);
+
+                                ArrayList employeeDailyAppointments = employeeService.retrieveEmployeeDailyDisplayableAppointments(employee);
+                                request.setAttribute("dailySchedule", employeeDailyAppointments);
+                                request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);
+                                break;
+                            case "admin":
+                                break;
+                            default:
+                        }
+                        break;
+                    case Enums.PENDING:
+                        request.setAttribute("message","User has not been approved by admin yet");
+                        request.getRequestDispatcher("/login.jsp").forward(request, response);
+                        break;
+                    default:
+                        request.setAttribute("message","User has been blocked by the admin");
+                        request.getRequestDispatcher("/login.jsp").forward(request, response);
+                        break;
+                    }
+                }
+        }
         
     }
 

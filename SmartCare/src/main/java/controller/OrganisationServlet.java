@@ -5,10 +5,10 @@
  */
 package controller;
 
-import dao.DynamicDao;
-import model.OrganisationEntity;
+import model.Dao.DynamicDao;
+import model.Entity.OrganisationEntity;
 
-import dao.OrganisationDao;
+import model.Service.OrganisationService;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -30,27 +30,23 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "OrganisationServlet", urlPatterns = {"/WEB-INF/OrganisationServlet.do"})
 public class OrganisationServlet extends HttpServlet {
     
-    private OrganisationDao dao;
+    private OrganisationService organisationDao;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
-        
+             
         String action = request.getServletPath();
-       
-        
-        
-        dao = new OrganisationDao();
-
+      
        // THIS IS JUST FOR TESTING \TODO: REMOVE AFTER TESTING
         HttpSession session = request.getSession(); // TODO: Remove line after testing done
         DynamicDao dynamicDao = new DynamicDao();
-        dao.connect((Connection)request.getServletContext().getAttribute("connection"));
+        dynamicDao.connect((Connection)request.getServletContext().getAttribute("connection"));
         session.setAttribute("dynamicDao", dynamicDao);
         // END OF TESTING BLOCK 
-    
+        
+        organisationDao  = new OrganisationService(dynamicDao);
              
-       try
+        try
         {
         // call methods that might throw SQLException
     
@@ -85,7 +81,7 @@ public class OrganisationServlet extends HttpServlet {
     
     private void listOrganisation(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
-        ArrayList<OrganisationEntity> organisationList = dao.listAllOrganisations();
+        ArrayList<OrganisationEntity> organisationList = organisationDao.listAllOrganisations();
         request.setAttribute("organisationList", organisationList);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/OrganisationList.jsp");
         dispatcher.forward(request, response);
@@ -100,12 +96,14 @@ public class OrganisationServlet extends HttpServlet {
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
         String oId = request.getParameter("id");
-        OrganisationEntity exisitingOrganisation = dao.getOrganisation(oId);
+        OrganisationEntity exisitingOrganisation = organisationDao.getOrganisation(oId);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/OrganisationAddNew.jsp");
         request.setAttribute("organisation", exisitingOrganisation);
         dispatcher.forward(request, response);
  
     }
+    
+    // TODO: NEEDS FIXING
     
     private void insertOrganisation(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
@@ -119,16 +117,17 @@ public class OrganisationServlet extends HttpServlet {
  
         OrganisationEntity organisation = new OrganisationEntity(name, type, address, postcode, phonenum);
         
-        dao.insertOrganisation(organisation);
+        organisationDao.insertOrganisation(organisation);
         
         response.sendRedirect("/SmartCare/OrganisationServlet.do");
     }
-
+    
+    // TODO: NEEDS FIXING
+    
     private void deleteOrganisation(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
         int oId = Integer.parseInt(request.getParameter("oId"));
         String oIdd = "";
-        OrganisationDao organisationDao = new OrganisationDao();
         OrganisationEntity organisation = new OrganisationEntity(oIdd);
   
         organisationDao.deleteOrganisation(organisation);

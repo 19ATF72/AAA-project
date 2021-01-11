@@ -5,8 +5,8 @@
  */
 package controller;
 
-import dao.DynamicDao;
-import dao.StoredData;
+import model.Dao.DynamicDao;
+import model.Helper.StoredProcedures;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Timestamp;
@@ -21,10 +21,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.EmployeeModel;
+import model.Entity.EmployeeEntity;
 import model.ListModel;
-import model.PatientModel;
-import model.UserModel;
+import model.Entity.PatientEntity;
+import model.Entity.UserEntity;
 import model.TurnoverModel;
 
 /**

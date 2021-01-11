@@ -5,8 +5,8 @@
  */
 package controller;
 
-import dao.DynamicDao;
-import model.UserModel;
+import model.Dao.DynamicDao;
+import model.Entity.UserEntity;
 
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
