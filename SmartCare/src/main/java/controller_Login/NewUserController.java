@@ -10,17 +10,12 @@ package controller_Login;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import dao.DynamicDao;
-import dao.StoredData;
-import dao.StoredData.SqlQueryEnum;
+import model.Entity.EmployeeEntity;
+import model.Entity.PatientEntity;
+import model.Entity.UserEntity;
+import model.Dao.DynamicDao;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.time.LocalDate;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,9 +23,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-
-import model.*;
+import model.Service.PatientService;
+import model.Service.UserService;
+import model.Service.EmployeeService;
 /**
  *
  * @author me-aydin
@@ -53,71 +48,89 @@ public class NewUserController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(false);
         DynamicDao dynamicDao = (DynamicDao)session.getAttribute("dynamicDao");
-        UserModel newUser = (UserModel)session.getAttribute("User");
+        UserEntity newUser = (UserEntity)session.getAttribute("User");
+       
+        UserService userService = new UserService(dynamicDao);
         
+        // DO WE NEED TO BE CASTING IT TO STRING?? Example: (String)request.getParameter("Address")
+        newUser.setUsername(request.getParameter("username"));
+        newUser.setPassword(request.getParameter("password"));
+        newUser.setEmail(request.getParameter("email"));
+        newUser.setPicture(request.getParameter("picUrl"));
+        newUser.setUserRole(request.getParameter("Role"));
         
-        String [] query = new String[6];
-        query[0] = (String)request.getParameter("username");
-        query[1] = (String)request.getParameter("password");
-        query[2] = (String)request.getParameter("email");
-        query[3] = (String)request.getParameter("picUrl");
-        query[4] = (String)request.getParameter("Role");
-        query[5] = (String)request.getParameter("Address");
+        // TODO discuss if we are adding address
+        //newUser.set(request.getParameter("Address"));
         
+        // TODO are these needed?
+        Date date = Date.valueOf(LocalDate.now());
+        int login = 1;
+        int user_status = 1;
+        
+        if(newUser.getUserRole().equals("0")){
+            user_status = 2;
+        }
+        
+        String result = userService.createUser(newUser);
+        
+        // TODO: MOVE INTO USER MODEL
+        String address = request.getParameter("Address");
+   
+        if("User created successfully".equals(result)) {
+            switch(newUser.getUserRole()) {
+            case "0":
+                PatientService patientService = new PatientService(dynamicDao);
                 
-                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-                Date date = Date.valueOf(LocalDate.now());
+                int patientType = Integer.parseInt((String)request.getParameter("patientType"));
                 
+
+                PatientEntity patient = new PatientEntity(newUser.getUniqueUserId(), patientType, address);
                 
-                // THIS WILL TAKE STRING MAKE IT SQL DATE INSERTABLE
-                //String dateCreate = request.getParameter("dateCreate");
-                
-                //SimpleDateFormat formater = new SimpleDateFormat("yyyy-mm-dd");
-                //Date dateCreated = formater.parse(dateCreate);
-                //Date dateCreated = formater.parse();
-                //newDate = dateCreated;
-                    
-                //pst.setDate(6, new java.sql.Date(newDate.getTime()));
-                
-                int login = 1;
-                int user_status = 1;
-                if(query[4].equals("0")){
-                    user_status = 2;
+                String patientReturnResult = patientService.createPatient(patient);
+    
+                if("Patient created".equals(patientReturnResult)){
+                    request.setAttribute("message", "patient "+ patient.getUsername() +" created successfully" );
+                    request.getRequestDispatcher("/login.jsp").forward(request, response);
                 }
-
-                ArrayList params = new ArrayList(Arrays.asList(query[0], query[1], query[2], date, date, login, query[3], user_status));
-                ArrayList result  = newUser.create_User(params, dynamicDao);
+                break;
+            case "1":
+            case "2":
+                double salary;
                 
-                if(result.size() > 1) {
-                    switch(query[4]) {
-                    case "0":
-                        int patientType = Integer.parseInt((String)request.getParameter("patientType"));
-                        ArrayList patient_params = new ArrayList(Arrays.asList(query[5],patientType, result.get(1)));
-                        PatientModel patient = new PatientModel();
-                        patient.create_patient(patient_params,dynamicDao);
-                        request.setAttribute("message", "patient "+ query[0] +" created successfully" );
-                        request.getRequestDispatcher("/login.jsp").forward(request, response);
-                      break;
-                    case "1":
-                        ArrayList doc_params = new ArrayList(Arrays.asList((Double)session.getAttribute("docSalary"), query[5], Integer.parseInt(query[4]), "testpital", result.get(1)));
-                        EmployeeModel employee_doc = new EmployeeModel();
-                        employee_doc.create_Employee(doc_params,dynamicDao);
-                        request.setAttribute("message", "doctor "+ query[0] +" created successfully" );
-                        request.getRequestDispatcher("/login.jsp").forward(request, response);
-                      break;
-                    case "2":
-                        ArrayList nurse_params = new ArrayList(Arrays.asList((Double)session.getAttribute("nurseSalary"), query[5], Integer.parseInt(query[4]), (String)request.getParameter("organizationName"), result.get(1)));
-                        EmployeeModel employee_nurse = new EmployeeModel();
-                        employee_nurse.create_Employee(nurse_params,dynamicDao);
-                        request.setAttribute("message", "nurse "+ query[0] +" created successfully" );
-                        request.getRequestDispatcher("/login.jsp").forward(request, response);
-                      break;
-                    default:
-                        int p = 0;
-                    
+                EmployeeService employeeService = new EmployeeService(dynamicDao);
+                
+                if("1".equals(newUser.getUserRole())){
+                    salary = (Double)session.getAttribute("docSalary");
+                }
+                else{
+                    salary = (Double)session.getAttribute("nurseSalary");
+                }
+                
+                // TODO: ADD ORGANISATION
+                EmployeeEntity employee = new EmployeeEntity(salary, address, Integer.parseInt(newUser.getUserRole()), 0);
+                String employeeReturnResult = employeeService.createEmployee(employee);
+                
+                if("Employee created successfully".equals(employeeReturnResult)) { 
+                    if("1".equals(newUser.getUserRole())){
 
+                        request.setAttribute("message", "doctor "+ employee.getUsername() +" created successfully" );
+                        request.getRequestDispatcher("/login.jsp").forward(request, response);
+                    }  
+                    else
+                    {
+                        request.setAttribute("message", "nurse "+ employee.getUsername() +" created successfully" );
+                        request.getRequestDispatcher("/login.jsp").forward(request, response);
                     }
                 }
+                break; 
+           
+            default:
+                int p = 0;
+                //TODO: ??
+
+
+            }
+        }
                 
 
     }

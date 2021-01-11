@@ -10,9 +10,11 @@ package controller_Login;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import dao.DynamicDao;
-import dao.StoredData;
-import dao.StoredData.SqlQueryEnum;
+import model.Entity.AppointmentEntity;
+import model.Entity.EmployeeEntity;
+import model.Entity.UserEntity;
+import model.Dao.DynamicDao;
+import model.Helper.StoredProcedures;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
@@ -32,6 +34,7 @@ import javax.servlet.http.HttpSession;
 
 
 import model.*;
+import model.Service.EmployeeService;
 /**
  *
  * @author me-aydin
@@ -57,15 +60,17 @@ public class employeeController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(false);
         DynamicDao dynamicDao = (DynamicDao)session.getAttribute("dynamicDao");
-        UserModel user = (UserModel)session.getAttribute("User");
-        EmployeeModel employee = (EmployeeModel)session.getAttribute("Employee");
+        UserEntity user = (UserEntity)session.getAttribute("User");
+        EmployeeEntity employee = (EmployeeEntity)session.getAttribute("Employee");
+        EmployeeService employeeService = new EmployeeService(dynamicDao);
+        
         if (dynamicDao == null)
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         
         String query;
         ListModel listHandler = (ListModel)session.getAttribute("ListHandler");
         query = (String)request.getParameter("employeeOperation");
-        AppointmentModel apointment_handling = new AppointmentModel();
+        AppointmentEntity apointment_handling = new AppointmentEntity();
         
         switch(query){
                 case "recordAppointment":
@@ -82,11 +87,11 @@ public class employeeController extends HttpServlet {
                     
                     ArrayList prescriptionParams = new ArrayList(Arrays.asList(PatientID, medication, isRepeat, notes, AppointmentID));
                     
-                    employee.UpdateAppointment(prescriptionParams, dynamicDao);
+                    employeeService.UpdateAppointment(prescriptionParams, dynamicDao);
                     request.setAttribute("message", "appointment updated successfully");
-                    ArrayList employee_appointments = employee.retrieveEmployeeDisplayableAppointments(dynamicDao);
+                    ArrayList employee_appointments = employeeService.retrieveEmployeeDisplayableAppointments(employee);
                     request.setAttribute("schedule", employee_appointments);
-                    ArrayList employeeDailyAppointments = employee.retrieveEmployeeDailyDisplayableAppointments(dynamicDao);
+                    ArrayList employeeDailyAppointments = employeeService.retrieveEmployeeDailyDisplayableAppointments(employee);
                     request.setAttribute("dailySchedule", employeeDailyAppointments);
                     request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);
                     break;
