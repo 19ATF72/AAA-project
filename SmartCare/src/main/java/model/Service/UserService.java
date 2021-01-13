@@ -50,9 +50,10 @@ public class UserService{
             String[] tempUserStringArray = userString.get(0);
 
             UserEntity user = new UserEntity(Integer.parseInt(tempUserStringArray[0]), tempUserStringArray[1], tempUserStringArray[2], tempUserStringArray[3], tempUserStringArray[4], tempUserStringArray[5], tempUserStringArray[6].equals("1"), tempUserStringArray[7],  Integer.parseInt(tempUserStringArray[8]));
-
+            
             String role = getUserRole(user.getUniqueUserId());
             user.setUserRole(role);
+            
             return user;
         } catch (Exception e) { 
             //FIX

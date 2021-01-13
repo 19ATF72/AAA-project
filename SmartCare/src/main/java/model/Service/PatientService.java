@@ -38,7 +38,7 @@ public class PatientService {
         return result; 
     }
     
-    public PatientEntity getEmployee(int uniqueUserID)
+    public PatientEntity getPatient(int uniqueUserID)
     {
         ArrayList<String[]> result = new ArrayList();
         try {  

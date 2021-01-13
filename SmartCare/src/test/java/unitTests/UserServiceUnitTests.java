@@ -113,4 +113,25 @@ public class UserServiceUnitTests {
         // Assert
         Assert.assertThat(user, new ReflectionEquals(resultUser));
     }
+    
+    
+    @Test
+    public void getUserRole_Success(){
+        
+//        // Arrange
+//        ArrayList<String[]> roleArrayList = new ArrayList<>();
+//        String[] userStringArray = {};
+//        roleArrayList.add(userStringArray);
+//        
+//        // Act
+//        try{
+//            //when(dynamicDao.agnosticQuery(anyString(), anyObject())).thenReturn(userArrayList);
+//            when(dynamicDaoMock.agnosticQuery(anyString(), anyInt())).thenReturn;
+//        }catch(SQLException e){
+//            
+//        }
+//        
+//        // Assert
+       
+    }
 }
