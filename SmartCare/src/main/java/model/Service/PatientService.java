@@ -70,7 +70,7 @@ public class PatientService {
         return result;
     }  
     
-    //    public ArrayList get_patient(ArrayList params, DynamicDao dynamicDao){
+//    public ArrayList get_patient(ArrayList params, DynamicDao dynamicDao){
 //        ArrayList result = new ArrayList();
 //        try { 
 //               ArrayList<String[]> patientString = dynamicDao.agnosticQuery(storedStatements.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getPatient), params.get(0) );
