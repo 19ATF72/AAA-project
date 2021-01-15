@@ -59,17 +59,18 @@ public class NewUserController extends HttpServlet {
         newUser.setPicture(request.getParameter("picUrl"));
         newUser.setUserRole(request.getParameter("Role"));
         
+        
         // TODO discuss if we are adding address
         //newUser.set(request.getParameter("Address"));
-        
+       
         // TODO are these needed?
-        Date date = Date.valueOf(LocalDate.now());
-        int login = 1;
-        int user_status = 1;
-        
-        if(newUser.getUserRole().equals("0")){
-            user_status = 2;
-        }
+//        Date date = Date.valueOf(LocalDate.now());
+//        int login = 1;
+//        int user_status = 1;
+//        
+//        if(newUser.getAccountStatus() == 0){
+//            user_status = 2;
+//        }
         
         String result = userService.createUser(newUser);
         

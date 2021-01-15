@@ -6,6 +6,7 @@ model\Helper\Enums$SqlQueryEnum.class
 model\Service\UserService.class
 controller\ViewAppointments.class
 controller_Login\employeeController.class
+model\ListModel.class
 controller\Book.class
 controller\listener.class
 model\Entity\PatientEntity.class
@@ -13,8 +14,8 @@ model\Service\PatientService.class
 model\TurnoverModel.class
 controller_Login\PatientController.class
 model\PatientModelInterface.class
+controller_Login\Login.class
 controller\TurnoverController.class
-model\Dao\DynamicDao.class
 model\Service\AppointmentService.class
 model\Entity\Role.class
 controller_Login\NewUserController.class
