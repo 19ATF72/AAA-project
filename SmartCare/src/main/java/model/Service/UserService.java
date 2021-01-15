@@ -36,7 +36,7 @@ public class UserService{
             result = "User created successfully";
             //result.add(uniqueUserId);
            
-        } catch (Exception e) {
+        } catch (Exception e) {          
             result = "Email already registered ";
         }
         
@@ -46,14 +46,15 @@ public class UserService{
     public UserEntity loginUser(String email, String password)
     {    
         try { 
-                ArrayList<String[]> user_string = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.LoginUser), email, password);
-                String[] tempUserStringArray = user_string.get(0);
+            ArrayList<String[]> userString = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.LoginUser), email, password);
+            String[] tempUserStringArray = userString.get(0);
 
-                UserEntity user = new UserEntity(Integer.parseInt(tempUserStringArray[0]), tempUserStringArray[1], tempUserStringArray[2], tempUserStringArray[3], tempUserStringArray[4], tempUserStringArray[5], tempUserStringArray[6].equals("1"), tempUserStringArray[7],  Integer.parseInt(tempUserStringArray[8]));
-                
-                String role = getUserRole(user.getUniqueUserId());
-                user.setUserRole(role);
-                return user;
+            UserEntity user = new UserEntity(Integer.parseInt(tempUserStringArray[0]), tempUserStringArray[1], tempUserStringArray[2], tempUserStringArray[3], tempUserStringArray[4], tempUserStringArray[5], tempUserStringArray[6].equals("1"), tempUserStringArray[7],  Integer.parseInt(tempUserStringArray[8]));
+            
+            String role = getUserRole(user.getUniqueUserId());
+            user.setUserRole(role);
+            
+            return user;
         } catch (Exception e) { 
             //FIX
             //result.add("email or password wrong");

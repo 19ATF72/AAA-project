@@ -55,7 +55,7 @@ import model.Service.PatientService;
  * 
  * @date  last_review date
  */
-@WebServlet(name = "Login", urlPatterns = {"/Login.do"})
+@WebServlet(name = "Login", urlPatterns = {"/"})
 public class Login extends HttpServlet {
 
     /**
@@ -113,10 +113,8 @@ public class Login extends HttpServlet {
         //uncoment to populate appointment slots type table
         //dynamicDao.addTimeSlots();
         
-        
         String query = (String)request.getParameter("LoginOperation");
-        
- 
+       
         switch(query) {
             case "NewUser":
                 request.getRequestDispatcher("/WEB-INF/NewUser.jsp").forward(request, response);

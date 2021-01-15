@@ -4,7 +4,7 @@
     Author     : me-aydin
 --%>
 
-<%@page import="dao.DynamicDao"%>
+<%@page import="model.Dao.DynamicDao"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
