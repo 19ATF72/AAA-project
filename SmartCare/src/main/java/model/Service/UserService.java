@@ -7,6 +7,7 @@ package model.Service;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;  
 import java.sql.Date;  
+import java.time.LocalDate;  
 import java.util.ArrayList;
 import model.Dao.DynamicDao;
 import model.Helper.StoredProcedures;
@@ -33,11 +34,12 @@ public class UserService{
         
         String result = "";
         
-        user.setDateCreated();
+        Date date;
+        date = Date.valueOf(LocalDate.now());
         
         try {
             int uniqueUserId = (Integer)dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.NewUser), user.getUsername(), user.getPassword(), user.getEmail(), 
-                    user.getDateCreated(), user.getDateCreated(), user.getIsLoggedIn(), user.getPicture(), user.getAccountStatus()).get(0);
+                    date, date, user.getIsLoggedIn(), user.getPicture(), user.getAccountStatus()).get(0);
             user.setUniqueUserId(uniqueUserId);
            
             result = "User created successfully";
@@ -63,15 +65,13 @@ public class UserService{
     public UserEntity loginUser(String email, String password)
     {    
         
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy"); 
         try { 
             ArrayList<String[]> userString = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.LoginUser), email, password);
             String[] tempUserStringArray = userString.get(0);
-
-            Date dateCreated = (Date)df.parse(tempUserStringArray[4]);    
-            Date lastAccessed = (Date)df.parse(tempUserStringArray[5]);
-               
-            UserEntity user = new UserEntity(Integer.parseInt(tempUserStringArray[0]), tempUserStringArray[1], tempUserStringArray[2], tempUserStringArray[3], dateCreated, lastAccessed, tempUserStringArray[6].equals("1"), tempUserStringArray[7],  Integer.parseInt(tempUserStringArray[8]));
+              
+            String userRole = getUserRole(Integer.parseInt(tempUserStringArray[0]));
+            
+            UserEntity user = new UserEntity(Integer.parseInt(tempUserStringArray[0]), tempUserStringArray[1], tempUserStringArray[2], tempUserStringArray[3], tempUserStringArray[4], tempUserStringArray[5], tempUserStringArray[6].equals("1"), tempUserStringArray[7],  Integer.parseInt(tempUserStringArray[8]), userRole);
             
             String role = getUserRole(user.getUniqueUserId());
             user.setUserRole(role);
@@ -79,6 +79,8 @@ public class UserService{
             return user;
         } catch (Exception e) { 
             //FIX
+            
+            Exception v = e;
             //result.add("email or password wrong");
         }  
         //MAYBE CHANGE

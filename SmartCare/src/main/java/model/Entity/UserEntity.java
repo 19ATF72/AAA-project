@@ -4,10 +4,6 @@
  * and open the template in the editor.
  */
 package model.Entity;
-
-import java.text.SimpleDateFormat;
-import java.sql.Date;
-import java.time.LocalDate;
 /**
  *
  * @author rob
@@ -28,8 +24,8 @@ public class UserEntity {
     protected String password;
     protected String email; 
     
-    protected Date dateCreated;
-    protected Date lastAccessed;
+    protected String dateCreated;
+    protected String lastAccessed;
     
     protected boolean loggedIn;
     
@@ -43,7 +39,7 @@ public class UserEntity {
     public UserEntity(){
     }
     
-    public UserEntity(int uniqueUserId, String username, String password, String email, Date dateCreated, Date lastAccessed, Boolean loggedIn, String picture, int accountStatus){
+    public UserEntity(int uniqueUserId, String username, String password, String email, String dateCreated, String lastAccessed, Boolean loggedIn, String picture, int accountStatus, String userRole){
         this.uniqueUserId = uniqueUserId;
         this.username = username;
         this.password = password;
@@ -53,6 +49,7 @@ public class UserEntity {
         this.loggedIn = loggedIn;
         this.picture = picture;
         this.accountStatus = accountStatus;
+        this.userRole = userRole;
     }
     
     public void setIsLoggedIn(boolean loggedIn){
@@ -88,21 +85,19 @@ public class UserEntity {
         return email; 
     }   
     
-    public void setDateCreated(){
-        Date date;
-        date = Date.valueOf(LocalDate.now());
-        this.dateCreated = date;
+    public void setDateCreated(String dateCreated){
+        this.dateCreated = dateCreated;
     }
     
-    public Date getDateCreated(){
+    public String getDateCreated(){
         return dateCreated; 
     }
     
-    public void Date(Date lastAccessed){
+    public void Date(String lastAccessed){
         this.lastAccessed = lastAccessed;
     }
     
-    public Date getLastAccessed(){
+    public String getLastAccessed(){
         return lastAccessed; 
     }
     
