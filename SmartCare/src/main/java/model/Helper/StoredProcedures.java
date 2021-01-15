@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao;
+package model.Helper;
 
 import java.util.EnumMap;
 
@@ -12,62 +12,11 @@ import java.util.EnumMap;
  * @author rob
  */
 
-public class StoredData {
-    
-    public static final int pending =  1;
-    public static final int approved = 2;
-    public static final int blocked =  3;
-    
-    public enum SqlQueryEnum{
-        fetchAppointment,
-        deleteUser,
-        LoginUser,
-        NewUser,
-        CheckForUsername,
-        NewEmployee,
-        NewPatient,
-        GetOrganizationByName,
-        getPatientsByType,
-        getPatients,
-        getPatientsByTypeBetweenDates,
-        getPatientsBetweenDates,
-        getAppointment,
-        getEmployee,
-        getAllEmployees,
-        getEmployeeAppointments,
-        getEmployeeAppointmentsInDay,
-        getEmployeeFreeAppointmentsInDay,
-        getAllEmployeesNamesTypesAndIds,
-        getEmployeeSalary,
-        NewEmployeeAppointmentSlot,
-        getPatientAppointments,
-        getPatient,
-        NewAppointment,
-        getAllPossibleAppointments,
-        getInvoicesByType,
-        getInvoices,
-        getInvoicesByTypeBetweenDates,
-        getInvoicesBetweenDates,
-        getPatientDisplayableAppointments,
-        getTurnoverByDates,
-        getIncomeByDates,
-        getOutgoingsByDates,
-        getTurnoverByTypeBetweenDates,
-        getIncomeByTypeBetweenDates,
-        getOutgoingsByTypeBetweenDates,
-        getEmployeeDisplayableAppointments,
-        getEmployeeDisplayableDailyAppointments,
-        updateAppointment,
-        newPrescription,      
-        insertOrganisation,
-        getOrganisation,
-        deleteOrganisation,
-        listAllOrganisations
-    }
-    
+public class StoredProcedures extends Enums{
+        
     public EnumMap<SqlQueryEnum, String> sqlQueryMap = new EnumMap<>(SqlQueryEnum.class);
     
-    public StoredData() {
+    public StoredProcedures() {
         sqlQueryMap.put(SqlQueryEnum.fetchAppointment, "Test");
         sqlQueryMap.put(SqlQueryEnum.deleteUser, "DELETE FROM users WHERE mail=?");
         sqlQueryMap.put(SqlQueryEnum.LoginUser, "SELECT * FROM users WHERE email=? AND pass=?");
@@ -110,7 +59,6 @@ public class StoredData {
         sqlQueryMap.put(SqlQueryEnum.getInvoices, "SELECT u.uuid,u.username,p.address,pt.type_name,a.aid,a.duration,a.date,a.charge,aps.appointment_status FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID INNER JOIN appointment a ON p.PID = a.PATIENT_PID INNER JOIN appointment_status aps ON a.APPOINTMENT_STATUS_ASID = aps.asid WHERE aps.asid = 4 FETCH FIRST 10 ROWS ONLY");
         sqlQueryMap.put(SqlQueryEnum.getInvoicesByTypeBetweenDates, "SELECT u.uuid,u.username,p.address,pt.type_name,a.aid,a.duration,a.date,a.charge,aps.appointment_status FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID INNER JOIN appointment a ON p.PID = a.PATIENT_PID INNER JOIN appointment_status aps ON a.APPOINTMENT_STATUS_ASID = aps.asid WHERE aps.asid = 4 AND p.PATIENT_TYPE_PTID = ? AND (a.date BETWEEN ? AND ?) FETCH FIRST 10 ROWS ONLY");
         sqlQueryMap.put(SqlQueryEnum.getInvoicesBetweenDates, "SELECT u.uuid,u.username,p.address,pt.type_name,a.aid,a.duration,a.date,a.charge,aps.appointment_status FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID INNER JOIN appointment a ON p.PID = a.PATIENT_PID INNER JOIN appointment_status aps ON a.APPOINTMENT_STATUS_ASID = aps.asid WHERE aps.asid = 4 AND (a.date BETWEEN ? AND ?) FETCH FIRST 10 ROWS ONLY");
-        sqlQueryMap.put(SqlQueryEnum.getEmployee, "SELECT * FROM employee WHERE users_uuid=?");
         sqlQueryMap.put(SqlQueryEnum.insertOrganisation, "INSERT INTO organisation (name, organisation_type_oid, address, postcode, phonenumber) VALUES (?, ?, ?, ?, ?)");
         sqlQueryMap.put(SqlQueryEnum.getOrganisation, "SELECT * FROM organisation WHERE name = ?");
         sqlQueryMap.put(SqlQueryEnum.getOrganisation, "DELETE FROM organisation where name = ?");

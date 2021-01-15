@@ -10,9 +10,12 @@ package controller_Login;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import dao.DynamicDao;
-import dao.StoredData;
-import dao.StoredData.SqlQueryEnum;
+import model.Entity.AppointmentEntity;
+import model.Entity.EmployeeEntity;
+import model.Entity.PatientEntity;
+import model.Entity.UserEntity;
+import model.Dao.DynamicDao;
+import model.Helper.StoredProcedures;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
@@ -32,15 +35,14 @@ import javax.servlet.http.HttpSession;
 
 
 import model.*;
+import model.Service.AppointmentService;
+import model.Service.PatientService;
 /**
  *
  * @author me-aydin
  */
 @WebServlet(name = "PatientController", urlPatterns = {"/WEB-INF/PatientController.do"})
 public class PatientController extends HttpServlet {
-
-   
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -57,16 +59,16 @@ public class PatientController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(false);
         DynamicDao dynamicDao = (DynamicDao)session.getAttribute("dynamicDao");
-        UserModel user = (UserModel)session.getAttribute("User");
-        PatientModel patient = (PatientModel)session.getAttribute("Patient");
+        UserEntity user = (UserEntity)session.getAttribute("User");
+        PatientEntity patient = (PatientEntity)session.getAttribute("Patient");
         if (dynamicDao == null)
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         
         String query;
         ListModel listHandler = (ListModel)session.getAttribute("ListHandler");
         query = (String)request.getParameter("patientOperation");
-        AppointmentModel apointment_handling = new AppointmentModel();
-        
+        AppointmentService appointmentService = new AppointmentService(dynamicDao);
+        PatientService patientService = new PatientService(dynamicDao);
         switch(query){
                 case "bookAppointment":
                     request.getSession().setAttribute("doctors", listHandler.getDoctorsForDisplay(dynamicDao));
@@ -75,7 +77,7 @@ public class PatientController extends HttpServlet {
                 case "choosen":
                     request.getSession().setAttribute("choosenDoctor", Integer.parseInt(request.getParameter("docChooice")));
                     request.getSession().setAttribute("choosenDate", (String)request.getParameter("bookingDate"));
-                    ArrayList<String[]> slots = apointment_handling.retrieveAvaialbleAppointmentsForDoctor((Integer)session.getAttribute("choosenDoctor"),(String)session.getAttribute("choosenDate"), dynamicDao);
+                    ArrayList<String[]> slots = appointmentService.retrieveAvaialbleAppointmentsForDoctor((Integer)session.getAttribute("choosenDoctor"),(String)session.getAttribute("choosenDate"));
                     ArrayList lengths  = new ArrayList();
                     ArrayList temp_lengths  = new ArrayList();
                     Integer lengthIndex = 1;
@@ -121,7 +123,7 @@ public class PatientController extends HttpServlet {
                           request.getRequestDispatcher("/WEB-INF/book.jsp").forward(request, response);
                       }
                       
-                      EmployeeModel doctor = new EmployeeModel();
+                      EmployeeEntity doctor = new EmployeeEntity();
                       
                       ArrayList slot_ids = new ArrayList();
                       for (int slot_id = 0; slot_id < formatedSlots.size(); slot_id++) {
@@ -136,15 +138,16 @@ public class PatientController extends HttpServlet {
                           request.setAttribute("message", "you cannot book more than hour");
                           request.getRequestDispatcher("/WEB-INF/book.jsp").forward(request, response);
                       }
-                      Double doc_salary = doctor.getEmployeeSalary(eid, dynamicDao);
+                      //Double doc_salary = doctor.getEmployeeSalary(eid, dynamicDao);
                       double charge = (Double)session.getAttribute("clientCharge")*ChosenSlots.length;
-                      ArrayList appointment_params = new ArrayList(Arrays.asList(ChosenSlots.length, (Double)charge, session.getAttribute("choosenDate"), start, end, patient.getPatientID(), eid, patient.getPatientType(),1, slot_ids));
-                      apointment_handling.CreateAppointment(appointment_params, dynamicDao);
+                      ArrayList appointment_params = new ArrayList(Arrays.asList(ChosenSlots.length, (Double)charge, session.getAttribute("choosenDate"), start, end, patient.getPatientId(), eid, patient.getPatientType(),1, slot_ids));
+                      appointmentService.CreateAppointment(appointment_params);
                       request.getSession().setAttribute("lengths", null);
                       request.getSession().setAttribute("choosenDoctor", null);
                       request.getSession().setAttribute("choosenDate", null);
                       request.setAttribute("message", "booked successfully");
-                      ArrayList appointments = patient.retrievePatientDisplayableAppointments(dynamicDao);
+
+                      ArrayList appointments = patientService.retrievePatientDisplayableAppointments(patient);
                       request.setAttribute("schedule", appointments);
                       request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
                       break;

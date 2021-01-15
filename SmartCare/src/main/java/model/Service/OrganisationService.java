@@ -3,35 +3,43 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao;
+package model.Service;
 
+import model.Helper.StoredProcedures;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import model.OrganisationEntity;
-import dao.StoredData.SqlQueryEnum;
+import model.Entity.OrganisationEntity;
+import model.Helper.Enums.SqlQueryEnum;
+import model.Dao.DynamicDao;
 
 
 /**
  *
  * @author rob
  */
-public class OrganisationDao extends DynamicDao{
+public class OrganisationService{
     
-    StoredData sd;
+    protected DynamicDao dynamicDao;
+    
+    public OrganisationService(DynamicDao dynamicDao){
+        this.dynamicDao = dynamicDao;
+    }
+    
+    StoredProcedures sp;
     
     public ArrayList<OrganisationEntity> listAllOrganisations() throws SQLException {
         ArrayList<OrganisationEntity> organisationList = new ArrayList<>();
-        sd = new StoredData();
+        sp = new StoredProcedures();
 
-        ArrayList<String[]> result = agnostic_query(sd.sqlQueryMap.get(SqlQueryEnum.getOrganisation), "");
+        ArrayList<String[]> result = dynamicDao.agnosticQuery(sp.sqlQueryMap.get(SqlQueryEnum.getOrganisation), "");
         
         for(int i=0; i<result.size(); i++)
         {
-            String[] tempOrganisationString = result.get(i);
-            OrganisationEntity organisation = new OrganisationEntity(tempOrganisationString[0], tempOrganisationString[1], tempOrganisationString[2],
-                    tempOrganisationString[3], tempOrganisationString[4], tempOrganisationString[5]);
+            String[] tempOrganisationStringArray = result.get(i);
+            OrganisationEntity organisation = new OrganisationEntity(tempOrganisationStringArray[0], tempOrganisationStringArray[1], tempOrganisationStringArray[2],
+                    tempOrganisationStringArray[3], tempOrganisationStringArray[4], tempOrganisationStringArray[5]);
             organisationList.add(organisation); 
         }
          
@@ -39,15 +47,15 @@ public class OrganisationDao extends DynamicDao{
     }
     
     public void insertOrganisation(OrganisationEntity organisation) throws SQLException {
-        sd = new StoredData();
+        sp = new StoredProcedures();
        
-        agnostic_query(sd.sqlQueryMap.get(SqlQueryEnum.insertOrganisation),  organisation.getName(), organisation.getOrgType(), 
+        dynamicDao.agnosticQuery(sp.sqlQueryMap.get(SqlQueryEnum.insertOrganisation),  organisation.getName(), organisation.getOrgType(), 
                 organisation.getAddress(), organisation.getPostcode(), organisation.getPhoneNum());
     }
     
     public void deleteOrganisation(OrganisationEntity organisation) throws SQLException {
         
-        agnostic_query(sd.sqlQueryMap.get(SqlQueryEnum.deleteOrganisation), organisation.getOId());
+        dynamicDao.agnosticQuery(sp.sqlQueryMap.get(SqlQueryEnum.deleteOrganisation), organisation.getOId());
         
         //need to turn to bool 
         //return rowDeleted;     
@@ -56,9 +64,9 @@ public class OrganisationDao extends DynamicDao{
     public OrganisationEntity getOrganisation(String oId) throws SQLException {
         OrganisationEntity organisation = null;
         
-        sd = new StoredData();
+        sp = new StoredProcedures();
        
-        ArrayList<String[]> result = agnostic_query(sd.sqlQueryMap.get(SqlQueryEnum.getOrganisation), oId);
+        ArrayList<String[]> result = dynamicDao.agnosticQuery(sp.sqlQueryMap.get(SqlQueryEnum.getOrganisation), oId);
         String[] orgString = result.get(0);
         
         organisation = new OrganisationEntity(orgString[0], orgString[1], orgString[2], orgString[3], orgString[4], orgString[5]);
