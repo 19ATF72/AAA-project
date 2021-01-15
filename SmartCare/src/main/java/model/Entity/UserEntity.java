@@ -4,11 +4,6 @@
  * and open the template in the editor.
  */
 package model.Entity;
-
-import model.Helper.Enums;
-import java.util.ArrayList;
-import model.Dao.DynamicDao;
-import model.Helper.StoredProcedures;
 /**
  *
  * @author rob
@@ -44,7 +39,7 @@ public class UserEntity {
     public UserEntity(){
     }
     
-    public UserEntity(int uniqueUserId, String username, String password, String email, String dateCreated, String lastAccessed, Boolean loggedIn, String picture, int accountStatus){
+    public UserEntity(int uniqueUserId, String username, String password, String email, String dateCreated, String lastAccessed, Boolean loggedIn, String picture, int accountStatus, String userRole){
         this.uniqueUserId = uniqueUserId;
         this.username = username;
         this.password = password;
@@ -54,6 +49,7 @@ public class UserEntity {
         this.loggedIn = loggedIn;
         this.picture = picture;
         this.accountStatus = accountStatus;
+        this.userRole = userRole;
     }
     
     public void setIsLoggedIn(boolean loggedIn){
@@ -97,7 +93,7 @@ public class UserEntity {
         return dateCreated; 
     }
     
-    public void setLastAccessed(String lastAccessed){
+    public void Date(String lastAccessed){
         this.lastAccessed = lastAccessed;
     }
     

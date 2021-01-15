@@ -89,7 +89,6 @@ public class Login extends HttpServlet {
         //TODO delete this from other controller it is now saved on the session 
         StoredProcedures storedData = new StoredProcedures(); 
         
-        // IS THIS NEEDED?? I thought it was created in the listener?
         DynamicDao dynamicDao = new DynamicDao();
         
         
