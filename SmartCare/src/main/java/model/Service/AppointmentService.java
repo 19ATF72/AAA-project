@@ -22,11 +22,10 @@ public class AppointmentService {
         this.dynamicDao = dynamicDao;
     }
     
-    public ArrayList<String[]> retrieveAvaialbleAppointmentsForDoctor(Integer doctor_id, String Date){   
-        //get all free appointments for chosen doctor
+    public ArrayList<String[]> retrieveAvaialbleAppointmentsForDoctor(int doctorId, String date){   
         ArrayList doctor_appointments = new ArrayList();
         try {
-            doctor_appointments = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getEmployeeFreeAppointmentsInDay), doctor_id, Date);
+            doctor_appointments = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getEmployeeFreeAppointmentsInDay), doctorId, date);
             if (doctor_appointments.size() == 0) {
                 try {
                     doctor_appointments = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getAllPossibleAppointments));
