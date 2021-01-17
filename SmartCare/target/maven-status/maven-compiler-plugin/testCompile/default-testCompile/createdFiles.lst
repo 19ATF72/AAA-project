@@ -1,2 +1,2 @@
-unitTests\UserServiceUnitTests.class
-unitTests\PatientServiceUnitTests.class
+unitTests/PatientServiceUnitTests.class
+unitTests/UserServiceUnitTests.class
