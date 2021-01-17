@@ -112,7 +112,7 @@ public class UserService{
     
     public String getUserRole(int uniqueUserId){    
         StoredProcedures.SqlQueryEnum[] userRoleEnums = {StoredProcedures.SqlQueryEnum.getPatient_Uuid, StoredProcedures.SqlQueryEnum.getEmployee_Uuid};
-        String[] userRoleStringArray = {"employee", "patient"};
+        String[] userRoleStringArray = {"patient", "employee"};
         EmployeeService employeeService = new EmployeeService(dynamicDao);
         ArrayList roleArrayLst = new ArrayList();
         
@@ -124,7 +124,7 @@ public class UserService{
                 result = "admin";
             }
             
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 2; i++) {
                 roleArrayLst = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(userRoleEnums[i]), uniqueUserId);  
                 
                 if(roleArrayLst.size() != 0){

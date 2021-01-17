@@ -66,7 +66,6 @@ public class AppointmentService {
                     
                     appointmentEntity.setUniqueAppointmentId(Integer.parseInt(patientsAppointmentsArray[0]));
                     appointmentEntity.setDuration(patientsAppointmentsArray[1]);
-                    appointmentEntity.setNotes(patientsAppointmentsArray[2]);
                     appointmentEntity.setCharge(Double.parseDouble(patientsAppointmentsArray[3]));
                     appointmentEntity.setDateStr(patientsAppointmentsArray[4]);
                     appointmentEntity.setDatePaidStr(patientsAppointmentsArray[5]);
@@ -75,8 +74,13 @@ public class AppointmentService {
                     appointmentEntity.setPatientId(Integer.parseInt(patientsAppointmentsArray[8]));
                     appointmentEntity.setEmployeeId(Integer.parseInt(patientsAppointmentsArray[9]));
                     appointmentEntity.setType(Integer.parseInt(patientsAppointmentsArray[10]));
-                    appointmentEntity.setPerscriptionId(Integer.parseInt(patientsAppointmentsArray[11]));
                     appointmentEntity.setStatus(Integer.parseInt(patientsAppointmentsArray[12])); 
+                    
+                    if(patientsAppointmentsArray[2] != null)
+                        appointmentEntity.setNotes(patientsAppointmentsArray[2]);
+                    if(patientsAppointmentsArray[11] != null)
+                        appointmentEntity.setPerscriptionId(Integer.parseInt(patientsAppointmentsArray[11]));
+                    
                     
                     EmployeeEntity tempEmployee = employeeService.fetchEmployee_EId(appointmentEntity.getEmployeeId()); 
                     UserEntity tempUser = userService.getUser(tempEmployee.getUniqueUserId());

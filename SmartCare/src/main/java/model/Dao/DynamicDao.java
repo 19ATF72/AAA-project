@@ -286,7 +286,6 @@ public void addTimeSlots() {
      */
      public static void main(String[] args) throws SQLException {
       
-       
         DynamicDao bookingDao = new DynamicDao();
         Connection conn = null;
         try {

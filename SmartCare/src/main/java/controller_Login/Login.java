@@ -127,7 +127,6 @@ public class Login extends HttpServlet {
 
                 if (user != null) {
                     int userStatus = user.getAccountStatus();
-
                 switch (userStatus) {
                     case Enums.APPROVED:
                         session.setAttribute("User", user);
