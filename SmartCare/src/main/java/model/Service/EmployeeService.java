@@ -41,11 +41,11 @@ public class EmployeeService {
         return result; 
     }
 
-    public EmployeeEntity getEmployee(int uniqueUserID)
+    public EmployeeEntity fetchEmployee_Uuid(int uniqueUserID)
     {
         ArrayList<String[]> result = new ArrayList();
         try {  
-            result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getEmployee), uniqueUserID);
+            result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getEmployee_Uuid), uniqueUserID);
             
             String[] tempEmployeeEntityString = result.get(0);
             EmployeeEntity employee = new EmployeeEntity(Integer.parseInt(tempEmployeeEntityString[0]), Double.parseDouble(tempEmployeeEntityString[1]), 
@@ -57,6 +57,24 @@ public class EmployeeService {
         }
         return null;
     }
+    
+    public EmployeeEntity fetchEmployee_EId(int eId)
+    {
+        ArrayList<String[]> result = new ArrayList();
+        try {  
+            result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getEmployee_Eid), eId);
+            
+            String[] tempEmployeeEntityString = result.get(0);
+            EmployeeEntity employee = new EmployeeEntity(Integer.parseInt(tempEmployeeEntityString[0]), Double.parseDouble(tempEmployeeEntityString[1]), 
+                    tempEmployeeEntityString[2], Integer.parseInt(tempEmployeeEntityString[3]), Integer.parseInt(tempEmployeeEntityString[4]), Integer.parseInt(tempEmployeeEntityString[5]));
+            
+            return employee; 
+        } catch (Exception e) {
+           //THROW ERROR
+        }
+        return null;
+    }
+    
 
     public ArrayList retrieveEmployeeDisplayableAppointments(EmployeeEntity employee){
 

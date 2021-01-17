@@ -32,6 +32,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.*;
+import model.Entity.AppointmentEntity;
+import model.Service.AppointmentService;
 import model.Service.EmployeeService;
 import model.Service.UserService;
 import model.Service.PatientService;
@@ -91,8 +93,6 @@ public class Login extends HttpServlet {
         
         DynamicDao dynamicDao = new DynamicDao();
         
-        
-        
         ListModel listHandler = new ListModel();
         UserEntity user = new UserEntity();
         UserService userService = new UserService(dynamicDao);
@@ -127,7 +127,6 @@ public class Login extends HttpServlet {
 
                 if (user != null) {
                     int userStatus = user.getAccountStatus();
-
                 switch (userStatus) {
                     case Enums.APPROVED:
                         session.setAttribute("User", user);
@@ -139,13 +138,14 @@ public class Login extends HttpServlet {
                                 session.setAttribute("Patient", patient);
 
                                 //retrieve appointment for display and senthem to the page
-                                ArrayList appointments = patientService.retrievePatientDisplayableAppointments(patient);
-                                request.setAttribute("schedule", appointments);
+                                //ArrayList appointments = patientService.retrievePatientDisplayableAppointments(patient);
+                                
+                                listPatientAppointments(dynamicDao, request, patient.getPatientId());   
                                 request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
                                 break;
                             case "employee":
                                 EmployeeService employeeService = new EmployeeService(dynamicDao);
-                                EmployeeEntity employee = employeeService.getEmployee(user.getUniqueUserId());
+                                EmployeeEntity employee = employeeService.fetchEmployee_Uuid(user.getUniqueUserId());
                                 employee.setEmployeeEntityFromUser(user);
                                 session.setAttribute("Employee", employee);
 
@@ -173,6 +173,17 @@ public class Login extends HttpServlet {
                 }
         }
         
+    }
+    
+    private void listPatientAppointments(DynamicDao dynamicDao, HttpServletRequest request, int patientId){
+        AppointmentService appointmentService = new AppointmentService(dynamicDao);
+        ArrayList<AppointmentEntity> patientsAppointments = new ArrayList();
+        
+        
+        patientsAppointments = appointmentService.getPatientsAppointments(patientId);
+       
+        
+        request.setAttribute("patientsAppointments", patientsAppointments);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

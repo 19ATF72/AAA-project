@@ -15,6 +15,7 @@ import model.Entity.EmployeeEntity;
 import model.Entity.PatientEntity;
 import model.Entity.UserEntity;
 import model.Dao.DynamicDao;
+import model.Service.AppointmentService;
 import model.Helper.StoredProcedures;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -104,6 +105,7 @@ public class PatientController extends HttpServlet {
                     }
                     request.setAttribute("lengths", lengths);
                     request.getSession().setAttribute("lengths", lengths);
+                    
                     request.getRequestDispatcher("/WEB-INF/book.jsp").forward(request, response);
                     break;
                 case "checkPrescription":
@@ -147,8 +149,12 @@ public class PatientController extends HttpServlet {
                       request.getSession().setAttribute("choosenDate", null);
                       request.setAttribute("message", "booked successfully");
 
-                      ArrayList appointments = patientService.retrievePatientDisplayableAppointments(patient);
-                      request.setAttribute("schedule", appointments);
+        
+                      ArrayList<AppointmentEntity> patientsAppointments = new ArrayList();
+                      patientsAppointments = appointmentService.getPatientsAppointments(patient.getPatientId());
+       
+        
+                      request.setAttribute("patientsAppointments", patientsAppointments);
                       request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
                       break;
                  case "list":

@@ -53,7 +53,7 @@ public class NewUserController extends HttpServlet {
         UserService userService = new UserService(dynamicDao);
         
         // DO WE NEED TO BE CASTING IT TO STRING?? Example: (String)request.getParameter("Address")
-        newUser.setUsername(request.getParameter("username"));
+        newUser.setUserName(request.getParameter("username"));
         newUser.setPassword(request.getParameter("password"));
         newUser.setEmail(request.getParameter("email"));
         newUser.setPicture(request.getParameter("picUrl"));
@@ -77,7 +77,7 @@ public class NewUserController extends HttpServlet {
                 String patientReturnResult = patientService.createPatient(patient);
     
                 if("Patient created".equals(patientReturnResult)){
-                    request.setAttribute("message", "patient "+ patient.getUsername() +" created successfully" );
+                    request.setAttribute("message", "patient "+ patient.getUserName() +" created successfully" );
                     request.getRequestDispatcher("/login.jsp").forward(request, response);
                 }
                 break;
@@ -101,12 +101,12 @@ public class NewUserController extends HttpServlet {
                 if("Employee created successfully".equals(employeeReturnResult)) { 
                     if("1".equals(newUser.getUserRole())){
 
-                        request.setAttribute("message", "doctor "+ employee.getUsername() +" created successfully" );
+                        request.setAttribute("message", "doctor "+ employee.getUserName() +" created successfully" );
                         request.getRequestDispatcher("/login.jsp").forward(request, response);
                     }  
                     else
                     {
-                        request.setAttribute("message", "nurse "+ employee.getUsername() +" created successfully" );
+                        request.setAttribute("message", "nurse "+ employee.getUserName() +" created successfully" );
                         request.getRequestDispatcher("/login.jsp").forward(request, response);
                     }
                 }
