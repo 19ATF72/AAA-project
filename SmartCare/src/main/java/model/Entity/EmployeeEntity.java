@@ -35,12 +35,21 @@ public class EmployeeEntity extends UserEntity {
     public EmployeeEntity() {
     }
     
-    public EmployeeEntity(int employeeId, double salary, String address, int organisation, int employeeRole) {
+    public EmployeeEntity(int employeeId, double salary, String address, int employeeRole, int organisation) {
         this.employeeId = employeeId;
         this.salary = salary;
         this.address = address; 
         this.organisation = organisation;
         this.employeeRole = employeeRole;
+    }
+    
+    public EmployeeEntity(int employeeId, double salary, String address, int employeeRole, int organisation, int uniqueUserId) {
+        this.employeeId = employeeId;
+        this.salary = salary;
+        this.address = address; 
+        this.organisation = organisation;
+        this.employeeRole = employeeRole;
+        this.uniqueUserId = uniqueUserId;
     }
     
     public EmployeeEntity(double salary, String address, int employeeRole, int organisation) {
@@ -52,7 +61,7 @@ public class EmployeeEntity extends UserEntity {
     
     public void setEmployeeEntityFromUser(UserEntity user) {
         this.uniqueUserId = user.getUniqueUserId();
-        this.username = user.getUsername();
+        this.userName = user.getUserName();
         this.password = user.getPassword();
         this.email = user.getEmail();
         this.dateCreated = user.getDateCreated();

@@ -20,7 +20,7 @@ public class UserEntity {
     
     protected int uniqueUserId; 
     
-    protected String username;
+    protected String userName;
     protected String password;
     protected String email; 
     
@@ -39,9 +39,9 @@ public class UserEntity {
     public UserEntity(){
     }
     
-    public UserEntity(int uniqueUserId, String username, String password, String email, String dateCreated, String lastAccessed, Boolean loggedIn, String picture, int accountStatus, String userRole){
+    public UserEntity(int uniqueUserId, String userName, String password, String email, String dateCreated, String lastAccessed, Boolean loggedIn, String picture, int accountStatus, String userRole){
         this.uniqueUserId = uniqueUserId;
-        this.username = username;
+        this.userName = userName;
         this.password = password;
         this.email = email;
         this.dateCreated = dateCreated;
@@ -61,12 +61,12 @@ public class UserEntity {
     }
     
     
-    public void setUsername(String username){
-        this.username = username;
+    public void setUserName(String userName){
+        this.userName = userName;
     }
     
-    public String getUsername(){
-        return username; 
+    public String getUserName(){
+        return userName; 
     }
  
     public void setPassword(String password){

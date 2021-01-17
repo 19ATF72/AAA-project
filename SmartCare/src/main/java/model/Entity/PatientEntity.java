@@ -38,7 +38,7 @@ public class PatientEntity extends UserEntity {
     
     public void setPatientEntityFromUser(UserEntity user){
         this.uniqueUserId = user.getUniqueUserId();
-        this.username = user.getUsername();
+        this.userName = user.getUserName();
         this.password = user.getPassword();
         this.email = user.getEmail();
         this.dateCreated = user.getDateCreated();
