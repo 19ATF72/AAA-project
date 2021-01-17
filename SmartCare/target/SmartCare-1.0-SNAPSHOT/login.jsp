@@ -1,52 +1,55 @@
 <%-- 
     Document   : driver
-    Created on : 01-Nov-2015, 15:18:08
-    Author     : me-aydin
+    Created on : 16-Jan-2020, 15:18:08
+    Author     : micah
 --%>
-
-<%@page import="model.Dao.DynamicDao"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Login Main Page</title>
-    </head>
+<html lang="en">
+    
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@include file='/html/scripts.html'%>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<style><%@include file="/css/style.css"%></style>
+
     <body>
-        <div align="center">
-            <h2>Login</h2>
-            <%! int i=0;
-                String str="Login"; 
-                String url = "Login.do";
-            %>
-            <% 
-                 str="Login"; 
-                 url = "Login.do";
-            %>
-            <form method="POST" action="<%=url%>">     
-                <table>
-                    <tr>
-                        <td>Email:</td>
-                        <td><input type="text" name="mail" required /></td>
-                    </tr>
-                    <tr>
-                        <td>Password:</td>
-                        <td><input type="password" name="password" required /></td>
-                    </tr>
-                    <tr>
-                        <td><input type="submit" name="LoginOperation" value="Login"/></td>
-                    </tr>
- 
-                </table>
-            </form>
-            <form method="POST" action="<%=url%>">     
-                <table>
-                     <tr> 
-                        <td> <button type="submit" name="LoginOperation" value="NewUser">New user</button></td>
-                    </tr>
-                </table>
-            </form>
-            <p><c:out value="${not empty message ? message: ''}" /></p>
-        </div>
+        <%@include file='/html/header.html'%>
+        
+        <%! int i=0; String str="Login"; String url = "Login.do"; %>
+        <%  str="Login"; url = "Login.do"; %>
+
+        <main class="container">
+            
+            <div class="row row-cols-1 row-cols-md-3 mb-3 mt-4 text-center">
+                <div class="col-md-6 offset-md-3">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-header">
+                          <h1 class="h3 mt-1 fw-normal">User Login</h1>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" action="<%=url%>">   
+                                <i class="fas fa-laptop-medical mb-4" style="font-size:90px"></i>
+
+                                <div class="alert alert-secondary ${not empty message ? message: 'd-none'}" role="alert">
+                                  <c:out value="${not empty message ? message: ''}" />
+                                </div>
+
+                                <label for="inputEmail" class="visually-hidden">Email address</label>
+                                <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="" name="mail" required />
+                                
+                                <label for="inputPassword" class="visually-hidden">Password</label>
+                                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="" name="password" required />
+                                
+                                <button class="w-100 btn btn-lg btn-primary" type="submit" name="LoginOperation" value="Login" >Login</button>
+                             </form>
+                            <form method="POST" action="<%=url%>">
+                              <button class="w-100 mt-3 btn btn-lg btn-outline-primary" type="submit" name="LoginOperation" value="NewUser">Sign Up</button>
+                            </form>
+                      </div>
+                    </div>
+                </div>
+            </div>  
+
+            <%@include file='/html/footer.html'%>
+        </main>
     </body>
 </html>
