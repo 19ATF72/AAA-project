@@ -20,11 +20,13 @@ public class StoredProcedures extends Enums{
         sqlQueryMap.put(SqlQueryEnum.fetchAppointment, "Test");
         sqlQueryMap.put(SqlQueryEnum.deleteUser, "DELETE FROM users WHERE mail=?");
         sqlQueryMap.put(SqlQueryEnum.LoginUser, "SELECT * FROM users WHERE email=? AND pass=?");
+        sqlQueryMap.put(SqlQueryEnum.GetUser, "SELECT * FROM users WHERE uuid=?");
         sqlQueryMap.put(SqlQueryEnum.NewUser, "INSERT INTO users ( username, pass, email, created, last_access, logged_in, picture, user_status_usid ) VALUES (?,?,?,?,?,?,?,?)");
         sqlQueryMap.put(SqlQueryEnum.CheckForUsername, "SELECT name FROM users WHERE name=?");
         //Employee calls
         sqlQueryMap.put(SqlQueryEnum.NewEmployee, "INSERT INTO employee ( salary, address, employee_type_tid, organisation_oid, users_uuid ) VALUES (?,?,?,?,?)");
-        sqlQueryMap.put(SqlQueryEnum.getEmployee, "SELECT * FROM employee WHERE users_uuid=?");
+        sqlQueryMap.put(SqlQueryEnum.getEmployee_Uuid, "SELECT * FROM employee WHERE users_uuid=?");
+        sqlQueryMap.put(SqlQueryEnum.getEmployee_Eid, "SELECT * FROM employee WHERE eid=?");
         sqlQueryMap.put(SqlQueryEnum.getAllEmployees, "SELECT * FROM employee");
         sqlQueryMap.put(SqlQueryEnum.getAllEmployeesNamesTypesAndIds, "SELECT e.eid, et.type_name, u.username FROM users u INNER JOIN employee e ON e.users_uuid = u.uuid INNER JOIN employee_type et ON e.EMPLOYEE_TYPE_TID = et.etid");
         sqlQueryMap.put(SqlQueryEnum.getEmployeeSalary, "SELECT salary FROM employee WHERE eid=?");
@@ -51,7 +53,7 @@ public class StoredProcedures extends Enums{
         sqlQueryMap.put(SqlQueryEnum.newPrescription, "INSERT INTO patient_prescriptions (patient_pid, medicine, repeat) VALUES(?,?,?)");
         sqlQueryMap.put(SqlQueryEnum.updateAppointment, "UPDATE appointment SET notes=?,patient_prescriptions_prid=?,appointment_status_asid=2 WHERE aid=?");
         sqlQueryMap.put(SqlQueryEnum.getAllPossibleAppointments, "SELECT * FROM appointment_slots");
-        sqlQueryMap.put(SqlQueryEnum.getPatient, "SELECT * FROM patient WHERE users_uuid=?");
+        sqlQueryMap.put(SqlQueryEnum.getPatient_Uuid, "SELECT * FROM patient WHERE users_uuid=?");
         sqlQueryMap.put(SqlQueryEnum.NewAppointment, "INSERT INTO appointment (duration, charge, date, start_time, end_time, patient_pid, employee_eid, appointment_type_atid, appointment_status_asid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         sqlQueryMap.put(SqlQueryEnum.getEmployeeSalary, "SELECT salary FROM employee WHERE users_uuid=?");
         sqlQueryMap.put(SqlQueryEnum.NewEmployeeAppointmentSlot, "INSERT INTO employee_has_appointment_slots (employee_eid, date) VALUES (?, ?)");

@@ -42,7 +42,7 @@ public class PatientService {
     {
         ArrayList<String[]> result = new ArrayList();
         try {  
-            result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getPatient), uniqueUserID); 
+            result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getPatient_Uuid), uniqueUserID); 
            
             String[] tempPatientEntityString = result.get(0);    
             PatientEntity patient = new PatientEntity(Integer.parseInt(tempPatientEntityString[0]), tempPatientEntityString[1],
@@ -73,7 +73,7 @@ public class PatientService {
 //    public ArrayList get_patient(ArrayList params, DynamicDao dynamicDao){
 //        ArrayList result = new ArrayList();
 //        try { 
-//               ArrayList<String[]> patientString = dynamicDao.agnosticQuery(storedStatements.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getPatient), params.get(0) );
+//               ArrayList<String[]> patientString = dynamicDao.agnosticQuery(storedStatements.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getPatient_Uuid), params.get(0) );
 //               String[] patient = patientString.get(0);   
 //               setAddress(patient[0]);
 //               setPatientID(Integer.parseInt(patient[1]));

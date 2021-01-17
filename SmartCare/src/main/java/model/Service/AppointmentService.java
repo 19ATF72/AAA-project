@@ -7,6 +7,9 @@ package model.Service;
 
 import java.util.ArrayList;
 import model.Dao.DynamicDao;
+import model.Entity.AppointmentEntity;
+import model.Entity.EmployeeEntity;
+import model.Entity.UserEntity;
 import model.Helper.StoredProcedures;
 
 /**
@@ -17,7 +20,7 @@ public class AppointmentService {
     
     protected DynamicDao dynamicDao;
     private final StoredProcedures storedProcedures = new StoredProcedures();  
-    
+
     public AppointmentService(DynamicDao dynamicDao){
         this.dynamicDao = dynamicDao;
     }
@@ -33,12 +36,68 @@ public class AppointmentService {
                     doctor_appointments.add("Somthing is very very veeeery DEEPLY wrong time to start crying the slots type table does not exist");
                 }
             }
-        } catch (Exception e) {   
-            
+        } catch (Exception e) {           
         }
         return doctor_appointments;
     }
     
+    /**
+     *
+     * @param patientId
+     * @return patientsAppointmentsArrayLstEntity
+     */
+    public ArrayList<AppointmentEntity> getPatientsAppointments(int patientId){
+        ArrayList<String[]> patientsAppointmentsArrayLstString = new ArrayList();
+        ArrayList<AppointmentEntity> patientsAppointmentsArrayLstEntity = new ArrayList();
+        
+        EmployeeService employeeService = new EmployeeService(dynamicDao);
+        UserService userService = new UserService(dynamicDao);
+        
+        try {
+            patientsAppointmentsArrayLstString = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getPatientAppointments), patientId);
+            if (patientsAppointmentsArrayLstString.size() == 0) {
+                // DO something
+            }
+            else{
+                for (int i = 0; i < patientsAppointmentsArrayLstString.size(); i++) {
+                    String[] patientsAppointmentsArray = patientsAppointmentsArrayLstString.get(i);
+                    
+                    AppointmentEntity appointmentEntity = new AppointmentEntity();
+                    
+                    appointmentEntity.setUniqueAppointmentId(Integer.parseInt(patientsAppointmentsArray[0]));
+                    appointmentEntity.setDuration(patientsAppointmentsArray[1]);
+                    appointmentEntity.setNotes(patientsAppointmentsArray[2]);
+                    appointmentEntity.setCharge(Double.parseDouble(patientsAppointmentsArray[3]));
+                    appointmentEntity.setDateStr(patientsAppointmentsArray[4]);
+                    appointmentEntity.setDatePaidStr(patientsAppointmentsArray[5]);
+                    appointmentEntity.setStartTime(patientsAppointmentsArray[6]);
+                    appointmentEntity.setEndTime(patientsAppointmentsArray[7]);
+                    appointmentEntity.setPatientId(Integer.parseInt(patientsAppointmentsArray[8]));
+                    appointmentEntity.setEmployeeId(Integer.parseInt(patientsAppointmentsArray[9]));
+                    appointmentEntity.setType(Integer.parseInt(patientsAppointmentsArray[10]));
+                    appointmentEntity.setPerscriptionId(Integer.parseInt(patientsAppointmentsArray[11]));
+                    appointmentEntity.setStatus(Integer.parseInt(patientsAppointmentsArray[12])); 
+                    
+                    EmployeeEntity tempEmployee = employeeService.fetchEmployee_EId(appointmentEntity.getEmployeeId()); 
+                    UserEntity tempUser = userService.getUser(tempEmployee.getUniqueUserId());
+                           
+                    appointmentEntity.setDoctorsName(tempUser.getUserName());
+
+                    patientsAppointmentsArrayLstEntity.add(appointmentEntity);  
+                   
+                }
+            }
+        } catch (Exception e) {
+            //PRINT SOMETHING
+        }
+        
+        return patientsAppointmentsArrayLstEntity;
+    }
+    
+    /**
+     *
+     * @param params
+     */
     public void CreateAppointment(ArrayList params){   
         try {
             ArrayList slot_ids = (ArrayList)params.get(9);                                  
@@ -49,4 +108,5 @@ public class AppointmentService {
         } catch (Exception e) {
         }
     }
+
 }

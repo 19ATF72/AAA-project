@@ -35,16 +35,16 @@
                                 <th>End time</th>
                                 <th>Status</th>
                             </tr>
-                            <c:forEach items="${schedule}" var="row">
+                            <c:forEach items="${patientsAppointments}" var="AppointmentEntity">
                                 <tr>
-                                   <td><c:out value="${row[7]}" /> minutes</td>
-                                   <td><c:out value="${row[0]*10}" /> minutes</td>
-                                   <td><c:out value="${row[1]}" /></td>
-                                   <td><c:out value="${row[2]}" /></td>
-                                   <td><c:out value="${row[3]}" /></td>
-                                   <td><c:out value="${row[4]}" /></td>
-                                   <td><c:out value="${row[5]}" /></td>
-                                   <td><c:out value="${row[6]}" /></td> 
+                                   <td><c:out value="${AppointmentEntity.doctorsName}" /> minutes</td>
+                                   <td><c:out value="${AppointmentEntity.duration}" /> minutes</td>
+                                   <td><c:out value="${AppointmentEntity.notes}" /></td>
+                                   <td><c:out value="${AppointmentEntity.charge}" /></td>
+                                   <td><c:out value="${AppointmentEntity.dateStr}" /></td>
+                                   <td><c:out value="${AppointmentEntity.startTime}" /></td>
+                                   <td><c:out value="${AppointmentEntity.endTime}" /></td>
+                                   <td><c:out value="${AppointmentEntity.status}" /></td> 
                                 </tr>
                             </c:forEach>
                             </table>
