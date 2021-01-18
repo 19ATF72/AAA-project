@@ -64,6 +64,6 @@
             </form>
             <p><c:out value="${not empty message ? message: ''}" /></p>
         </div>
-        <jsp:include page="/WEB-INF/foot.jsp"/>
+        <jsp:include page="/html/footer.html"/>
     </body>
 </html>
