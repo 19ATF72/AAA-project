@@ -119,7 +119,6 @@ public class Login extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/NewUser.jsp").forward(request, response);
                 break;
             case "Login":
-                dynamicDao.addTimeSlots();
                 String email = (String)request.getParameter("mail");
                 String password = (String)request.getParameter("password");
                 //retrieves user from database if it exists  
