@@ -1,1 +1,5 @@
+unitTests\AppointmentServiceUnitTests.class
+unitTests\OrganisationServiceUnitTests.class
 unitTests\UserServiceUnitTests.class
+unitTests\EmployeeServiceUnitTests.class
+unitTests\PatientServiceUnitTests.class

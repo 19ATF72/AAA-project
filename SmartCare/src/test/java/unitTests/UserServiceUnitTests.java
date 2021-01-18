@@ -6,13 +6,14 @@
 package unitTests;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import model.Dao.DynamicDao;
 import model.Entity.UserEntity;
-import model.Helper.StoredProcedures;
 import model.Service.UserService;
+import model.Helper.StoredProcedures;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -21,24 +22,27 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 
+import org.mockito.Mock;
 import static org.mockito.Mockito.*;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
+import static org.mockito.Matchers.*;
+
 
 
 /**
  *
- * @author rob
+ * @author James
  */
+
+
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceUnitTests {
     
     @Mock
     private DynamicDao dynamicDaoMock;
     private UserService userServiceMock;
-    
     private UserService userService;
     private Connection conn = null;
     
@@ -62,45 +66,47 @@ public class UserServiceUnitTests {
     }
     
     @After
-    public void tearDown(){
+    public void tearDown() {
     }
     
-//    @Test
-//    public void creatUser_Success(){
-//        
-//        ArrayList arraylst = new ArrayList();
-//
-//        ArrayList<String> arrayLstToReturn = new ArrayList();
-//        arrayLstToReturn.add("1");
-//
-//        UserEntity user = new UserEntity(01, "Rob", "password", "email@email.com", 
-//                "01/01/2021", "02/01/2021", false, "pic string", 2);
-//
-//        try{
-//            when(dynamicDao.agnosticQuery(anyString(), anyObject())).thenReturn(arrayLstToReturn);
-//        }catch(Exception e){
-//            
-//        }
-//        
-//        String result = userService.createUser(user);
-//       
-//        assertEquals("User created successfully", result);
-//    }
+    
+    @Test
+    public void createUser_Success(){
+        
+        // Arrange
+        ArrayList resultArrayList = new ArrayList();
+        resultArrayList.add(1);
+
+        UserEntity user = new UserEntity(1, "Rob", "password", "email@email.com", "01/01/2021", "02/01/2021", false, "pic string", 2, "0");
+
+        try{
+            when(dynamicDaoMock.agnosticQuery(anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyBoolean(), anyString(), anyInt())).thenReturn(resultArrayList);
+        }catch(Exception e){
+            
+        }
+        
+        // Act
+        String actualResult = userService.createUser(user);
+       
+        //Assert
+        Assert.assertEquals("User created successfully", actualResult);
+    }
+
     
     @Test
     public void loginUser_Success(){
         
         // Arrange
         ArrayList<String[]> userArrayList = new ArrayList<>();
-        String[] userStringArray = {"1","root","root","root@admin.com","2020-12-12 15:42:50.221", "2020-12-12 15:42:50.221", "0", "default.png", "2", "0"};
+        String[] userStringArray = {"1", "root", "root", "root@admin.com", 
+            "2020-12-12 15:42:50.221", "2020-12-12 15:42:50.221", "0", "default.png", "2", "0"};
         userArrayList.add(userStringArray);
        
-        UserEntity user = new UserEntity(1, "root", "root", "root@admin.com", 
-                "2020-12-12 15:42:50.221", "2020-12-12 15:42:50.221", false, "default.png", 2);
-        user.setUserRole("");
+        UserEntity expectedUser = new UserEntity(1, "boot", "root", "root@admin.com", 
+                "2020-12-12 15:42:50.221", "2020-12-12 15:42:50.221", false, "default.png", 2, "0");
+        expectedUser.setUserRole("");
                 
         try{
-            //when(dynamicDao.agnosticQuery(anyString(), anyObject())).thenReturn(userArrayList);
             when(dynamicDaoMock.agnosticQuery(anyString(), anyString(), anyString())).thenReturn(userArrayList);
             when(userServiceMock.getUserRole(anyInt())).thenReturn("");
         }catch(SQLException e){
@@ -108,30 +114,47 @@ public class UserServiceUnitTests {
         }
         
         // Act
-        UserEntity resultUser = userService.loginUser("root@admin.com", "root");     
+        UserEntity actualUser = userService.loginUser("root@admin.com", "root");     
         
         // Assert
-        Assert.assertThat(user, new ReflectionEquals(resultUser));
+        Assert.assertThat(expectedUser, new ReflectionEquals(actualUser));
     }
-    
+
     
     @Test
-    public void getUserRole_Success(){
+    public void getUserRole_Success(){ //Seems to just work even though it shouldn't be able to query properly yet?
         
-//        // Arrange
-//        ArrayList<String[]> roleArrayList = new ArrayList<>();
-//        String[] userStringArray = {};
-//        roleArrayList.add(userStringArray);
-//        
-//        // Act
-//        try{
-//            //when(dynamicDao.agnosticQuery(anyString(), anyObject())).thenReturn(userArrayList);
-//            when(dynamicDaoMock.agnosticQuery(anyString(), anyInt())).thenReturn;
-//        }catch(SQLException e){
-//            
-//        }
-//        
-//        // Assert
-       
+        // Arrange
+        ArrayList<String[]> roleArrayList = new ArrayList<>();
+        String[] roleStringArray = {"1", "root", "root", "root@admin.com", 
+            "2020-12-12 15:42:50.221", "2020-12-12 15:42:50.221", "0", "default.png", "2", "0"};
+        roleArrayList.add(roleStringArray);
+        
+        String expectedRole = "patient";
+
+        
+        try{
+            when(dynamicDaoMock.agnosticQuery(anyString(), anyInt())).thenReturn(roleArrayList); //Should need 'getRole' in model.Helper.StoredProcedures to be developed first?
+        }catch(SQLException e){
+            
+        }
+        
+        // Act
+        String actualRole = userService.getUserRole(1);
+        
+        // Assert
+       Assert.assertThat(expectedRole, new ReflectionEquals(actualRole));
     }
+    
+    /*
+    @Test
+    public void getUserRole_Failure(){
+        
+        // Arrange
+        
+        // Act
+        
+        // Assert
+    }
+    */
 }
