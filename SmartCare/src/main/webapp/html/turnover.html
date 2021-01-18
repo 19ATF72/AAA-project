@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+   <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- Bootstrap CSS -->
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+      <link rel="shortcut icon" type="image/x-icon" href="../WEB-INF/icons/favicon.ico" />
+      <!-- Search doc for "Favicon" to edit file path for website logo -->
+      <link href="include.html" rel="import" />
+      <link rel="stylesheet" href="../css/style.css">
+      <!-- Search doc for "style" to edit file path for website style -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+      <script src="https://kit.fontawesome.com/e16436a26a.js" crossorigin="anonymous"></script>
+      <title>SmartCare - Turnover</title>
+   </head>
+   <body>
+      <header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-white border-bottom shadow-sm">
+         <i class="fas fa-laptop-medical me-1"></i>
+         <p class="h5 my-0 me-md-auto fw-normal">SmartCare</p>
+         <nav class="my-2 my-md-0 me-md-3">
+            <a class="p-2 text-dark" href="#">Features</a>
+            <a class="p-2 text-dark" href="#">Enterprise</a>
+            <a class="p-2 text-dark" href="#">Support</a>
+            <a class="p-2 text-dark" href="#">Pricing</a>
+         </nav>
+         <a class="btn btn btn-outline-danger" href="#">Sign out</a>
+      </header>
+      <main>
+         <div class="container-fluid">
+            <div class="row">
+               <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                  <div class="position-sticky pt-3">
+                     <ul class="nav flex-column">
+                        <li class="nav-item">
+                           <a class="nav-link active" aria-current="page" href="#">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
+                                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                              </svg>
+                              Dashboard
+                           </a>
+                        </li>
+                        <li class="nav-item">
+                           <a class="nav-link" href="#">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file">
+                                 <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                                 <polyline points="13 2 13 9 20 9"></polyline>
+                              </svg>
+                              Book appointment
+                           </a>
+                        </li>
+                        <li class="nav-item">
+                           <a class="nav-link" href="#">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users">
+                                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                 <circle cx="9" cy="7" r="4"></circle>
+                                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                              </svg>
+                              Change details?
+                           </a>
+                        </li>
+                        <li class="nav-item">
+                           <a class="nav-link" href="#">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2">
+                                 <line x1="18" y1="20" x2="18" y2="10"></line>
+                                 <line x1="12" y1="20" x2="12" y2="4"></line>
+                                 <line x1="6" y1="20" x2="6" y2="14"></line>
+                              </svg>
+                              Something
+                           </a>
+                        </li>
+                        <li class="nav-item">
+                           <a class="nav-link" href="#">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers">
+                                 <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                                 <polyline points="2 17 12 22 22 17"></polyline>
+                                 <polyline points="2 12 12 17 22 12"></polyline>
+                              </svg>
+                              Something
+                           </a>
+                        </li>
+                     </ul>
+                  </div>
+               </nav>
+               <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                  <div class="chartjs-size-monitor">
+                     <div class="chartjs-size-monitor-expand">
+                        <div class=""></div>
+                     </div>
+                     <div class="chartjs-size-monitor-shrink">
+                        <div class=""></div>
+                     </div>
+                  </div>
+                  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                     <h1 class="h2">Turnover Operations:</h1>
+                  </div>
+                  <div class="form-check">
+                     <input class="form-check-input" type="radio" name="turnoverOperation" value="turnover" id="calculateTurnover0" selected>
+                     <label class="form-check-label" for="recordType0">
+                     Calculate Turnover
+                     </label>
+                  </div>
+                  <div class="form-check">
+                     <input class="form-check-input" type="radio" name="turnoverOperation" value="private" id="calculateTurnover1" > <!-- TODO set to required if the user being created is a patient-->
+                     <label class="form-check-label" for="calculateTurnover1">
+                     Privately Paid Invoices
+                     </label>
+                  </div>
+                  <div class="form-check">
+                     <input class="form-check-input" type="radio" name="turnoverOperation" value="nhs" id="calculateTurnover2" > <!-- TODO set to required if the user being created is a patient-->
+                     <label class="form-check-label" for="calculateTurnover2">
+                     NHS Paid Invoices
+                     </label>
+                  </div>
+                  <p></p>
+                  <div>
+                     <label class="form-check-label">
+                        <caption>
+                           <h2>For selected period:</h2>
+                        </caption>
+                     </label>
+                  </div>
+                  <div class="form-check">
+                     <label for="startTime">Start date:</label>
+                     <input type="date" id="startTime" name="startTime">
+                  </div>
+                  <div class="form-check">
+                     <label for="endTime">End date:</label>
+                     <input type="date" id="endTime" name="endTime">
+                  </div>
+                  <p></p>
+                  <!-- <button type="button" class="btn btn-outline-primary">Calculate turnover</button> -->
+                  <button type="button" class="btn btn-primary">Calculate turnover</button>
+                  <p></p>
+                  <div class="table-responsive">
+                     <table class="table table-striped table-sm">
+                        <thead>
+                           <tr>
+                              <th>Transaction ID:</th>
+                              <th>Collected from patient:</th>
+                              <th>Payment Type:</th>
+                              <th>Employee Salary:</th>
+                              <th>Date collected:</th>
+                              <th>Select:</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td>24</td>
+                              <td>£35</td>
+                              <td>private</td>
+                              <td>£8.25</td>
+                              <td>16/1/21</td>
+                              <td>
+                                 <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">
+                                    </label>
+                                 </div>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td>25</td>
+                              <td>£28</td>
+                              <td>private</td>
+                              <td>£9.25</td>
+                              <td>18/1/21</td>
+                              <td>
+                                 <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">
+                                    </label>
+                                 </div>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+                  <h2>Total:</h2>
+                  <div class="table-responsive">
+                     <table class="table" style=width:25%;>
+                        <tbody>
+                           <tr>
+                              <th  class="table-active">Income:</th>
+                              <td>£120</td>
+                           </tr>
+                           <tr>
+                              <th  class="table-active">Outgoing:</th>
+                              <td>£90</td>
+                           </tr>
+                           <tr>
+                              <th  class="table-active">Profit:</th>
+                              <td>£30</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </main>
+            </div>
+         </div>
+         <footer class="container pt-md-5">
+            <div class="row">
+               <div class="col-12 col-md">
+                  <img class="mb-2" src="../WEB-INF/icons/triple-a.jpeg" alt="" width="54px" height="54px">
+                  <small class="d-block mb-3 text-muted">© 2017-2020</small>
+               </div>
+               <div class="col-6 col-md">
+                  <h5>Features</h5>
+                  <ul class="list-unstyled text-small">
+                     <li><a class="link-secondary" href="#">Cool stuff</a></li>
+                     <li><a class="link-secondary" href="#">Random feature</a></li>
+                     <li><a class="link-secondary" href="#">Team feature</a></li>
+                     <li><a class="link-secondary" href="#">Stuff for developers</a></li>
+                     <li><a class="link-secondary" href="#">Another one</a></li>
+                     <li><a class="link-secondary" href="#">Last time</a></li>
+                  </ul>
+               </div>
+               <div class="col-6 col-md">
+                  <h5>Resources</h5>
+                  <ul class="list-unstyled text-small">
+                     <li><a class="link-secondary" href="#">Resource</a></li>
+                     <li><a class="link-secondary" href="#">Resource name</a></li>
+                     <li><a class="link-secondary" href="#">Another resource</a></li>
+                     <li><a class="link-secondary" href="#">Final resource</a></li>
+                  </ul>
+               </div>
+               <div class="col-6 col-md">
+                  <h5>About</h5>
+                  <ul class="list-unstyled text-small">
+                     <li><a class="link-secondary" href="#">Team</a></li>
+                     <li><a class="link-secondary" href="#">Locations</a></li>
+                     <li><a class="link-secondary" href="#">Privacy</a></li>
+                     <li><a class="link-secondary" href="#">Terms</a></li>
+                  </ul>
+               </div>
+            </div>
+         </footer>
+      </main>
+   </body>
+</html>
