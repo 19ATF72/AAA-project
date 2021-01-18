@@ -113,30 +113,28 @@ public class Login extends HttpServlet {
         //dynamicDao.addTimeSlots();
         
         String query = (String)request.getParameter("LoginOperation");
-       
+        
         switch(query) {
             case "NewUser":
                 request.getRequestDispatcher("/WEB-INF/NewUser.jsp").forward(request, response);
                 break;
             case "Login":
+                dynamicDao.addTimeSlots();
                 String email = (String)request.getParameter("mail");
                 String password = (String)request.getParameter("password");
                 //retrieves user from database if it exists  
                 user = userService.loginUser(email, password);
-                String UserType = user.getUserRole();
-
                 if (user != null) {
                     int userStatus = user.getAccountStatus();
                 switch (userStatus) {
                     case Enums.APPROVED:
                         session.setAttribute("User", user);
-                        switch(UserType) {
+                        switch(user.getUserType()) {
                             case "patient":
                                 PatientService patientService = new PatientService(dynamicDao);
-                                PatientEntity patient = patientService.getPatient(user.getUniqueUserId());
-                                patient.setPatientEntityFromUser(user);
-                                session.setAttribute("Patient", patient);
-
+                                PatientEntity patient = patientService.getPatient(user);
+                                
+                                session.setAttribute("Patient", patient); 
                                 //retrieve appointment for display and senthem to the page
                                 //ArrayList appointments = patientService.retrievePatientDisplayableAppointments(patient);
                                 
@@ -145,8 +143,8 @@ public class Login extends HttpServlet {
                                 break;
                             case "employee":
                                 EmployeeService employeeService = new EmployeeService(dynamicDao);
-                                EmployeeEntity employee = employeeService.fetchEmployee_Uuid(user.getUniqueUserId());
-                                employee.setEmployeeEntityFromUser(user);
+                                EmployeeEntity employee = employeeService.fetchEmployee(user);
+                                
                                 session.setAttribute("Employee", employee);
 
                                 ArrayList employeeAppointments = employeeService.retrieveEmployeeDisplayableAppointments(employee);
@@ -154,6 +152,7 @@ public class Login extends HttpServlet {
 
                                 ArrayList employeeDailyAppointments = employeeService.retrieveEmployeeDailyDisplayableAppointments(employee);
                                 request.setAttribute("dailySchedule", employeeDailyAppointments);
+                                
                                 request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);
                                 break;
                             case "admin":

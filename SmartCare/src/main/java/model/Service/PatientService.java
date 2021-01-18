@@ -8,7 +8,7 @@ package model.Service;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import model.Dao.DynamicDao;
-import model.Entity.EmployeeEntity;
+import model.Entity.UserEntity;
 import model.Entity.PatientEntity;
 import model.Helper.StoredProcedures;
 
@@ -38,15 +38,17 @@ public class PatientService {
         return result; 
     }
     
-    public PatientEntity getPatient(int uniqueUserID)
+    public PatientEntity getPatient(UserEntity user)
     {
         ArrayList<String[]> result = new ArrayList();
         try {  
-            result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getPatient_Uuid), uniqueUserID); 
+            result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getPatient_Uuid), user.getUniqueUserId()); 
            
             String[] tempPatientEntityString = result.get(0);    
             PatientEntity patient = new PatientEntity(Integer.parseInt(tempPatientEntityString[0]), tempPatientEntityString[1],
-                    tempPatientEntityString[2], Integer.parseInt(tempPatientEntityString[3]));
+                    tempPatientEntityString[2], Integer.parseInt(tempPatientEntityString[3]), user.getUniqueUserId(), user.getUserPrefix(),
+                    user.getUserFirstname(), user.getUserSurname(), user.getPassword(), user.getEmail(), user.getDateOfBirth(), user.getDateCreated(), 
+                    user.getLastAccessed(), user.isLoggedIn(), user.getUserType(), user.getAccountStatus());
             
             return patient; 
         } catch (Exception e) {

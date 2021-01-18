@@ -83,9 +83,11 @@ public class AppointmentService {
                     
                     
                     EmployeeEntity tempEmployee = employeeService.fetchEmployee_EId(appointmentEntity.getEmployeeId()); 
-                    UserEntity tempUser = userService.getUser(tempEmployee.getUniqueUserId());
+                    UserEntity tempUser = userService.fetchUser(tempEmployee.getUniqueUserId());
                            
-                    appointmentEntity.setDoctorsName(tempUser.getUserName());
+                    String employeeePrefixAndName = tempUser.getUserPrefix() + " " + tempUser.getUserSurname();
+                    
+                    appointmentEntity.setDoctorsName(employeeePrefixAndName);
 
                     patientsAppointmentsArrayLstEntity.add(appointmentEntity);  
                    

@@ -76,9 +76,9 @@ public class PatientController extends HttpServlet {
                     request.getRequestDispatcher("/WEB-INF/book.jsp").forward(request, response);
                     break;
                 case "choosen":
-                    request.getSession().setAttribute("choosenDoctor", Integer.parseInt(request.getParameter("docChooice")));
-                    request.getSession().setAttribute("choosenDate", (String)request.getParameter("bookingDate"));
-                    ArrayList<String[]> slots = appointmentService.retrieveAvaialbleAppointmentsForDoctor((Integer)session.getAttribute("choosenDoctor"),(String)session.getAttribute("choosenDate"));
+                    request.getSession().setAttribute("chosenDoctor", Integer.parseInt(request.getParameter("docChoice")));
+                    request.getSession().setAttribute("chosenDate", (String)request.getParameter("bookingDate"));
+                    ArrayList<String[]> slots = appointmentService.retrieveAvaialbleAppointmentsForDoctor((Integer)session.getAttribute("chosenDoctor"),(String)session.getAttribute("chosenDate"));
                     ArrayList lengths  = new ArrayList();
                     ArrayList temp_lengths  = new ArrayList();
                     Integer lengthIndex = 1;
@@ -105,13 +105,13 @@ public class PatientController extends HttpServlet {
                     }
                     request.setAttribute("lengths", lengths);
                     request.getSession().setAttribute("lengths", lengths);
-                    
+                    request.setAttribute("dateSelected", true);
                     request.getRequestDispatcher("/WEB-INF/book.jsp").forward(request, response);
                     break;
                 case "checkPrescription":
                 case "booked":
                       //parameters to be used when creating appointment
-                      String[] ChosenSlots = (String[])request.getParameterValues("book_choice");
+                      String[] ChosenSlots = (String[])request.getParameterValues("chosenTime");
                       ArrayList<String[]> formatedSlots = new ArrayList<String[]>();
                       for (int slot = 0; slot < ChosenSlots.length; slot++) {
                           formatedSlots.add(ChosenSlots[slot].split(","
@@ -149,7 +149,7 @@ public class PatientController extends HttpServlet {
                       request.getSession().setAttribute("choosenDate", null);
                       request.setAttribute("message", "booked successfully");
 
-        
+                      
                       ArrayList<AppointmentEntity> patientsAppointments = new ArrayList();
                       patientsAppointments = appointmentService.getPatientsAppointments(patient.getPatientId());
        

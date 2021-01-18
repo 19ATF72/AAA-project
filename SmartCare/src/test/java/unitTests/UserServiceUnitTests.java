@@ -102,7 +102,7 @@ public class UserServiceUnitTests {
         try{
             //when(dynamicDao.agnosticQuery(anyString(), anyObject())).thenReturn(userArrayList);
             when(dynamicDaoMock.agnosticQuery(anyString(), anyString(), anyString())).thenReturn(userArrayList);
-            when(userServiceMock.getUserRole(anyInt())).thenReturn("");
+         //   when(userServiceMock.getUserRole(anyInt())).thenReturn("");
         }catch(SQLException e){
             
         }

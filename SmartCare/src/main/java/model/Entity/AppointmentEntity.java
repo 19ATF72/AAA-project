@@ -4,15 +4,6 @@
  * and open the template in the editor.
  */
 package model.Entity;
-import model.Entity.EmployeeEntity;
-import model.Entity.Role;
-import model.Entity.PatientEntity;
-import model.Dao.DynamicDao;
-import model.Helper.StoredProcedures;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap; 
-import model.PatientModelInterface;
 
 /**
  *
@@ -21,7 +12,7 @@ import model.PatientModelInterface;
 public class AppointmentEntity {
     
     protected int uniqueAppointmentId;
-    protected String doctorsName;
+    protected String employeeName;
     protected String duration; 
     protected String notes; 
     protected Double charge;
@@ -103,34 +94,12 @@ public class AppointmentEntity {
         this.perscriptionId = perscriptionId;
     }
     
-
-//public AppointmentEntity() {}
-
-//
-//public void getDailyAppointment(){
-//        
-//    }
-//    
-//    public AppointmentEntity(EmployeeEntity newEmployeeModel, PatientEntity newPatientModel){
-//        employeeModel = newEmployeeModel;
-//        patientModel = newPatientModel;
-//    }
-//    
-//    public AppointmentEntity(EmployeeEntity newEmployeeModel){
-//        employeeModel = newEmployeeModel;
-//    }
-//    
-//    public AppointmentEntity(PatientEntity newPatientModel){
-//        patientModel = newPatientModel;
-//    }
-
-
     public String getDoctorsName() {
-        return doctorsName;
+        return employeeName;
     }
 
     public void setDoctorsName(String doctorsName) {
-        this.doctorsName = doctorsName;
+        this.employeeName = doctorsName;
     }
 
     public String getDuration() {

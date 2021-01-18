@@ -52,63 +52,64 @@ public class NewUserController extends HttpServlet {
        
         UserService userService = new UserService(dynamicDao);
         
-        // DO WE NEED TO BE CASTING IT TO STRING?? Example: (String)request.getParameter("Address")
-        newUser.setUserName(request.getParameter("username"));
-        newUser.setPassword(request.getParameter("password"));
+        
+        newUser.setUserPrefix(request.getParameter("userPrefix"));
+        newUser.setUserFirstname(request.getParameter("userFirstName"));
+        newUser.setUserSurname(request.getParameter("userSurname"));
+        
+        newUser.setDateOfBirth(Date.valueOf(request.getParameter("dateOfBirth")));
+        
         newUser.setEmail(request.getParameter("email"));
-        newUser.setPicture(request.getParameter("picUrl"));
-        newUser.setUserRole(request.getParameter("Role"));
+        newUser.setPassword(request.getParameter("password"));
+        
+        String address = request.getParameter("address");
+        String postcode = request.getParameter("postcode");
+
+        newUser.setUserType(request.getParameter("role"));
         
         String result = userService.createUser(newUser);
-        
-        // TODO: MOVE INTO USER MODEL
-        String address = request.getParameter("Address");
-   
+
         if("User created successfully".equals(result)) {
-            switch(newUser.getUserRole()) {
-            case "0":
+            switch(newUser.getUserType()) {
+            case "patient":
                 PatientService patientService = new PatientService(dynamicDao);
                 
                 int patientType = Integer.parseInt((String)request.getParameter("patientType"));
-                
-
-                PatientEntity patient = new PatientEntity(newUser.getUniqueUserId(), patientType, address);
+               
+                PatientEntity patient = new PatientEntity(newUser.getUniqueUserId(), address, postcode, patientType);
                 
                 String patientReturnResult = patientService.createPatient(patient);
     
                 if("Patient created".equals(patientReturnResult)){
-                    request.setAttribute("message", "patient "+ patient.getUserName() +" created successfully" );
+                    request.setAttribute("message", "patient "+ patient.getUserPrefix()+ " " + patient.getUserSurname() + " created successfully" );
                     request.getRequestDispatcher("/login.jsp").forward(request, response);
                 }
                 break;
             case "1":
             case "2":
-                double salary;
                 
                 EmployeeService employeeService = new EmployeeService(dynamicDao);
                 
-                if("1".equals(newUser.getUserRole())){
-                    salary = (Double)session.getAttribute("docSalary");
-                }
-                else{
-                    salary = (Double)session.getAttribute("nurseSalary");
+//                if("1".equals(newUser.getUserRole())){
+//                    salary = (Double)session.getAttribute("docSalary");
+//                }
+//                else{
+//                    salary = (Double)session.getAttribute("nurseSalary");
+//                }
+                
+                double defaultSalary = 20;      
+                if(newUser.getUserType() == "nurse"){
+                    defaultSalary = defaultSalary / 2;
                 }
                 
                 // TODO: ADD ORGANISATION
-                EmployeeEntity employee = new EmployeeEntity(salary, address, Integer.parseInt(newUser.getUserRole()), 0);
+                EmployeeEntity employee = new EmployeeEntity(defaultSalary, address, postcode, 0); //IMPLEMENT ORG!
                 String employeeReturnResult = employeeService.createEmployee(employee);
                 
                 if("Employee created successfully".equals(employeeReturnResult)) { 
-                    if("1".equals(newUser.getUserRole())){
-
-                        request.setAttribute("message", "doctor "+ employee.getUserName() +" created successfully" );
+                        request.setAttribute("message", newUser.getUserType() + " " + newUser.getUserSurname() + " created successfully" );
                         request.getRequestDispatcher("/login.jsp").forward(request, response);
-                    }  
-                    else
-                    {
-                        request.setAttribute("message", "nurse "+ employee.getUserName() +" created successfully" );
-                        request.getRequestDispatcher("/login.jsp").forward(request, response);
-                    }
+                    
                 }
                 break; 
            
