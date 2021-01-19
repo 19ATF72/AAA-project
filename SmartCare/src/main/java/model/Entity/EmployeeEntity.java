@@ -30,12 +30,13 @@ public class EmployeeEntity extends UserEntity{
         this.organisation = organisation;
     }
     
-    public EmployeeEntity(int employeeId, double salary, String address, String postcode, int organisation) {
+    public EmployeeEntity(int employeeId, double salary, String address, String postcode, int organisation, int uniqueUserId) {
         this.employeeId = employeeId;
         this.salary = salary;
         this.address = address;
         this.postcode = postcode;
         this.organisation = organisation;
+        this.uniqueUserId = uniqueUserId;
     }
 
     public EmployeeEntity(int employeeId, double salary, String address, String postcode, int organisation, int uniqueUserId, String userPrefix, String userFirstname, String userSurname, String password, String email, Date dateOfBirth, Date dateCreated, Date lastAccessed, boolean loggedIn, String userType, int accountStatus) {

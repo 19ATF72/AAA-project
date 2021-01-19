@@ -69,7 +69,7 @@ public class EmployeeService {
             
             String[] tempEmployeeEntityString = result.get(0);
              EmployeeEntity employee = new EmployeeEntity(Integer.parseInt(tempEmployeeEntityString[0]), Double.parseDouble(tempEmployeeEntityString[1]), 
-                    tempEmployeeEntityString[2], tempEmployeeEntityString[3], Integer.parseInt(tempEmployeeEntityString[4]));
+                    tempEmployeeEntityString[2], tempEmployeeEntityString[3], Integer.parseInt(tempEmployeeEntityString[4]), Integer.parseInt(tempEmployeeEntityString[5]));
             
             return employee; 
         } catch (Exception e) {

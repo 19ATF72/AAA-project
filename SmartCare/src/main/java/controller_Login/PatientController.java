@@ -15,19 +15,12 @@ import model.Entity.EmployeeEntity;
 import model.Entity.PatientEntity;
 import model.Entity.UserEntity;
 import model.Dao.DynamicDao;
-import model.Service.AppointmentService;
-import model.Helper.StoredProcedures;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Date;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -72,6 +65,7 @@ public class PatientController extends HttpServlet {
         AppointmentService appointmentService = new AppointmentService(dynamicDao);
         PatientService patientService = new PatientService(dynamicDao);
         switch(query){
+               
                 case "bookAppointment":
                     request.getSession().setAttribute("doctors", listHandler.getDoctorsForDisplay(dynamicDao));
                     request.getRequestDispatcher("/WEB-INF/book.jsp").forward(request, response);
