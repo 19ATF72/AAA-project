@@ -93,7 +93,7 @@ public class UserService{
             Date lastAccessed = Date.valueOf(tempUserStringArray[8]);
             
             UserEntity user = new UserEntity(Integer.parseInt(tempUserStringArray[0]), tempUserStringArray[1], tempUserStringArray[2], tempUserStringArray[3], 
-                    tempUserStringArray[4], tempUserStringArray[5], dateOfBirth, dateCreated, lastAccessed, Boolean.parseBoolean(tempUserStringArray[9]), tempUserStringArray[10], Integer.parseInt(tempUserStringArray[11]));
+                    tempUserStringArray[4], tempUserStringArray[5], dateOfBirth, dateCreated, lastAccessed, Boolean.parseBoolean(tempUserStringArray[9]), tempUserStringArray[10], Integer.parseInt(tempUserStringArray[12]),tempUserStringArray[11]);
                     
             return user;
         } catch (Exception e) { 
@@ -112,10 +112,9 @@ public class UserService{
             Date dateOfBirth = Date.valueOf(tempUserStringArray[6]);
             Date dateCreated = Date.valueOf(tempUserStringArray[7]);
             Date lastAccessed = Date.valueOf(tempUserStringArray[8]);
-            
-
+  
             UserEntity user = new UserEntity(Integer.parseInt(tempUserStringArray[0]), tempUserStringArray[1], tempUserStringArray[2], tempUserStringArray[3], 
-                    tempUserStringArray[4], tempUserStringArray[5], dateOfBirth, dateCreated, lastAccessed, Boolean.parseBoolean(tempUserStringArray[9]), tempUserStringArray[10], Integer.parseInt(tempUserStringArray[11]));
+                    tempUserStringArray[4], tempUserStringArray[5], dateOfBirth, dateCreated, lastAccessed, Boolean.parseBoolean(tempUserStringArray[9]), tempUserStringArray[10],  Integer.parseInt(tempUserStringArray[12]),tempUserStringArray[11]);
             
             return user;
         } catch (Exception e) { 

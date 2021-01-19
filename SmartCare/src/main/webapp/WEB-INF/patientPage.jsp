@@ -40,7 +40,7 @@
                             <table class="table table-striped table-sm">
                                 <thead>
                                     <tr>
-                                        <th>Doctor Name</th>
+                                        <th>Practitioner Name</th>
                                         <th>Duration</th>
                                         <th>Notes</th>
                                         <th>Charge</th>
@@ -54,7 +54,7 @@
                                     <c:forEach items="${patientsAppointments}" var="AppointmentEntity">
                                         <tr>
                                            <td><c:out value="${AppointmentEntity.doctorsName}" /></td>
-                                           <td><c:out value="${AppointmentEntity.duration}" /> slot</td>
+                                           <td><c:out value="${AppointmentEntity.duration}" /> Minutes</td>
                                            <td><c:out value="${AppointmentEntity.notes}" /></td>
                                            <td><c:out value="${AppointmentEntity.charge}" /></td>
                                            <td><c:out value="${AppointmentEntity.dateStr}" /></td>
