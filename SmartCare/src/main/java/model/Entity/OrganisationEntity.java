@@ -5,8 +5,6 @@
  */
 package model.Entity;
 
-import model.Dao.DynamicDao;
-
 /**
  *
  * @author rob

@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package model.Entity;
+import java.sql.Date;  
 /**
  *
  * @author rob
@@ -15,123 +16,147 @@ enum Status {
     idle
 }
 
-
 public class UserEntity {
-    
+
     protected int uniqueUserId; 
     
-    protected String userName;
+    protected String userPrefix;
+    protected String userFirstname;
+    protected String userSurname;
     protected String password;
     protected String email; 
     
-    protected String dateCreated;
-    protected String lastAccessed;
+    protected Date dateOfBirth;
+    
+    protected Date dateCreated;
+    protected Date lastAccessed;
     
     protected boolean loggedIn;
-    
-    protected String picture;
-    
-    protected int accountStatus;
-    
-    protected String userRole;
    
     
-    public UserEntity(){
-    }
+    protected String userType; 
     
-    public UserEntity(int uniqueUserId, String userName, String password, String email, String dateCreated, String lastAccessed, Boolean loggedIn, String picture, int accountStatus, String userRole){
+    protected int accountStatus;
+ 
+
+    
+    public UserEntity() {
+    }
+
+    public UserEntity(int uniqueUserId, String userPrefix, String userFirstname, String userSurname, String password, String email, Date dateOfBirth, Date dateCreated, Date lastAccessed, boolean loggedIn, String userType, int accountStatus) {
         this.uniqueUserId = uniqueUserId;
-        this.userName = userName;
+        this.userPrefix = userPrefix;
+        this.userFirstname = userFirstname;
+        this.userSurname = userSurname;
         this.password = password;
         this.email = email;
+        this.dateOfBirth = dateOfBirth;
         this.dateCreated = dateCreated;
         this.lastAccessed = lastAccessed;
         this.loggedIn = loggedIn;
-        this.picture = picture;
+    
+        this.userType = userType;
         this.accountStatus = accountStatus;
-        this.userRole = userRole;
+    }
+
+    
+ 
+    
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
     
-    public void setIsLoggedIn(boolean loggedIn){
-        this.loggedIn = loggedIn;
-    }
     
-    public boolean getIsLoggedIn(){
+    
+    public int getUniqueUserId() {
+        return uniqueUserId;
+    }
+
+    public void setUniqueUserId(int uniqueUserId) {
+        this.uniqueUserId = uniqueUserId;
+    }
+
+    public String getUserPrefix() {
+        return userPrefix;
+    }
+
+    public void setUserPrefix(String userPrefix) {
+        this.userPrefix = userPrefix;
+    }
+
+    public String getUserFirstname() {
+        return userFirstname;
+    }
+
+    public void setUserFirstname(String userFirstname) {
+        this.userFirstname = userFirstname;
+    }
+
+    public String getUserSurname() {
+        return userSurname;
+    }
+
+    public void setUserSurname(String userSurname) {
+        this.userSurname = userSurname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public Date getLastAccessed() {
+        return lastAccessed;
+    }
+
+    public void setLastAccessed(Date lastAccessed) {
+        this.lastAccessed = lastAccessed;
+    }
+
+    public boolean isLoggedIn() {
         return loggedIn;
     }
-    
-    
-    public void setUserName(String userName){
-        this.userName = userName;
+
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
     }
-    
-    public String getUserName(){
-        return userName; 
+
+    public String getUserType() {
+        return userType;
     }
- 
-    public void setPassword(String password){
-        this.password = password;
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
-    
-    public String getPassword(){
-        return password; 
+
+    public int getAccountStatus() {
+        return accountStatus;
     }
-    
-    public void setEmail(String email){
-        this.email = email;
-    }
-    
-    public String getEmail(){
-        return email; 
-    }   
-    
-    public void setDateCreated(String dateCreated){
-        this.dateCreated = dateCreated;
-    }
-    
-    public String getDateCreated(){
-        return dateCreated; 
-    }
-    
-    public void Date(String lastAccessed){
-        this.lastAccessed = lastAccessed;
-    }
-    
-    public String getLastAccessed(){
-        return lastAccessed; 
-    }
-    
-    public void setAccountStatus(int accountStatus){
+
+    public void setAccountStatus(int accountStatus) {
         this.accountStatus = accountStatus;
-    }
-    
-    public int getAccountStatus(){
-        return accountStatus; 
-    }
-    
-    public void setUniqueUserId(int uuid){
-        this.uniqueUserId = uuid;
-    }
-    
-    public int getUniqueUserId(){
-        return uniqueUserId; 
-    }
-    
-    public void setPicture(String picture){
-        this.picture = picture;
-    }
-    
-    public String getPicture(){
-        return picture; 
-    }
-    
-    public void setUserRole(String userRole){
-        this.userRole = userRole;
-    }
-    
-    public String getUserRole(){
-        return userRole; 
-    }
-    
-    
+    } 
 }

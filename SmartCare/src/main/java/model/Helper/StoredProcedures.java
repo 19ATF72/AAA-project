@@ -28,7 +28,7 @@ public class StoredProcedures extends Enums{
         sqlQueryMap.put(SqlQueryEnum.getEmployee_Uuid, "SELECT * FROM employee WHERE users_uuid=?");
         sqlQueryMap.put(SqlQueryEnum.getEmployee_Eid, "SELECT * FROM employee WHERE eid=?");
         sqlQueryMap.put(SqlQueryEnum.getAllEmployees, "SELECT * FROM employee");
-        sqlQueryMap.put(SqlQueryEnum.getAllEmployeesNamesTypesAndIds, "SELECT e.eid, et.type_name, u.username FROM users u INNER JOIN employee e ON e.users_uuid = u.uuid INNER JOIN employee_type et ON e.EMPLOYEE_TYPE_TID = et.etid");
+        sqlQueryMap.put(SqlQueryEnum.getAllEmployeesNamesTypesAndIds, "SELECT e.eid, u.userprefix, u.usersurname, u.usertype FROM users u INNER JOIN employee e ON e.users_uuid = u.uuid");
         sqlQueryMap.put(SqlQueryEnum.getEmployeeSalary, "SELECT salary FROM employee WHERE eid=?");
         sqlQueryMap.put(SqlQueryEnum.getEmployeeAppointmentsInDay, "SELECT * FROM appointment WHERE employee_eid=? AND date=?");
         sqlQueryMap.put(SqlQueryEnum.getEmployeeFreeAppointmentsInDay, "SELECT * FROM employee_has_appointment_slots WHERE employee_eid=? AND date=?");
