@@ -37,8 +37,8 @@
                             </tr>
                             <c:forEach items="${patientsAppointments}" var="AppointmentEntity">
                                 <tr>
-                                   <td><c:out value="${AppointmentEntity.doctorsName}" /> minutes</td>
-                                   <td><c:out value="${AppointmentEntity.duration}" /> minutes</td>
+                                   <td><c:out value="${AppointmentEntity.doctorsName}"/></td>
+                                   <td><c:out value="${AppointmentEntity.duration}" />0 minutes</td>
                                    <td><c:out value="${AppointmentEntity.notes}" /></td>
                                    <td><c:out value="${AppointmentEntity.charge}" /></td>
                                    <td><c:out value="${AppointmentEntity.dateStr}" /></td>
@@ -64,6 +64,6 @@
             </form>
             <p><c:out value="${not empty message ? message: ''}" /></p>
         </div>
-        <jsp:include page="/WEB-INF/foot.jsp"/>
+        <jsp:include page="/html/footer.html"/>
     </body>
 </html>

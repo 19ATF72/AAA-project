@@ -5,28 +5,26 @@
  */
 package model.Entity;
 
-import model.Dao.DynamicDao;
-import model.Helper.StoredProcedures;
-import java.time.LocalTime;
-import java.util.ArrayList;
+import java.sql.Date;
+
 
 /**
  *
  * @author rob
  */
-public class PatientEntity extends UserEntity {    
-    protected StoredProcedures storedStatements = new StoredProcedures();
+public class PatientEntity extends UserEntity{    
     protected String address;
     protected int patientType;
     protected int patientId;
-    protected String patientName; 
+    protected String postcode; 
     
-    public PatientEntity(){}
+    public PatientEntity(){
+    }
 
-    public PatientEntity(int patientId, String patientName, String address, int patientType){
+    public PatientEntity(int patientId, String address, String postcode, int patientType){
         this.patientId = patientId;
-        this.patientName = patientName;
         this.address = address;
+        this.postcode = postcode;
         this.patientType = patientType;
     }
     
@@ -35,31 +33,17 @@ public class PatientEntity extends UserEntity {
         this.address = address;
         this.patientType = patientType;
     }
-    
-    public void setPatientEntityFromUser(UserEntity user){
-        this.uniqueUserId = user.getUniqueUserId();
-        this.userName = user.getUserName();
-        this.password = user.getPassword();
-        this.email = user.getEmail();
-        this.dateCreated = user.getDateCreated();
-        this.lastAccessed = user.getLastAccessed();
-        this.loggedIn = user.getIsLoggedIn();
-        this.picture = user.getPicture();
-        this.accountStatus = user.getAccountStatus();
+
+    public PatientEntity(int patientId, String address, String patientPostCode, int patientType, int uniqueUserId, String userPrefix, String userFirstname, String userSurname, String password, String email, Date dateOfBirth, Date dateCreated, Date lastAccessed, boolean loggedIn, String userType, int accountStatus) {
+        super(uniqueUserId, userPrefix, userFirstname, userSurname, password, email, dateOfBirth, dateCreated, lastAccessed, loggedIn, userType, accountStatus);
+        this.address = address;
+        this.patientType = patientType;
+        this.patientId = patientId;
+        this.postcode = postcode;
     }
-    
 
-   
     
-    public void createAppointment( ArrayList Params, DynamicDao dynamicDao ){
-    ArrayList result = new ArrayList();
-        try {
-               result = dynamicDao.agnosticQuery(storedStatements.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.NewAppointment), Params.get(0), Params.get(1), Params.get(2), Params.get(3), Params.get(4), Params.get(5), Params.get(6), Params.get(7), Params.get(8));
-        } catch (Exception e) {
-            result.add("User has no appointments");
-        }
-    }   
-
+    
     public int getPatientId() {
         return patientId;
     }
@@ -76,12 +60,12 @@ public class PatientEntity extends UserEntity {
         this.address = address;
     }
     
-    public String getPatientName() {
-        return patientName;
+    public String getPostcode() {
+        return postcode;
     }
 
-    public void setPatientName(String patientName) {
-        this.patientName = patientName;
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
     }
     
     public int getPatientType() {

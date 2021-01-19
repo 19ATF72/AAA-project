@@ -5,86 +5,64 @@
  */
 package model.Entity;
 
-import model.Entity.UserEntity;
-import model.Dao.DynamicDao;
-import model.Helper.StoredProcedures;
-import java.time.LocalTime;
-import java.util.ArrayList;
-
-enum Role {  //TODO: RENAME?? 
-    doctor,
-    nurse,
-    admin
-}
-
+import java.sql.Date;
 
 /**
  *
  * @author rob
  */
-public class EmployeeEntity extends UserEntity {
+public class EmployeeEntity extends UserEntity{
     
-    private StoredProcedures storedProcedures = new StoredProcedures();    
-    
-    private int employeeId;
-    private double salary;
-    private String address = "";
-    private int employeeRole;
-    private int organisation;
-    
-    public EmployeeEntity() {
+    private  int employeeId;
+    private  double salary;
+    private  String address;
+    private  String postcode;
+    private  int organisation;
+
+    public EmployeeEntity(){
     }
-    
-    public EmployeeEntity(int employeeId, double salary, String address, int employeeRole, int organisation) {
+
+    public EmployeeEntity(double salary, String address, String postcode, int organisation) {
         this.employeeId = employeeId;
         this.salary = salary;
-        this.address = address; 
+        this.address = address;
+        this.postcode = postcode;
         this.organisation = organisation;
-        this.employeeRole = employeeRole;
     }
     
-    public EmployeeEntity(int employeeId, double salary, String address, int employeeRole, int organisation, int uniqueUserId) {
+    public EmployeeEntity(int employeeId, double salary, String address, String postcode, int organisation) {
         this.employeeId = employeeId;
         this.salary = salary;
-        this.address = address; 
+        this.address = address;
+        this.postcode = postcode;
         this.organisation = organisation;
-        this.employeeRole = employeeRole;
-        this.uniqueUserId = uniqueUserId;
     }
-    
-    public EmployeeEntity(double salary, String address, int employeeRole, int organisation) {
+
+    public EmployeeEntity(int employeeId, double salary, String address, String postcode, int organisation, int uniqueUserId, String userPrefix, String userFirstname, String userSurname, String password, String email, Date dateOfBirth, Date dateCreated, Date lastAccessed, boolean loggedIn, String userType, int accountStatus) {
+        super(uniqueUserId, userPrefix, userFirstname, userSurname, password, email, dateOfBirth, dateCreated, lastAccessed, loggedIn, userType, accountStatus);
+        this.employeeId = employeeId;
         this.salary = salary;
-        this.address = address; 
-        this.employeeRole = employeeRole;
+        this.address = address;
+        this.postcode = postcode;
         this.organisation = organisation;
     }
     
-    public void setEmployeeEntityFromUser(UserEntity user) {
-        this.uniqueUserId = user.getUniqueUserId();
-        this.userName = user.getUserName();
-        this.password = user.getPassword();
-        this.email = user.getEmail();
-        this.dateCreated = user.getDateCreated();
-        this.lastAccessed = user.getLastAccessed();
-        this.loggedIn = user.getIsLoggedIn();
-        this.picture = user.getPicture();
-        this.accountStatus = user.getAccountStatus();
-    }
     
+
     public int getEmployeeId() {
         return employeeId;
     }
 
-    public void setEmployeeId(int EmployeeId) {
-        this.employeeId = EmployeeId;
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
     }
 
     public double getSalary() {
         return salary;
     }
 
-    public void setSalary(double Salary) {
-        this.salary = Salary;
+    public void setSalary(double salary) {
+        this.salary = salary;
     }
 
     public String getAddress() {
@@ -95,20 +73,20 @@ public class EmployeeEntity extends UserEntity {
         this.address = address;
     }
 
-    public int getEmployeeRole() {
-        return employeeRole;
+    public String getPostcode() {
+        return postcode;
     }
 
-    public void setEmployeeRole(int employeeRole) {
-        this.employeeRole = employeeRole;
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
     }
 
     public int getOrganisation() {
         return organisation;
     }
 
-    public void setOrganisation(int Organization) {
-        this.organisation = Organization;
+    public void setOrganisation(int organisation) {
+        this.organisation = organisation;
     }
 
 }
