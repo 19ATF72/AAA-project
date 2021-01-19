@@ -2,6 +2,10 @@
 <html lang="en">
 <%@include file='/html/scripts.html'%>
 <style><%@include file="/css/style.css"%></style>
+
+<head>
+    <link rel="shortcut icon" href="icons/favicon.ico?" type="image/x-icon" />
+</head>
     
 <body>
   <%@include file='/html/headerSignIn.html'%>
