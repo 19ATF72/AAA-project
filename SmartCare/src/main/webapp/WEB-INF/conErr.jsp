@@ -13,6 +13,6 @@
     </head>
     <body>
         <h1>DB Connection could not been established!!</h1>
-         <jsp:include page="/WEB-INF/foot.jsp"/>
+         <jsp:include page="/html/footer.html"/>
     </body>
 </html>

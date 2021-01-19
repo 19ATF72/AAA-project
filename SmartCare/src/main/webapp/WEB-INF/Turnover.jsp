@@ -123,6 +123,6 @@
             </tr>                 
         </table>
     </div>
-    <jsp:include page="foot.jsp"/>  
+    <jsp:include page="/html/footer.html"/>  
 </body>
 </html>
