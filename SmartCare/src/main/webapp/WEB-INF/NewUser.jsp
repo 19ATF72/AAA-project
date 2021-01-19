@@ -12,7 +12,7 @@
 <style><%@include file="/css/style.css"%></style>
 
     <body>
-        <%@include file='/html/header.html'%>
+        <%@include file='/html/headerSignIn.html'%>
         
         <%! int i=0; String str="Register"; String url = "NewUserController.do"; %>
         <% if((String)request.getAttribute("msg")=="del") { str = "Delete"; url = "Delete.do"; }

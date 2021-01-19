@@ -1,76 +1,84 @@
 <%-- 
-    Document   : organisations
-    Created on : 14-Dec-2020, 13:35:26
-    Author     : rob
+    Document   : driver
+    Created on : 16-Jan-2020, 15:18:08
+    Author     : micah
 --%>
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html>
-    <%! int i=0;
-        String str="List Organisations"; 
-        String url = "OrganisationServlet.do";
-    %>
-    <%
-        str="List Organisations"; 
-        url = "OrganisationServlet.do";
-    %>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Smart Care</title>
-    </head>
+<html lang="en">
     
-    <body>
-        <form method="POST" action="<%=url%>">
-            <center>
-        <h2>
-            <a href="/SmartCare/OrganisationServlet.do/new_organisation">Add New Organisation</a>
-            &nbsp;&nbsp;&nbsp;
-            <a href="/SmartCare/OrganisationServlet.do">List All Organisations</a>
-             
-        </h2>
-    </center>
-        <div align="center">
-            
-         <div>
-            <p>
-                <td> <button type="submit" name="ListOrganisations" value="ListOrganisations"><%=str%></button></td>
-            </p>
-        </div>    
-        <table border="1" cellpadding="5">
-            <caption><h2>List of organisations</h2></caption>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Address</th>
-                <th>PostCode</th>
-                <th>Phone Number</th>
-                <th>Edit</th>
-            </tr>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<%@page import="java.util.ArrayList"%>
+<%@include file='/html/scripts.html'%>
+<style><%@include file="/css/style.css"%></style>
 
-            <c:forEach var="OrganisationEntity" items="${organisationList}">
-                <tr>
-                    <td><c:out value="${OrganisationEntity.getOId()}" /></td>
-                    <td><c:out value="${OrganisationEntity.getName()}" /></td>
-                    <td><c:out value="${OrganisationEntity.getOrgType()}" /></td>
-                    <td><c:out value="${OrganisationEntity.getAddress()}" /></td>
-                    <td><c:out value="${OrganisationEntity.getPostcode()}" /></td>
-                    <td><c:out value="${OrganisationEntity.getPhoneNum()}" /></td>
-                    <td>
-                        <c:set var = "oId" scope = "session" value = "${OrganisationEntity.getOId()}"/>
+    <body>
+        <%@include file='/html/headerSignOut.html'%>
+        
+        <%! int i=0; String str="List Organisations"; String url = "OrganisationServlet.do"; %>
+        <% str="List Organisations"; url = "OrganisationServlet.do"; %>
+
+        <div class="container-fluid">
+            
+            <form method="POST" action="<%=url%>"> 
+                <div class="row" >
+                    
+                    <%@include file='/html/adminSidebar.html'%>
+                    
+                    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                         
-                        <input type="hidden" name="oId" value="<c:out value='${OrganisationEntity.getOId()}'/>"> 
-                        
-                        <a  href="OrganisationServlet.do/edit_organisation?id=<c:out value='${OrganisationEntity.getOId()}' />">Edit</a>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="OrganisationServlet.do/delete_organisation">Delete</a>                     
-                     </td>
-                </tr>
-            </c:forEach>
-        </table>
-    </div>
-        </form>
+                        <div class="${not empty organisationList ? organisationList: 'd-none'}">
+                            <h2>List of organisations</h2>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Type</th>
+                                            <th>Address</th>
+                                            <th>PostCode</th>
+                                            <th>Phone Number</th>
+                                            <th>Edit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach var="OrganisationEntity" items="${organisationList}">
+                                            <tr>
+                                                <td><c:out value="${OrganisationEntity.getOId()}" /></td>
+                                                <td><c:out value="${OrganisationEntity.getName()}" /></td>
+                                                <td><c:out value="${OrganisationEntity.getOrgType()}" /></td>
+                                                <td><c:out value="${OrganisationEntity.getAddress()}" /></td>
+                                                <td><c:out value="${OrganisationEntity.getPostcode()}" /></td>
+                                                <td><c:out value="${OrganisationEntity.getPhoneNum()}" /></td>
+                                                <td>
+                                                    <c:set var = "oId" scope = "session" value = "${OrganisationEntity.getOId()}"/>
+
+                                                    <input type="hidden" name="oId" value="<c:out value='${OrganisationEntity.getOId()}'/>"> 
+
+                                                    <a  href="OrganisationServlet.do/edit_organisation?id=<c:out value='${OrganisationEntity.getOId()}' />">Edit</a>
+                                                    <a href="OrganisationServlet.do/delete_organisation">Delete</a>                     
+                                                 </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                                
+                                <div class="alert alert-secondary ${not empty message ? message: 'd-none'}" role="alert">
+                                    <c:out value="${not empty message ? message: ''}" />
+                                </div>
+                                
+                                <div class="col-12 mb-2 mt-2">
+                                    <button class="w-100 btn btn-primary btn-lg" type="submit" name="ListOrganisations" value="ListOrganisations" ><%=str%></button>  
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </main> 
+                </div>     
+            </form>
+
+            <%@include file='/html/footer.html'%>
+        </div>
     </body>
 </html>
