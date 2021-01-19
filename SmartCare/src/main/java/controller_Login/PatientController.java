@@ -19,12 +19,13 @@ import model.Service.AppointmentService;
 import model.Helper.StoredProcedures;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
@@ -78,6 +79,14 @@ public class PatientController extends HttpServlet {
                 case "choosen":
                     request.getSession().setAttribute("chosenDoctor", Integer.parseInt(request.getParameter("docChoice")));
                     request.getSession().setAttribute("chosenDate", (String)request.getParameter("bookingDate"));
+        
+                    String dateChosen = (String)request.getParameter("bookingDate");
+                      
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(Date.valueOf(dateChosen));
+                    int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);  
+                    request.setAttribute("dayOfWeek", dayOfWeek);      
+                         
                     ArrayList<String[]> slots = appointmentService.retrieveAvaialbleAppointmentsForDoctor((Integer)session.getAttribute("chosenDoctor"),(String)session.getAttribute("chosenDate"));
                     ArrayList lengths  = new ArrayList();
                     ArrayList temp_lengths  = new ArrayList();
@@ -103,6 +112,9 @@ public class PatientController extends HttpServlet {
                             lengthIndex++;
                         }
                     }
+                    
+                    
+                    
                     request.setAttribute("lengths", lengths);
                     request.getSession().setAttribute("lengths", lengths);
                     request.setAttribute("dateSelected", true);

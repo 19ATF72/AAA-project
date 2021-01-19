@@ -4,15 +4,18 @@
  * and open the template in the editor.
  */
 package model.Service;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;  
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;  
+import java.sql.SQLException;
 import java.time.LocalDate;  
 import java.util.ArrayList;
+import java.util.Formatter;
 import model.Dao.DynamicDao;
 import model.Helper.StoredProcedures;
 import model.Entity.UserEntity;
-import model.Entity.EmployeeEntity;
+import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  *
@@ -33,6 +36,10 @@ public class UserService{
         
         modifyAccountStatus(user);
         
+        String hashedPassword = hashPassword(user.getPassword());
+        
+        user.setPassword(hashedPassword);
+
         String result = "";
         
         Date date;
@@ -75,8 +82,10 @@ public class UserService{
     public UserEntity loginUser(String email, String password)
     {    
         
+        String hashedInputPassword = hashPassword(password);
+        
         try { 
-            ArrayList<String[]> userString = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.LoginUser), email, password);
+            ArrayList<String[]> userString = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.LoginUser), email, hashedInputPassword);
             String[] tempUserStringArray = userString.get(0);
               
             Date dateOfBirth = Date.valueOf(tempUserStringArray[6]);
@@ -88,11 +97,10 @@ public class UserService{
                     
             return user;
         } catch (Exception e) { 
-            //FIX
-            
+            System.out.println("Exception " + e);
+            return null;
         }  
-        //MAYBE CHANGE
-        return null;    
+        
     }
     
     public UserEntity fetchUser(int uniqueUserId)
@@ -118,5 +126,10 @@ public class UserService{
         //MAYBE CHANGE
         return null;    
     }
+    
+    private String hashPassword(String password){
+        return (String)DigestUtils.sha1Hex(password);
+    }
+   
     
 }

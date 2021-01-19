@@ -1,3 +1,5 @@
+<%@page import="java.sql.Date"%>
+<%@page import="java.util.Calendar"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.time.LocalDate"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
@@ -16,7 +18,8 @@
          url = "PatientController.do";
          %>
       <%
-         LocalDate todaysDate = LocalDate.now();
+        LocalDate todaysDate = LocalDate.now();
+  
          %>
       <jsp:include page="/html/header.html"/>
       <main>
@@ -73,13 +76,22 @@
                               %>
                            <input type="date" value="<%= bookingDate%>" name="bookingDate" id="datePicker" min="<%= todaysDate%>" required>
                            <%
-                              }
-                              %>
-                           
+                              } 
+                              %>                     
                         </div>
                             <br>
                             <button class="btn btn-primary" name="patientOperation" value="choosen" type="submit" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Find available appointment</button>
-                     </form>
+                     </form>  
+                        
+                    <c:choose>
+                        <c:when test="${dayOfWeek eq 7 || dayOfWeek eq 1}">    
+                           <br>
+                           <div class="alert alert-danger" role="alert">
+                               Please select a working day. (Monday - Friday)
+                          </div>
+                           <br>
+                        </c:when>   
+                       <c:otherwise>
                   <form method="POST" action="PatientController.do">
                   </div>
                   <div class="time_select">
@@ -121,7 +133,9 @@
                   <button class="btn btn-primary" name="patientOperation" value="booked" type="submit" id="menuButton"  aria-haspopup="true" aria-expanded="false">Book Appointment</button>
                   </form>
             </div>
-            </c:if>
+                        </c:if>
+                        </c:otherwise>
+                        </c:choose>
             </main>
          </div>
          </div>
