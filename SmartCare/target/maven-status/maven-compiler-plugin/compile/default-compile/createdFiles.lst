@@ -16,12 +16,9 @@ controller_Login\PatientController.class
 model\PatientModelInterface.class
 controller_Login\Login.class
 controller\TurnoverController.class
+model\Entity\AppointmentSlotsEntity.class
 model\Dao\DynamicDao.class
 model\Service\AppointmentService.class
-<<<<<<< HEAD
-model\Entity\Role.class
-=======
->>>>>>> 4b31d34c0baceb95106a53b5714d28b9cdc5e32d
 controller_Login\NewUserController.class
 model\Service\OrganisationService.class
 model\Entity\UserEntity.class
