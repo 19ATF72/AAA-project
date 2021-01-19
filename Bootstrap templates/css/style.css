@@ -1,0 +1,36 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 17-Jan-2021, 06:18:53
+    Author     : atf1972
+*/
+/* Patient card */
+.patient-col .card-header {
+  background-color: #B7D6E1;
+}
+.patient-col .card {
+  background-color: #C5DEE7;
+}
+
+/* Staff card */
+.staff-col .card-header {
+  background-color: #DEBFBA;
+}
+.staff-col .card {
+  background-color: #E5CBC8;
+}
+
+/* Admin card */
+.admin-col .card-header {
+  background-color: #B8D5E0;
+}
+.admin-col .card {
+  background-color: #C6DDE7;
+}
+
+.alert-secondary {
+  background-color: rgba(0,0,0,.03);
+}
