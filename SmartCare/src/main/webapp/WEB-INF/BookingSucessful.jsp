@@ -6,6 +6,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<link rel="shortcut icon" href="icons/favicon.ico?" type="image/x-icon" />
 </head>
 <body>
  <h1>User successfully registered!</h1>

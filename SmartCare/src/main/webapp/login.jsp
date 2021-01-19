@@ -10,6 +10,7 @@
 <%@include file='/html/scripts.html'%>
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <style><%@include file="/css/style.css"%></style>
+<link rel="shortcut icon" href="icons/favicon.ico?" type="image/x-icon" />
 
     <body>
         <%@include file='/html/headerSignIn.html'%>

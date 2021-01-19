@@ -10,6 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Connection Error Page</title>
+        <link rel="shortcut icon" href="icons/favicon.ico?" type="image/x-icon" />
     </head>
     <body>
         <h1>DB Connection could not been established!!</h1>
