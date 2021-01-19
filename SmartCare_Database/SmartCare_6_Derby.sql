@@ -131,7 +131,7 @@ CREATE INDEX SQL201212165647370 ON PATIENT_PRESCRIPTIONS ( PATIENT_PID );
 CREATE TABLE APPOINTMENT ( 
 	AID                  integer NOT NULL  GENERATED ALWAYS AS IDENTITY,
 	DURATION             integer NOT NULL  ,
-	NOTES                varchar(401) DEFAULT ' ',
+	NOTES                varchar(400) DEFAULT ' ',
 	CHARGE               double NOT NULL  ,
 	DATE                 date NOT NULL DEFAULT CURRENT_DATE ,
 	DATE_PAID            date DEFAULT '1970-01-02',
