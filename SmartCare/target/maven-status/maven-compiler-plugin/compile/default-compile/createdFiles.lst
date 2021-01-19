@@ -3,10 +3,10 @@ model\Entity\OrganisationEntity.class
 model\Helper\StoredProcedures.class
 model\Service\EmployeeService.class
 model\Helper\Enums$SqlQueryEnum.class
+model\Service\ListService.class
 model\Service\UserService.class
 controller\ViewAppointments.class
 controller_Login\employeeController.class
-model\ListModel.class
 controller\Book.class
 controller\listener.class
 model\Entity\PatientEntity.class

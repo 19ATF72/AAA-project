@@ -49,6 +49,7 @@
                                         <th>Starting time</th>
                                         <th>End time</th>
                                         <th>Status</th>
+                                        <th>Update Appointment</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -62,13 +63,14 @@
                                            <td><c:out value="${AppointmentEntity.startTime}" /></td>
                                            <td><c:out value="${AppointmentEntity.endTime}" /></td>
                                            <td><c:out value="${AppointmentEntity.status}" /></td> 
+                                           <td>
+                                           <c:set var= "chosenUniqueAppointmentId" scope = "session" value="${AppointmentEntity.uniqueAppointmentId}" />                                              
+                                           <input type="submit" name="patientOperation" value="Cancel" class="btn btn-danger" />
+                                           </td> 
                                         </tr>
                                     </c:forEach>
                                 </tbody>
                             </table>
-                            <div class="col-12 mb-3">
-                                <button type="submit" class="w-100 btn btn-outline-danger btn-lg" name="patientOperation" value="cancelAppointment">Cancel appointment</button>
-                            </div>
                         </div>
 
                         <h2>Invoiced appointments</h2>

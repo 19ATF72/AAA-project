@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.Service;
 
 import model.Dao.DynamicDao;
 import model.Helper.StoredProcedures;
@@ -13,13 +13,13 @@ import java.util.ArrayList;
  *
  * @author atf1972
  */
-public class ListModel {
+public class ListService {
     private StoredProcedures storedStatements = new StoredProcedures();   
     private String type; //TODO possibly change..   
     private String start_date;
     private String end_date;
     
-    public ListModel(){}
+    public ListService(){}
     
     public ArrayList getPatientsBetweenDates(ArrayList params, DynamicDao dynamicDao){
         ArrayList result = new ArrayList();

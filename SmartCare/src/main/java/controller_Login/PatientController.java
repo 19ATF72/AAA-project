@@ -10,6 +10,7 @@ package controller_Login;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import model.Service.ListService;
 import model.Entity.AppointmentEntity;
 import model.Entity.EmployeeEntity;
 import model.Entity.PatientEntity;
@@ -65,7 +66,7 @@ public class PatientController extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         
         String query;
-        ListModel listHandler = (ListModel)session.getAttribute("ListHandler");
+        ListService listHandler = (ListService)session.getAttribute("ListHandler");
         query = (String)request.getParameter("patientOperation");
         AppointmentService appointmentService = new AppointmentService(dynamicDao);
         PatientService patientService = new PatientService(dynamicDao);
@@ -142,6 +143,9 @@ public class PatientController extends HttpServlet {
                  break;
             case "turnover":
                 request.getRequestDispatcher("/WEB-INF/Turnover.jsp").forward(request, response);
+                break;
+            case "Cancel":
+                String appointmentIdToCancel = request.getParameter("chosenUniqueAppointmentId");
                 break;
             default:
                 request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
