@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Entity.EmployeeEntity;
-import model.ListModel;
+import model.Service.ListService;
 import model.Entity.PatientEntity;
 import model.Entity.UserEntity;
 import model.TurnoverModel;

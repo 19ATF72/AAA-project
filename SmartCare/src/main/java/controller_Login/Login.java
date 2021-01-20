@@ -10,6 +10,7 @@ package controller_Login;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import model.Service.ListService;
 import model.Entity.EmployeeEntity;
 import model.Entity.PatientEntity;
 import model.Entity.UserEntity;
@@ -32,6 +33,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.*;
+import model.Entity.AppointmentEntity;
+import model.Service.AppointmentService;
 import model.Service.EmployeeService;
 import model.Service.UserService;
 import model.Service.PatientService;
@@ -55,7 +58,8 @@ import model.Service.PatientService;
  * 
  * @date  last_review date
  */
-@WebServlet(name = "Login", urlPatterns = {"/"})
+
+//@WebServlet(name = "Login", urlPatterns = {"/login"})
 public class Login extends HttpServlet {
 
     /**
@@ -72,8 +76,8 @@ public class Login extends HttpServlet {
      * @param request servlet request
      * @param response servlet response
      * @param[out] HttpSession session A containing all attributes which will be used in other pages  
-     * @param[out] ListModel listHandler Object set to the current session so other pages can list data from the database 
-     * @param[out] ListModel user Object set to the current session so data base does not need to be called to retrieve user info
+     * @param[out] ListService listHandler Object set to the current session so other pages can list data from the database 
+     * @param[out] ListService user Object set to the current session so data base does not need to be called to retrieve user info
      * 
      * @param[in] input_name input_description 
      *
@@ -89,12 +93,9 @@ public class Login extends HttpServlet {
         //TODO delete this from other controller it is now saved on the session 
         StoredProcedures storedData = new StoredProcedures(); 
         
-        // IS THIS NEEDED?? I thought it was created in the listener?
         DynamicDao dynamicDao = new DynamicDao();
         
-        
-        
-        ListModel listHandler = new ListModel();
+        ListService listHandler = new ListService();
         UserEntity user = new UserEntity();
         UserService userService = new UserService(dynamicDao);
         //set database object connection 
@@ -105,16 +106,14 @@ public class Login extends HttpServlet {
         //saves data objects in the session
         session.setAttribute("dynamicDao", dynamicDao);
         session.setAttribute("ListHandler", listHandler);
-        session.setAttribute("User", user);     
+        session.setAttribute("user", user);     
         session.setAttribute("storedData", storedData);
         session.setAttribute("docSalary", (Double)request.getServletContext().getAttribute("docSalary"));
         session.setAttribute("nurseSalary", (Double)request.getServletContext().getAttribute("nurseSalary"));
         session.setAttribute("clientCharge", (Double)request.getServletContext().getAttribute("clientCharge"));
         //uncoment to populate appointment slots type table
         //dynamicDao.addTimeSlots();
-        
         String query = (String)request.getParameter("LoginOperation");
-       
         switch(query) {
             case "NewUser":
                 request.getRequestDispatcher("/WEB-INF/NewUser.jsp").forward(request, response);
@@ -124,30 +123,24 @@ public class Login extends HttpServlet {
                 String password = (String)request.getParameter("password");
                 //retrieves user from database if it exists  
                 user = userService.loginUser(email, password);
-                String UserType = user.getUserRole();
-
+                
+                
+                
                 if (user != null) {
                     int userStatus = user.getAccountStatus();
-
                 switch (userStatus) {
                     case Enums.APPROVED:
-                        session.setAttribute("User", user);
-                        switch(UserType) {
-                            case "patient":
-                                PatientService patientService = new PatientService(dynamicDao);
-                                PatientEntity patient = patientService.getEmployee(user.getUniqueUserId());
-                                patient.setPatientEntityFromUser(user);
-                                session.setAttribute("Patient", patient);
-
-                                //retrieve appointment for display and senthem to the page
-                                ArrayList appointments = patientService.retrievePatientDisplayableAppointments(patient);
-                                request.setAttribute("schedule", appointments);
+                        session.setAttribute("user", user);
+                        switch(user.getUserType()) {
+                            case "Patient":
+                    
                                 request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
                                 break;
-                            case "employee":
+                            case "Doctor":
+                            case "Nurse:":
                                 EmployeeService employeeService = new EmployeeService(dynamicDao);
-                                EmployeeEntity employee = employeeService.getEmployee(user.getUniqueUserId());
-                                employee.setEmployeeEntityFromUser(user);
+                                EmployeeEntity employee = employeeService.fetchEmployee(user);
+                                
                                 session.setAttribute("Employee", employee);
 
                                 ArrayList employeeAppointments = employeeService.retrieveEmployeeDisplayableAppointments(employee);
@@ -155,9 +148,11 @@ public class Login extends HttpServlet {
 
                                 ArrayList employeeDailyAppointments = employeeService.retrieveEmployeeDailyDisplayableAppointments(employee);
                                 request.setAttribute("dailySchedule", employeeDailyAppointments);
+                                
                                 request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);
                                 break;
                             case "admin":
+                                request.getRequestDispatcher("/WEB-INF/adminPage.jsp").forward(request, response);
                                 break;
                             default:
                         }
@@ -172,9 +167,14 @@ public class Login extends HttpServlet {
                         break;
                     }
                 }
+                else{
+                    request.setAttribute("badPw", true);
+                    request.getRequestDispatcher("/login.jsp").forward(request, response);
+                }
         }
         
     }
+  
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
