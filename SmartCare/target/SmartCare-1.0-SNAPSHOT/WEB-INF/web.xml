@@ -69,7 +69,6 @@
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login.do</url-pattern>
     </servlet-mapping>
-    
     <servlet-mapping>
         <servlet-name>OrganisationServlet</servlet-name>
         <url-pattern>/OrganisationServlet.do</url-pattern>
