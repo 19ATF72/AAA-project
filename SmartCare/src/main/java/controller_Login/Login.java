@@ -95,7 +95,7 @@ public class Login extends HttpServlet {
         
         DynamicDao dynamicDao = new DynamicDao();
         
-        ListService listHandler = new ListService();
+        model.Service.ListService listHandler = new model.Service.ListService();
         UserEntity user = new UserEntity();
         UserService userService = new UserService(dynamicDao);
         //set database object connection 

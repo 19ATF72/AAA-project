@@ -66,11 +66,14 @@ public class StoredProcedures extends Enums{
         sqlQueryMap.put(SqlQueryEnum.insertOrganisation, "INSERT INTO organisation (name, organisation_type_oid, address, postcode, phone_number) VALUES (?, ?, ?, ?, ?)");
         sqlQueryMap.put(SqlQueryEnum.getOrganisation, "SELECT * FROM organisation WHERE oid = ?");
         sqlQueryMap.put(SqlQueryEnum.deleteOrganisation, "DELETE FROM organisation where oid = ?");
-        sqlQueryMap.put(SqlQueryEnum.getOrganisation, "SELECT * FROM organisation");
+        sqlQueryMap.put(SqlQueryEnum.getAllOrganisations, "SELECT * FROM organisation");
         sqlQueryMap.put(SqlQueryEnum.getNurseBaseSalary, "SELECT nurse_base_salary FROM prices");
         sqlQueryMap.put(SqlQueryEnum.getDoctorBaseSalary, "SELECT doctor_base_salary FROM prices");
         sqlQueryMap.put(SqlQueryEnum.getPatientCost, "SELECT patient_cost FROM prices");
         sqlQueryMap.put(SqlQueryEnum.getPatientRepeatPrescriptions, "SELECT pp.PRID, pp.PATIENT_PID, pp.MEDICINE, pp.repeat FROM PATIENT_PRESCRIPTIONS pp INNER JOIN PATIENT p ON pp.PATIENT_PID = p.PID INNER JOIN users as u ON p.USERS_UUID = u.uuid WHERE u.uuid = ?");
-        sqlQueryMap.put(SqlQueryEnum.getOrganisation, "DELETE FROM organisation where oid = ?");
+
+        sqlQueryMap.put(SqlQueryEnum.updatePatientCost, "UPDATE prices SET patient_cost=? WHERE price_id=1");
+        sqlQueryMap.put(SqlQueryEnum.updateNurseBaseSalary, "UPDATE prices SET nurse_base_salary=? WHERE price_id=1");
+        sqlQueryMap.put(SqlQueryEnum.updateDoctorBaseSalary, "UPDATE prices SET doctor_base_salary=? WHERE price_id=1");
     }   
 }

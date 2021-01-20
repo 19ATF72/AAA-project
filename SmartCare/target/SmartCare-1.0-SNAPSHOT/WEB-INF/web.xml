@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <context-param>
@@ -55,6 +56,10 @@
         <servlet-name>IndexServlet</servlet-name>
         <servlet-class>controller.servlet.IndexServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>pricingUpdateController</servlet-name>
+        <servlet-class>controller.pricingUpdateController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Book</servlet-name>
         <url-pattern>/Book.do</url-pattern>
@@ -111,7 +116,10 @@
         <servlet-name>TurnoverController</servlet-name>
         <url-pattern>/TurnoverController.do</url-pattern>
     </servlet-mapping>
-    
+    <servlet-mapping>
+        <servlet-name>pricingUpdateController</servlet-name>
+        <url-pattern>/pricingUpdateController.do</url-pattern>
+    </servlet-mapping>
     
     <filter>
         <filter-name>loginFilter</filter-name>

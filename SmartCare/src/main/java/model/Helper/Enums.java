@@ -60,12 +60,16 @@ public class Enums {
         newPrescription,      
         insertOrganisation,
         getOrganisation,
+        getAllOrganisations,
         deleteOrganisation,
         listAllOrganisations,
         getNurseBaseSalary,
         getDoctorBaseSalary,
         getPatientCost,
-        cancelAppointment
-        getPatientRepeatPrescriptions
+        cancelAppointment,
+        getPatientRepeatPrescriptions,
+        updateDoctorBaseSalary,
+        updateNurseBaseSalary,
+        updatePatientCost,
     }
 }
