@@ -52,6 +52,7 @@ public class StoredProcedures extends Enums{
         sqlQueryMap.put(SqlQueryEnum.getEmployeeDisplayableDailyAppointments, "SELECT a.duration,a.notes,a.charge,a.date,a.start_time,a.end_time, aps.appointment_status, a.aid, a.PATIENT_PID, u.USERNAME FROM appointment AS a INNER JOIN appointment_status as aps ON a.appointment_status_asid = aps.asid INNER JOIN patient as p ON a.PATIENT_PID = p.pid INNER JOIN users as u ON p.users_uuid = u.UUID WHERE employee_eid=? AND aps.asid = 1 AND a.date=CURRENT_DATE");
         sqlQueryMap.put(SqlQueryEnum.newPrescription, "INSERT INTO patient_prescriptions (patient_pid, medicine, repeat) VALUES(?,?,?)");
         sqlQueryMap.put(SqlQueryEnum.updateAppointment, "UPDATE appointment SET notes=?,patient_prescriptions_prid=?,appointment_status_asid=2 WHERE aid=?");
+        sqlQueryMap.put(SqlQueryEnum.cancelAppointment, "UPDATE appointment SET appointment_status_asid=3 WHERE aid=?");
         sqlQueryMap.put(SqlQueryEnum.getAllPossibleAppointments, "SELECT * FROM appointment_slots");
         sqlQueryMap.put(SqlQueryEnum.getPatient_Uuid, "SELECT * FROM patient WHERE users_uuid=?");
         sqlQueryMap.put(SqlQueryEnum.NewAppointment, "INSERT INTO appointment (duration, notes, charge, date, start_time, end_time, patient_pid, employee_eid, appointment_type_atid, appointment_status_asid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -65,6 +66,10 @@ public class StoredProcedures extends Enums{
         sqlQueryMap.put(SqlQueryEnum.insertOrganisation, "INSERT INTO organisation (name, organisation_type_oid, address, postcode, phone_number) VALUES (?, ?, ?, ?, ?)");
         sqlQueryMap.put(SqlQueryEnum.getOrganisation, "SELECT * FROM organisation WHERE oid = ?");
         sqlQueryMap.put(SqlQueryEnum.deleteOrganisation, "DELETE FROM organisation where oid = ?");
-   
+        sqlQueryMap.put(SqlQueryEnum.getOrganisation, "DELETE FROM organisation where oid = ?");
+        sqlQueryMap.put(SqlQueryEnum.getOrganisation, "SELECT * FROM organisation");
+        sqlQueryMap.put(SqlQueryEnum.getNurseBaseSalary, "SELECT nurse_base_salary FROM prices");
+        sqlQueryMap.put(SqlQueryEnum.getDoctorBaseSalary, "SELECT doctor_base_salary FROM prices");
+        sqlQueryMap.put(SqlQueryEnum.getPatientCost, "SELECT patient_cost FROM prices");
     }   
 }
