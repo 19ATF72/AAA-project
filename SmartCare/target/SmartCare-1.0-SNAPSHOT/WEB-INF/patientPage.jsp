@@ -63,9 +63,11 @@
                                            <td><c:out value="${AppointmentEntity.startTime}" /></td>
                                            <td><c:out value="${AppointmentEntity.endTime}" /></td>
                                            <td><c:out value="${AppointmentEntity.status}" /></td> 
-                                           <td>
-                                           <c:set var= "chosenUniqueAppointmentId" scope = "session" value="${AppointmentEntity.uniqueAppointmentId}" />                                              
-                                           <input type="submit" name="patientOperation" value="Cancel" class="btn btn-danger" />
+                                           <td>  
+                                               <form action="PatientController.do/delete" method="post">  
+                                                   <input type="submit" name="patientOperation" value="Cancel" class="btn btn-danger" />
+                                                    <input type="hidden" name="id" value=" ${AppointmentEntity.uniqueAppointmentId}" />
+                                               </form>
                                            </td> 
                                         </tr>
                                     </c:forEach>

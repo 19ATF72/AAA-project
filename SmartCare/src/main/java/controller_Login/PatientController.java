@@ -39,7 +39,7 @@ import model.Service.PatientService;
  *
  * @author me-aydin
  */
-@WebServlet(name = "PatientController", urlPatterns = {"/WEB-INF/PatientController.do"})
+@WebServlet(name = "PatientController", urlPatterns = {"/PatientController.do"})
 public class PatientController extends HttpServlet {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -145,7 +145,7 @@ public class PatientController extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/Turnover.jsp").forward(request, response);
                 break;
             case "Cancel":
-                String appointmentIdToCancel = request.getParameter("chosenUniqueAppointmentId");
+                String appointmentIdToCancel = request.getParameter("id");
                 break;
             default:
                 request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
