@@ -88,7 +88,7 @@ public class LoginFilter implements Filter {
                     case Enums.APPROVED:
                         session.setAttribute("user", user);
                         switch(user.getUserType()) {
-                            case "Patient":
+                            case "patient":
                                 PatientService patientService = new PatientService(dynamicDao);
                                 PatientEntity patient = patientService.getPatient(user);
                                 
@@ -99,8 +99,8 @@ public class LoginFilter implements Filter {
                                 listPatientAppointments(dynamicDao, request, patient.getPatientId());   
                                 request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);                         
                                 break;
-                            case "Doctor":
-                            case "Nurse:":
+                            case "doctor":
+                            case "nurse:":
                                 EmployeeService employeeService = new EmployeeService(dynamicDao);
                                 EmployeeEntity employee = employeeService.fetchEmployee(user);
                                 
@@ -114,7 +114,7 @@ public class LoginFilter implements Filter {
                                 
                                 request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);
                                 break;
-                            case "Admin":
+                            case "admin":
                                 break;
                             default:
                         }
