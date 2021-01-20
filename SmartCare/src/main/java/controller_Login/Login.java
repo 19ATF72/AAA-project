@@ -130,7 +130,7 @@ public class Login extends HttpServlet {
                     case Enums.APPROVED:
                         session.setAttribute("User", user);
                         switch(user.getUserType()) {
-                            case "Patient":
+                            case "patient":
                                 PatientService patientService = new PatientService(dynamicDao);
                                 PatientEntity patient = patientService.getPatient(user);
                                 
@@ -141,8 +141,8 @@ public class Login extends HttpServlet {
                                 listPatientAppointments(dynamicDao, request, patient.getPatientId());   
                                 request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
                                 break;
-                            case "Doctor":
-                            case "Nurse:":
+                            case "doctor":
+                            case "nurse:":
                                 EmployeeService employeeService = new EmployeeService(dynamicDao);
                                 EmployeeEntity employee = employeeService.fetchEmployee(user);
                                 
@@ -156,7 +156,8 @@ public class Login extends HttpServlet {
                                 
                                 request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);
                                 break;
-                            case "Admin":
+                            case "admin":
+                                request.getRequestDispatcher("/WEB-INF/adminPage.jsp").forward(request, response);
                                 break;
                             default:
                         }

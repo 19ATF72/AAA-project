@@ -10,7 +10,6 @@
 <%@include file='/html/scripts.html'%>
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <style><%@include file="/css/style.css"%></style>
-<link rel="shortcut icon" href="icons/favicon.ico?" type="image/x-icon" />
 
     <body>
         <%@include file='/html/headerSignIn.html'%>
@@ -27,59 +26,118 @@
                     <form class="needs-validation" novalidate="" method="POST" action="<%=url%>" >
                         <div class="row g-3">
 
-                          <div class="col-12">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Bobby@tables.com">
-                            <div class="invalid-feedback">
-                              Please enter a valid email address.
+                            <div class="col-12">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" name="email" id="email" placeholder="Bobby@tables.com">
+                                <div class="invalid-feedback">
+                                  Please enter a valid email address.
+                                </div>
                             </div>
-                          </div>
 
-                          <div class="col-12">
-                            <label for="inputPassword" class="visually-hidden">Password</label>
-                            <input type="password" name="password" id="password" class="form-control" placeholder="Password" required="">
-                            <div class="invalid-feedback">
-                              Please enter a valid password.
+                            <div class="col-12">
+                                <label for="inputPassword" class="visually-hidden">Password</label>
+                                <input type="password" name="password" id="password" class="form-control" placeholder="Password" required="">
+                                <div class="invalid-feedback">
+                                  Please enter a valid password.
+                                </div>
                             </div>
-                          </div>
 
-                          <div class="col-sm-12">
-                            <label for="firstName" class="form-label">Full legal name</label>
-                            <input type="text" class="form-control" name="username" id="username" placeholder="Bobby M. Tables" value="" required="">
-                            <div class="invalid-feedback">
-                              Valid full legal name is required.
+                            <div class="col-md-2">
+                                <label for="prefix" class="form-label">Prefix</label>
+                                <select class="form-select" id="prefix" name="prefix" required="">
+                                  <option value="">Choose...</option>
+                                  <option>Dr.</option>
+                                  <option>Mr.</option>
+                                  <option>Mrs.</option>
+                                  <option>Miss.</option>
+                                  <option>None</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                  Please select a valid country.
+                                </div>
                             </div>
-                          </div>
-
-                          <div class="col-sm-12">
-                              <label for="picUrl" class="form-label">Profile Picture</label>
-                              <input type="file" name="picUrl" id="picUrl" >
-                              <div class="invalid-feedback">
-                                Valid profile picture format.
-                              </div>
-                          </div>
-
-                          <div class="col-12">
-                            <label for="postcode" class="form-label">Postcode</label>
-                            <input type="text" class="form-control" name="postcode" id="postcode" placeholder="BS1 3RT" required="">
-                            <div class="invalid-feedback">
-                              Please enter your postcode.
+                            
+                            <div class="col-sm-5">
+                                <label for="firstName" class="form-label">First Name</label>
+                                <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Bobby" value="" required="">
+                                <div class="invalid-feedback">
+                                  First name is required
+                                </div>
                             </div>
-                          </div>
-
-                          <div class="col-12">
-                            <label for="address" class="form-label">Address</label>
-                            <input type="text" class="form-control" name="address" id="address" placeholder="1234 Main St" required="">
-                            <div class="invalid-feedback">
-                              Please enter your shipping address.
+                            
+                            <div class="col-sm-5">
+                                <label for="lastName" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Tables" value="" required="">
+                                <div class="invalid-feedback">
+                                  Last name is required
+                                </div>
                             </div>
-                          </div>
+                            
+                            <div class="col-sm-6">
+                                <label for="dateofbirth" class="form-label">Date of birth</label>
+                                <input type="date" class="form-control" id="dateofbirth" name="dateofbirth">
+                            </div>
 
-                          <div class="col-12">
-                            <label for="address2" class="form-label">Address 2 <span class="text-muted">(Optional)</span></label>
-                            <input type="text" class="form-control" name="address2" id="address2" placeholder="Apartment or suite">
-                          </div>
+                            <div class="col-sm-6">
+                                <label for="telephone" class="form-label">Telephone</label>
+                                <input type="tel" class="form-control" id="telephone" name="telephone">
+                            </div>
+                            
+                            <div class="col-12">
+                                <!-- Postcode field -->
+                                <label for="line1" class="form-label">Postcode search</label>
+                                <div id="postcode_lookup"></div>      
+                            </div>
+
+                            <div class="col-12">
+                                <label for="line1" class="form-label">First Address Line</label>
+                                <input type="text" class="form-control" name="line1" id="line1" placeholder="1234 Main St" required="">
+                            </div>
+
+                            <div class="col-12">
+                                <label for="line2" class="form-label">Second Address Line</label>
+                                <input type="text" class="form-control" name="line2" id="line2" placeholder="Test Street" required="">
+                            </div>
+
+                            <div class="col-12">
+                                <label for="line3" class="form-label">Third Address Line</label>
+                                <input type="text" class="form-control" name="line3" id="line3" placeholder="" required="">
+                            </div>
+
+                            <div class="col-12">
+                                <label for="town" class="form-label">Town</label>
+                                <input type="text" class="form-control" name="town" id="town" placeholder="Bristol" required="">
+                            </div>
+
+                            <div class="col-12">
+                                <label for="town" class="form-label">County</label>
+                                <input type="text" class="form-control" name="county" id="county" placeholder="Avon" required="">
+                            </div>
+
+                            <div class="col-12">
+                                <label for="town" class="form-label">Postcode</label>
+                                <input type="text" class="form-control" name="postcode" id="postcode" placeholder="BS107AE" required="">
+                                <div class="invalid-feedback">
+                                  Please enter a valid postcode.
+                                </div>
+                            </div>
                         </div>
+
+                        <!-- Add after your form -->
+                        <script>
+                        $('#postcode_lookup').getAddress(
+                            {
+                            api_key: 'DJ-7kyPlrkuXidoZT_c4EQ25507',  
+                            output_fields:{
+                                line_1: '#line1',
+                                line_2: '#line2',
+                                line_3: '#line3',
+                                post_town: '#town',
+                                county: '#county',
+                                postcode: '#postcode'
+                            }
+                        });
+                        </script>
 
                         <hr class="my-4">
 
