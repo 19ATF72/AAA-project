@@ -8,7 +8,7 @@
 <html>
    <%@include file='/html/scripts.html'%>
    <style><%@include file="/css/style.css"%></style>
-   <link rel="shortcut icon" href="icons/favicon.ico?" type="image/x-icon" />
+
    <body>
       <%! int i=0;
          String str="List Patients"; 
