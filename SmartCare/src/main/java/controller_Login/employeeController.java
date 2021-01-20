@@ -75,31 +75,31 @@ public class employeeController extends HttpServlet {
         AppointmentService appointmentService = new AppointmentService(dynamicDao);
         
         switch(query){
-                case "recordAppointment":
-                    request.getSession().setAttribute("appointmentToRecord", request.getParameter("appointmentToUpdate"));
-                    request.getRequestDispatcher("/WEB-INF/prescriptionPage.jsp").forward(request, response);
-                    break;
-                case "recorded":
-                    String notes = (String)request.getParameter("notes");
-                    Boolean isRepeat = ((String)request.getParameter("repeat") == null);
-                    String medication = (String)request.getParameter("prescription");
-                    String[] ptidAndAid = ((String)request.getSession().getAttribute("appointmentToRecord")).split(",");
-                    Integer AppointmentID = Integer.parseInt(ptidAndAid[0]);
-                    Integer PatientID = Integer.parseInt(ptidAndAid[1]);
-                    
-                    ArrayList prescriptionParams = new ArrayList(Arrays.asList(PatientID, medication, isRepeat, notes, AppointmentID));
-                    
-                    employeeService.UpdateAppointment(prescriptionParams, dynamicDao);
-                    request.setAttribute("message", "appointment updated successfully");
-                    ArrayList employeeAppointments = appointmentService.retrieveEmployeeDisplayableAppointments(employee);
-                    
-                    request.setAttribute("schedule", employeeAppointments);
-                    ArrayList employeeDailyAppointments = appointmentService.retrieveEmployeeDailyDisplayableAppointments(employee);
-                    request.setAttribute("dailySchedule", employeeDailyAppointments);
-                    request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);
-                    break;
-                default:
-                    request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);
+            case "recordAppointment":
+                request.getSession().setAttribute("appointmentToRecord", request.getParameter("appointmentToUpdate"));
+                request.getRequestDispatcher("/WEB-INF/prescriptionPage.jsp").forward(request, response);
+                break;
+            case "recorded":
+                String notes = (String)request.getParameter("notes");
+                Boolean isRepeat = ((String)request.getParameter("repeat") == null);
+                String medication = (String)request.getParameter("prescription");
+                String[] ptidAndAid = ((String)request.getSession().getAttribute("appointmentToRecord")).split(",");
+                Integer AppointmentID = Integer.parseInt(ptidAndAid[0]);
+                Integer PatientID = Integer.parseInt(ptidAndAid[1]);
+
+                ArrayList prescriptionParams = new ArrayList(Arrays.asList(PatientID, medication, isRepeat, notes, AppointmentID));
+
+                appointmentService.UpdateAppointment(prescriptionParams, dynamicDao);
+                request.setAttribute("message", "appointment updated successfully");
+                ArrayList employeeAppointments = appointmentService.retrieveEmployeeDisplayableAppointments(employee);
+
+                request.setAttribute("schedule", employeeAppointments);
+                ArrayList employeeDailyAppointments = appointmentService.retrieveEmployeeDailyDisplayableAppointments(employee);
+                request.setAttribute("dailySchedule", employeeDailyAppointments);
+                request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);
+                break;
+            default:
+                request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);
         }
         
 

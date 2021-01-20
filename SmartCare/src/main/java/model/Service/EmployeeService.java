@@ -77,18 +77,5 @@ public class EmployeeService {
         }
         return null;
     }
-   
-    
-    
-    public void UpdateAppointment(ArrayList params,DynamicDao dynamicDao){
-
-        ArrayList result = new ArrayList();
-        try {
-            result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.newPrescription), params.get(0), params.get(1), params.get(2));
-            result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.updateAppointment), params.get(3), result.get(0), params.get(4));
-        } catch (Exception e) {
-        }
-
-    }
     
 }

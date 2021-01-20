@@ -277,6 +277,17 @@ public class AppointmentService {
         return result;
     }
     
+    public void UpdateAppointment(ArrayList params,DynamicDao dynamicDao){
+
+        ArrayList result = new ArrayList();
+        try {
+            result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.newPrescription), params.get(0), params.get(1), params.get(2));
+            result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.updateAppointment), params.get(3), result.get(0), params.get(4));
+        } catch (Exception e) {
+        }
+
+    }
+    
     public void sendSMSReminder() throws IOException{
         String myURI = "https://api.bulksms.com/v1/messages";
 
