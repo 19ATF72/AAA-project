@@ -68,6 +68,8 @@ public class StoredProcedures extends Enums{
         sqlQueryMap.put(SqlQueryEnum.getOrganisation, "SELECT * FROM organisation WHERE oid = ?");
         sqlQueryMap.put(SqlQueryEnum.getOrganisation, "DELETE FROM organisation where oid = ?");
         sqlQueryMap.put(SqlQueryEnum.getOrganisation, "SELECT * FROM organisation");
-   
+        sqlQueryMap.put(SqlQueryEnum.getNurseBaseSalary, "SELECT nurse_base_salary FROM prices");
+        sqlQueryMap.put(SqlQueryEnum.getDoctorBaseSalary, "SELECT doctor_base_salary FROM prices");
+        sqlQueryMap.put(SqlQueryEnum.getPatientCost, "SELECT patient_cost FROM prices");
     }   
 }
