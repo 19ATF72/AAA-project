@@ -20,7 +20,7 @@
     
         <body>
        
-            <%@include file='/html/headerSignIn.html'%>
+            <%@include file='/html/headerSignOut.html'%>
             <%! int i=0; String str="Calculate Turnover"; String url = "TurnoverController.do"; %>
             <% str="Calculate Turnover"; url = "TurnoverController.do"; %>
             <% LocalDate todaysDate = LocalDate.now(); %>
