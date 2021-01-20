@@ -101,20 +101,22 @@ public class LoginFilter implements Filter {
                                 break;
                             case "doctor":
                             case "nurse:":
+                                AppointmentService appointmentService = new AppointmentService(dynamicDao);
                                 EmployeeService employeeService = new EmployeeService(dynamicDao);
                                 EmployeeEntity employee = employeeService.fetchEmployee(user);
                                 
                                 session.setAttribute("Employee", employee);
 
-                                ArrayList employeeAppointments = employeeService.retrieveEmployeeDisplayableAppointments(employee);
+                                ArrayList employeeAppointments = appointmentService.retrieveEmployeeDisplayableAppointments(employee);
                                 request.setAttribute("schedule", employeeAppointments);
 
-                                ArrayList employeeDailyAppointments = employeeService.retrieveEmployeeDailyDisplayableAppointments(employee);
+                                ArrayList employeeDailyAppointments = appointmentService.retrieveEmployeeDailyDisplayableAppointments(employee);
                                 request.setAttribute("dailySchedule", employeeDailyAppointments);
                                 
                                 request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);
                                 break;
                             case "admin":
+                                request.getRequestDispatcher("/WEB-INF/adminPage.jsp").forward(request, response);
                                 break;
                             default:
                         }
@@ -163,7 +165,7 @@ public class LoginFilter implements Filter {
             }
           
         }
-        request.setAttribute("patientsActiveAppointments", patientsAppointments);
+        request.setAttribute("patientsActiveAppointments", patientsActiveAppointments);
         request.setAttribute("patientsInvoicedAppointments", patientsInvoicedAppointments);
         request.setAttribute("patientsPaidAppointments", patientsPaidAppointments);
         request.setAttribute("patientsCancelledAppointments", patientsCancelledAppointments);

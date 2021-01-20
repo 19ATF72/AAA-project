@@ -381,6 +381,73 @@ public class AppointmentServiceUnitTests {
         }
     }
     */
+    
+    
+    @Test
+    public void retrieveEmployeeDailyDisplayableAppointments_Success(){
+        
+        // Arrange
+        ArrayList<String[]> employeeAppointmentsArrayList = new ArrayList<>();
+        String[] employeeAppointmentsStringArray = {"Duration", "Notes", "Charge", "Date", "1", "601", "Appointment status", "1", "1", "Username"};
+        employeeAppointmentsArrayList.add(employeeAppointmentsStringArray);
+                
+        EmployeeEntity employee = new EmployeeEntity(1, 1.0, "Address", "Postcode", 1, 1);
+        
+        ArrayList expectedEmployeeAppointments = new ArrayList();
+        String[] expectedEmployeeStringArray = {"Duration", "Notes", "Charge", "Date", "00:00:01", "00:01:01", "Appointment status", "1", "1", "Username"};
+        expectedEmployeeAppointments.add(expectedEmployeeStringArray);
+        
+        try{
+            when(dynamicDaoMock.agnosticQuery(anyString(), anyInt())).thenReturn(employeeAppointmentsArrayList);
+        }catch(SQLException e){
+            
+        }
+        
+        // Act
+        ArrayList actualEmployeeAppointments = appointmentService.retrieveEmployeeDailyDisplayableAppointments(employee);
+        
+        // Assert
+        Assert.assertThat(actualEmployeeAppointments, new ReflectionEquals(expectedEmployeeAppointments));
+    }
+    
+    
+    @Test
+    public void UpdateAppointment_Success(){
+        
+        // Arrange
+        ArrayList<String[]> employeeAppointmentsArrayList = new ArrayList<>();
+        
+        //"INSERT INTO patient_prescriptions (patient_pid, medicine, repeat) VALUES(?,?,?)");
+        //"UPDATE appointment SET notes=?,patient_prescriptions_prid=?,appointment_status_asid=2 WHERE aid=?");
+        ArrayList params = new ArrayList();
+        params.add(1);
+        params.add("Medicine");
+        params.add(false);
+        params.add("Notes");
+        params.add(1);
+        params.add(1);
+        
+        EmployeeEntity employee = new EmployeeEntity(1, 1.0, "Address", "Postcode", 1, 1);
+        
+        ArrayList expecetedUpdatedAppointment = new ArrayList();
+        
+        try{
+            when(dynamicDaoMock.agnosticQuery(anyString(), anyInt(), anyString(), anyBoolean())).thenReturn(employeeAppointmentsArrayList);
+            when(dynamicDaoMock.agnosticQuery(anyString(), anyString(), anyInt(), anyInt())).thenReturn(employeeAppointmentsArrayList);
+        }catch(SQLException e){
+            
+        }
+        
+        // Act      
+        appointmentService.UpdateAppointment(params, dynamicDaoMock);
+        
+        ArrayList actualUpdatedAppointment = appointmentService.retrieveEmployeeDisplayableAppointments(employee);
+        
+        // Assert
+        Assert.assertThat(actualUpdatedAppointment, new ReflectionEquals(expecetedUpdatedAppointment));
+
+    }
+    
     @Test
     public void createAppointment_Success(){
         
