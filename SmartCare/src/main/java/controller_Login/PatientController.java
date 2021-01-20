@@ -144,11 +144,9 @@ public class PatientController extends HttpServlet {
                 request.setAttribute("patientsAppointments", patientsAppointments);
                 request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
                 break;
-             case "list":
-                request.getRequestDispatcher("/WEB-INF/List.jsp").forward(request, response);
-                 break;
-            case "turnover":
-                request.getRequestDispatcher("/WEB-INF/Turnover.jsp").forward(request, response);
+            case "listPrescriptions":
+                request.getSession().setAttribute("prescriptions", listHandler.getDoctorsForDisplay(dynamicDao));
+                request.getRequestDispatcher("/WEB-INF/listPrescriptions.jsp").forward(request, response);
                 break;
             case "cancel":
                 int id = Integer.parseInt(request.getParameter("id"));
@@ -200,7 +198,7 @@ public class PatientController extends HttpServlet {
             }
           
         }
-        request.setAttribute("patientsActiveAppointments", patientsAppointments);
+        request.setAttribute("patientsActiveAppointments", patientsActiveAppointments);
         request.setAttribute("patientsInvoicedAppointments", patientsInvoicedAppointments);
         request.setAttribute("patientsPaidAppointments", patientsPaidAppointments);
         request.setAttribute("patientsCancelledAppointments", patientsCancelledAppointments);

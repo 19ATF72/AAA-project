@@ -52,7 +52,6 @@
                                         <th>Date</th>
                                         <th>Starting time</th>
                                         <th>End time</th>
-                                        <th>Status</th>
                                         <th>Update Appointment</th>
                                     </tr>
                                 </thead>
@@ -65,8 +64,7 @@
                                            <td><c:out value="${AppointmentEntity.charge}" /></td>
                                            <td><c:out value="${AppointmentEntity.dateStr}" /></td>
                                            <td><c:out value="${AppointmentEntity.startTime}" /></td>
-                                           <td><c:out value="${AppointmentEntity.endTime}" /></td>
-                                           <td><c:out value="${AppointmentEntity.status}" /></td>                          
+                                           <td><c:out value="${AppointmentEntity.endTime}" /></td>                
                                            <td>
                                                 <form action="./app/cancel?id=<c:out value='${AppointmentEntity.uniqueAppointmentId}'/>" method="post">
                                                     <button class="btn btn-danger" type="submit" name="patientOperation" value="cancel" >Cancel</button>
@@ -89,7 +87,6 @@
                                         <th>Date</th>
                                         <th>Starting time</th>
                                         <th>End time</th>
-                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -102,7 +99,6 @@
                                            <td><c:out value="${AppointmentEntity.dateStr}" /></td>
                                            <td><c:out value="${AppointmentEntity.startTime}" /></td>
                                            <td><c:out value="${AppointmentEntity.endTime}" /></td>
-                                           <td><c:out value="${AppointmentEntity.status}" /></td> 
                                         </tr>
                                     </c:forEach>
                                 </tbody>
@@ -124,7 +120,6 @@
                                     <th>Date</th>
                                     <th>Starting time</th>
                                     <th>End time</th>
-                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -137,7 +132,6 @@
                                        <td><c:out value="${AppointmentEntity.dateStr}" /></td>
                                        <td><c:out value="${AppointmentEntity.startTime}" /></td>
                                        <td><c:out value="${AppointmentEntity.endTime}" /></td>
-                                       <td><c:out value="${AppointmentEntity.status}" /></td> 
                                     </tr>
                                 </c:forEach>
                             </tbody>
@@ -156,7 +150,6 @@
                                     <th>Date</th>
                                     <th>Starting time</th>
                                     <th>End time</th>
-                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -169,7 +162,6 @@
                                        <td><c:out value="${AppointmentEntity.dateStr}" /></td>
                                        <td><c:out value="${AppointmentEntity.startTime}" /></td>
                                        <td><c:out value="${AppointmentEntity.endTime}" /></td>
-                                       <td><c:out value="${AppointmentEntity.status}" /></td> 
                                     </tr>
                                 </c:forEach>
                             </tbody>

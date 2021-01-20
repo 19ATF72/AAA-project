@@ -44,7 +44,7 @@
 
                             <div class="col-md-2">
                                 <label for="prefix" class="form-label">Prefix</label>
-                                <select class="form-select" id="prefix" name="prefix" required="">
+                                <select class="form-select" id="prefix" name="userPrefix" required="">
                                   <option value="">Choose...</option>
                                   <option>Dr.</option>
                                   <option>Mr.</option>
@@ -59,7 +59,7 @@
                             
                             <div class="col-sm-5">
                                 <label for="firstName" class="form-label">First Name</label>
-                                <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Bobby" value="" required="">
+                                <input type="text" class="form-control" name="userFirstName" id="firstname" placeholder="Bobby" value="" required="">
                                 <div class="invalid-feedback">
                                   First name is required
                                 </div>
@@ -67,7 +67,7 @@
                             
                             <div class="col-sm-5">
                                 <label for="lastName" class="form-label">Last Name</label>
-                                <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Tables" value="" required="">
+                                <input type="text" class="form-control" name="userSurname" id="lastname" placeholder="Tables" value="" required="">
                                 <div class="invalid-feedback">
                                   Last name is required
                                 </div>
@@ -75,7 +75,7 @@
                             
                             <div class="col-sm-6">
                                 <label for="dateofbirth" class="form-label">Date of birth</label>
-                                <input type="date" class="form-control" id="dateofbirth" name="dateofbirth">
+                                <input type="date" class="form-control" id="dateofbirth" name="dateOfBirth">
                             </div>
 
                             <div class="col-sm-6">
@@ -91,7 +91,7 @@
 
                             <div class="col-12">
                                 <label for="line1" class="form-label">First Address Line</label>
-                                <input type="text" class="form-control" name="line1" id="line1" placeholder="1234 Main St" required="">
+                                <input type="text" class="form-control" name="address" id="line1" placeholder="1234 Main St" required="">
                             </div>
 
                             <div class="col-12">
