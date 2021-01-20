@@ -113,6 +113,46 @@ public class AppointmentService {
         return practitionerAppointments;
     }
     
+    public ArrayList<AppointmentEntity> retrieveEmployeeDisplayableAppointments(EmployeeEntity employee){
+
+        ArrayList<AppointmentEntity> appointmentList  = new ArrayList<AppointmentEntity>();
+        
+        ArrayList<String[]> result = new ArrayList();
+        
+        try {
+            result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getEmployeeDisplayableAppointments), employee.getUniqueUserId());
+        } catch (Exception e) {
+            
+            //TODO THROW
+            return null;
+        }
+        for (int i = 0; i < result.size(); i++) {
+             AppointmentEntity appointment = new AppointmentEntity(Integer.parseInt(result.get(i)[0]), result.get(i)[1], Double.parseDouble(result.get(i)[2]), result.get(i)[3], result.get(i)[4], result.get(i)[5], Integer.parseInt(result.get(i)[6]), Integer.parseInt(result.get(i)[7]), Integer.parseInt(result.get(i)[8]), result.get(i)[9], result.get(i)[10]);
+             appointmentList.add(appointment);
+        } 
+        return appointmentList;
+    }
+    
+    public ArrayList<AppointmentEntity> retrieveEmployeeDailyDisplayableAppointments(EmployeeEntity employee){
+
+        ArrayList<AppointmentEntity> appointmentList  = new ArrayList<AppointmentEntity>();
+        
+        ArrayList<String[]> result = new ArrayList();
+        
+        try {
+            result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getEmployeeDisplayableDailyAppointments), employee.getUniqueUserId());
+        } catch (Exception e) {
+            
+            //TODO THROW
+            return null;
+        }
+        for (int i = 0; i < result.size(); i++) {
+             AppointmentEntity appointment = new AppointmentEntity(Integer.parseInt(result.get(i)[0]), result.get(i)[1], Double.parseDouble(result.get(i)[2]), result.get(i)[3], result.get(i)[4], result.get(i)[5], Integer.parseInt(result.get(i)[6]), Integer.parseInt(result.get(i)[7]), Integer.parseInt(result.get(i)[8]), result.get(i)[9], result.get(i)[10]);
+             appointmentList.add(appointment);
+        } 
+        return appointmentList;
+    }
+    
     private ArrayList<String[]> parseAppointmentsToTimeSlots(ArrayList<AppointmentSlotsEntity> slots){
         
         ArrayList lengths  = new ArrayList();

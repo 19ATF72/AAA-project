@@ -9,7 +9,7 @@ package model.Entity;
  *
  * @author rob
  */
-public class AppointmentEntity {
+public class AppointmentEntity extends UserEntity{
     
     protected int uniqueAppointmentId;
     protected String employeeName;
@@ -59,6 +59,21 @@ public class AppointmentEntity {
         this.type = type;
         this.perscriptionId = perscriptionId;
         this.status = status;
+    }
+    
+    public AppointmentEntity(int duration, String notes, Double charge, String dateStr, String startTime, 
+            String endTime, int status, int uniqueAppointmentId, int patientId, String userFirstName, String userSurname) {
+        this.duration = duration;
+        this.notes = notes;
+        this.charge = charge;
+        this.dateStr = dateStr;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.patientId = patientId;
+        this.status = status;
+        this.uniqueAppointmentId = uniqueAppointmentId;
+        this.userFirstname = userFirstname;
+        this.userSurname = userSurname;
     }
 
     public int getUniqueAppointmentId() {

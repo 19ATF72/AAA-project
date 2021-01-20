@@ -35,6 +35,7 @@ import javax.servlet.http.HttpSession;
 
 
 import model.*;
+import model.Service.AppointmentService;
 import model.Service.EmployeeService;
 /**
  *
@@ -71,7 +72,7 @@ public class employeeController extends HttpServlet {
         String query;
         ListService listHandler = (ListService)session.getAttribute("ListHandler");
         query = (String)request.getParameter("employeeOperation");
-        AppointmentEntity apointment_handling = new AppointmentEntity();
+        AppointmentService appointmentService = new AppointmentService(dynamicDao);
         
         switch(query){
                 case "recordAppointment":
@@ -90,9 +91,10 @@ public class employeeController extends HttpServlet {
                     
                     employeeService.UpdateAppointment(prescriptionParams, dynamicDao);
                     request.setAttribute("message", "appointment updated successfully");
-                    ArrayList employee_appointments = employeeService.retrieveEmployeeDisplayableAppointments(employee);
-                    request.setAttribute("schedule", employee_appointments);
-                    ArrayList employeeDailyAppointments = employeeService.retrieveEmployeeDailyDisplayableAppointments(employee);
+                    ArrayList employeeAppointments = appointmentService.retrieveEmployeeDisplayableAppointments(employee);
+                    
+                    request.setAttribute("schedule", employeeAppointments);
+                    ArrayList employeeDailyAppointments = appointmentService.retrieveEmployeeDailyDisplayableAppointments(employee);
                     request.setAttribute("dailySchedule", employeeDailyAppointments);
                     request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);
                     break;

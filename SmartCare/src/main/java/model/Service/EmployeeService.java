@@ -77,37 +77,8 @@ public class EmployeeService {
         }
         return null;
     }
+   
     
-
-    public ArrayList retrieveEmployeeDisplayableAppointments(EmployeeEntity employee){
-
-        ArrayList result = new ArrayList();
-        try {
-            result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getEmployeeDisplayableAppointments), employee.getUniqueUserId());
-        } catch (Exception e) {
-            result.add("User has no appointments");
-        }
-            for (int appointment = 0; appointment < result.size(); appointment++) {
-                ((String [])result.get(appointment))[5] = LocalTime.ofSecondOfDay( Integer.parseInt(((String [])result.get(appointment))[5])).toString();
-                ((String [])result.get(appointment))[4] = LocalTime.ofSecondOfDay( Integer.parseInt(((String [])result.get(appointment))[4])).toString();
-            }
-        return result;
-    }
-    
-    public ArrayList retrieveEmployeeDailyDisplayableAppointments(EmployeeEntity employee){
-
-        ArrayList result = new ArrayList();
-        try {
-            result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getEmployeeDisplayableDailyAppointments), employee.getUniqueUserId());
-        } catch (Exception e) {
-            result.add("User has no appointments");
-        }
-            for (int appointment = 0; appointment < result.size(); appointment++) {
-                ((String [])result.get(appointment))[5] = LocalTime.ofSecondOfDay( Integer.parseInt(((String [])result.get(appointment))[5])).toString();
-                ((String [])result.get(appointment))[4] = LocalTime.ofSecondOfDay( Integer.parseInt(((String [])result.get(appointment))[4])).toString();
-            }
-        return result;
-    }
     
     public void UpdateAppointment(ArrayList params,DynamicDao dynamicDao){
 
