@@ -52,7 +52,7 @@ public class EmployeeService {
             EmployeeEntity employee = new EmployeeEntity(Integer.parseInt(tempEmployeeEntityString[0]), Double.parseDouble(tempEmployeeEntityString[1]), 
                     tempEmployeeEntityString[2], tempEmployeeEntityString[3], Integer.parseInt(tempEmployeeEntityString[4]), user.getUniqueUserId(), user.getUserPrefix(),
                     user.getUserFirstname(), user.getUserSurname(), user.getPassword(), user.getEmail(), user.getDateOfBirth(), user.getDateCreated(), 
-                    user.getLastAccessed(), user.isLoggedIn(), user.getUserType(), user.getAccountStatus());
+                    user.getLastAccessed(), user.isLoggedIn(), user.getUserType(), user.getAccountStatus(), user.getPhoneNumber());
             
             return employee; 
         } catch (Exception e) {
@@ -68,8 +68,8 @@ public class EmployeeService {
             result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getEmployee_Eid), eId);
             
             String[] tempEmployeeEntityString = result.get(0);
-             EmployeeEntity employee = new EmployeeEntity(Integer.parseInt(tempEmployeeEntityString[0]), Double.parseDouble(tempEmployeeEntityString[1]), 
-                    tempEmployeeEntityString[2], tempEmployeeEntityString[3], Integer.parseInt(tempEmployeeEntityString[4]));
+            EmployeeEntity employee = new EmployeeEntity(Integer.parseInt(tempEmployeeEntityString[0]), Double.parseDouble(tempEmployeeEntityString[1]), 
+                    tempEmployeeEntityString[2], tempEmployeeEntityString[3], Integer.parseInt(tempEmployeeEntityString[4]), Integer.parseInt(tempEmployeeEntityString[5]));
             
             return employee; 
         } catch (Exception e) {

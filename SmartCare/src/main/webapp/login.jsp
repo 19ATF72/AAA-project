@@ -10,6 +10,7 @@
 <%@include file='/html/scripts.html'%>
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <style><%@include file="/css/style.css"%></style>
+<link rel="shortcut icon" href="icons/favicon.ico?" type="image/x-icon" />
 
     <body>
         <%@include file='/html/headerSignIn.html'%>
@@ -28,7 +29,14 @@
                         <div class="card-body">
                             <form method="POST" action="<%=url%>">   
                                 <i class="fas fa-laptop-medical mb-4" style="font-size:90px"></i>
-
+                                
+                                <c:if test="${badPw == true}">
+                                    <br>
+                                    <div class="alert alert-danger" role="alert">
+                                       Invalid Email or Password
+                                    </div>
+                                    <br>                                    
+                                </c:if>                            
                                 <div class="alert alert-secondary ${not empty message ? message: 'd-none'}" role="alert">
                                   <c:out value="${not empty message ? message: ''}" />
                                 </div>
@@ -48,7 +56,7 @@
                     </div>
                 </div>
             </div>  
-
+                              
             <%@include file='/html/footer.html'%>
         </main>
     </body>

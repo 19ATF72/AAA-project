@@ -37,13 +37,16 @@ public class UserEntity {
     protected String userType; 
     
     protected int accountStatus;
+
+   
  
+    protected String phoneNumber;
 
     
     public UserEntity() {
     }
-
-    public UserEntity(int uniqueUserId, String userPrefix, String userFirstname, String userSurname, String password, String email, Date dateOfBirth, Date dateCreated, Date lastAccessed, boolean loggedIn, String userType, int accountStatus) {
+    
+    public UserEntity(int uniqueUserId, String userPrefix, String userFirstname, String userSurname, String password, String email, Date dateOfBirth, Date dateCreated, Date lastAccessed, boolean loggedIn, String userType, int accountStatus, String phoneNumber) {
         this.uniqueUserId = uniqueUserId;
         this.userPrefix = userPrefix;
         this.userFirstname = userFirstname;
@@ -54,13 +57,19 @@ public class UserEntity {
         this.dateCreated = dateCreated;
         this.lastAccessed = lastAccessed;
         this.loggedIn = loggedIn;
-    
         this.userType = userType;
         this.accountStatus = accountStatus;
+        this.phoneNumber = phoneNumber;
+    }
+ 
+    
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    
- 
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
     
     public Date getDateOfBirth() {
         return dateOfBirth;
@@ -69,9 +78,7 @@ public class UserEntity {
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
-    
-    
-    
+
     public int getUniqueUserId() {
         return uniqueUserId;
     }

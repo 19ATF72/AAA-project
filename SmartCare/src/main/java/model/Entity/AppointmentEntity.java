@@ -13,7 +13,7 @@ public class AppointmentEntity {
     
     protected int uniqueAppointmentId;
     protected String employeeName;
-    protected String duration; 
+    protected int duration; 
     protected String notes; 
     protected Double charge;
     protected String dateStr;
@@ -29,7 +29,7 @@ public class AppointmentEntity {
     public AppointmentEntity() {
     }
 
-    public AppointmentEntity(int uniqueAppointmentId, String duration, String notes, Double charge, String dateStr, String datePaidStr, String startTime, 
+    public AppointmentEntity(int uniqueAppointmentId, int duration, String notes, Double charge, String dateStr, String datePaidStr, String startTime, 
             String endTime, int patientId, int employeeId, int type, int perscriptionId, int status) {
         this.uniqueAppointmentId = uniqueAppointmentId;
         this.duration = duration;
@@ -37,6 +37,21 @@ public class AppointmentEntity {
         this.charge = charge;
         this.dateStr = dateStr;
         this.datePaidStr = datePaidStr;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.patientId = patientId;
+        this.employeeId = employeeId;
+        this.type = type;
+        this.perscriptionId = perscriptionId;
+        this.status = status;
+    }
+    
+    public AppointmentEntity(int duration, String notes, Double charge, String dateStr, String startTime, 
+            String endTime, int patientId, int employeeId, int type, int perscriptionId, int status) {
+        this.duration = duration;
+        this.notes = notes;
+        this.charge = charge;
+        this.dateStr = dateStr;
         this.startTime = startTime;
         this.endTime = endTime;
         this.patientId = patientId;
@@ -102,11 +117,11 @@ public class AppointmentEntity {
         this.employeeName = doctorsName;
     }
 
-    public String getDuration() {
+    public int getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(int duration) {
         this.duration = duration;
     }
 

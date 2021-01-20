@@ -48,7 +48,7 @@ public class PatientService {
             PatientEntity patient = new PatientEntity(Integer.parseInt(tempPatientEntityString[0]), tempPatientEntityString[1],
                     tempPatientEntityString[2], Integer.parseInt(tempPatientEntityString[3]), user.getUniqueUserId(), user.getUserPrefix(),
                     user.getUserFirstname(), user.getUserSurname(), user.getPassword(), user.getEmail(), user.getDateOfBirth(), user.getDateCreated(), 
-                    user.getLastAccessed(), user.isLoggedIn(), user.getUserType(), user.getAccountStatus());
+                    user.getLastAccessed(), user.isLoggedIn(), user.getUserType(), user.getAccountStatus(), user.getPhoneNumber());
             
             return patient; 
         } catch (Exception e) {

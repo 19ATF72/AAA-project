@@ -12,6 +12,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@include file='/html/scripts.html'%>
 <style><%@include file="/css/style.css"%></style>
+<link rel="shortcut icon" href="icons/favicon.ico?" type="image/x-icon" />
 
     <body>
         <%@include file='/html/headerSignOut.html'%>
@@ -40,7 +41,7 @@
                             <table class="table table-striped table-sm">
                                 <thead>
                                     <tr>
-                                        <th>Doctor Name</th>
+                                        <th>Practitioner Name</th>
                                         <th>Duration</th>
                                         <th>Notes</th>
                                         <th>Charge</th>
@@ -48,26 +49,30 @@
                                         <th>Starting time</th>
                                         <th>End time</th>
                                         <th>Status</th>
+                                        <th>Update Appointment</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <c:forEach items="${patientsAppointments}" var="AppointmentEntity">
                                         <tr>
                                            <td><c:out value="${AppointmentEntity.doctorsName}" /></td>
-                                           <td><c:out value="${AppointmentEntity.duration}" /> slot</td>
+                                           <td><c:out value="${AppointmentEntity.duration}" /> Minutes</td>
                                            <td><c:out value="${AppointmentEntity.notes}" /></td>
                                            <td><c:out value="${AppointmentEntity.charge}" /></td>
                                            <td><c:out value="${AppointmentEntity.dateStr}" /></td>
                                            <td><c:out value="${AppointmentEntity.startTime}" /></td>
                                            <td><c:out value="${AppointmentEntity.endTime}" /></td>
                                            <td><c:out value="${AppointmentEntity.status}" /></td> 
+                                           <td>  
+                                               <form action="PatientController.do/delete" method="post">  
+                                                   <input type="submit" name="patientOperation" value="Cancel" class="btn btn-danger" />
+                                                    <input type="hidden" name="id" value=" ${AppointmentEntity.uniqueAppointmentId}" />
+                                               </form>
+                                           </td> 
                                         </tr>
                                     </c:forEach>
                                 </tbody>
                             </table>
-                            <div class="col-12 mb-3">
-                                <button type="submit" class="w-100 btn btn-outline-danger btn-lg" name="patientOperation" value="cancelAppointment">Cancel appointment</button>
-                            </div>
                         </div>
 
                         <h2>Invoiced appointments</h2>
