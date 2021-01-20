@@ -223,6 +223,20 @@ public class AppointmentService {
         }
     }
     
+    public String cancelAppointment(int idToCancel){
+        String result; 
+        try {
+            
+            dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.cancelAppointment), idToCancel);
+            result = "Cancelled";
+        }catch (Exception e) {
+            e.printStackTrace();
+            String test = e.toString();
+            result = "Error";
+        }
+        return result;
+    }
+    
     public void sendSMSReminder() throws IOException{
         String myURI = "https://api.bulksms.com/v1/messages";
 

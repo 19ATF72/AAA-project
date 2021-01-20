@@ -3,11 +3,22 @@ controller_Login\ListController.class
 model\Entity\OrganisationEntity.class
 model\Helper\StoredProcedures.class
 model\Service\EmployeeService.class
+<<<<<<< HEAD
+model\Helper\Enums$SqlQueryEnum.class
+model\Service\ListService.class
+model\Service\UserService.class
+controller\ViewAppointments.class
+controller_Login\employeeController.class
+controller\Book.class
+controller\filters\LoginFilter.class
+controller\listener.class
+=======
 model\Service\UserService.class
 controller\ViewAppointments.class
 controller_Login\employeeController.class
 model\ListModel.class
 controller\Book.class
+>>>>>>> develop
 model\Entity\PatientEntity.class
 model\Service\PatientService.class
 model\TurnoverModel.class
@@ -16,12 +27,25 @@ model\PatientModelInterface.class
 controller_Login\Login.class
 controller\TurnoverController.class
 model\Entity\AppointmentSlotsEntity.class
+<<<<<<< HEAD
+controller\servlet\IndexSevlet.class
+model\Dao\DynamicDao.class
+model\Service\AppointmentService.class
+controller\servlet\LoginServlet.class
+controller_Login\NewUserController.class
+model\Service\OrganisationService.class
+model\Entity\UserEntity.class
+controller\filters\AuthFilter.class
+controller\ViewAppointments$MyServlet.class
+model\Helper\Enums.class
+=======
 model\Dao\DynamicDao.class
 model\Service\AppointmentService.class
 controller_Login\NewUserController.class
 model\Service\OrganisationService.class
 model\Entity\UserEntity.class
 controller\ViewAppointments$MyServlet.class
+>>>>>>> develop
 model\Entity\AppointmentEntity.class
 model\Entity\Status.class
 model\Entity\EmployeeEntity.class
