@@ -12,11 +12,13 @@
    <body>
       <%! int i=0;
          String str="List Patients"; 
-         String url = "PatientController.do";
+         String url = "./book_appointment/find_available_appointment";
+         String url2 = "/SmartCare/app/";
          %>
       <%
          str="List Patients"; 
-         url = "PatientController.do";
+         url = "./book_appointment/find_available_appointment";
+         url2 = "/SmartCare/app/";
          %>
       <%
          LocalDate todaysDate = LocalDate.now();
@@ -73,7 +75,7 @@
                         </div>
                         <br>
                         <button class="btn btn-primary" name="patientOperation" value="choosen" type="submit" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Find available appointment</button>
-                     
+                     </form>
                      <c:choose>
                         <c:when test="${dayOfWeek eq 7 || dayOfWeek eq 1}">
                            <br>
@@ -83,7 +85,7 @@
                            <br>
                         </c:when>
                         <c:otherwise>
-
+                  <form method="POST" action="<%=url2%>">
                   </div>
                   <div class="time_select">
                   <c:if test="${dateSelected}">
@@ -119,7 +121,8 @@
                   <h9>400 Character Limit</h9>
                   <div class="input-group">
                   <textarea class="form-control" name="appointmentNotes" aria-label="With textarea"></textarea>
-                  </div>           
+                  </div>         
+                 
                   <br>
                   <button class="btn btn-primary" name="patientOperation" value="booked" type="submit" id="menuButton"  aria-haspopup="true" aria-expanded="false">Book Appointment</button>
                   </form>

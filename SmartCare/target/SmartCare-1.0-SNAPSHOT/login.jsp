@@ -15,8 +15,8 @@
     <body>
         <%@include file='/html/headerSignIn.html'%>
         
-        <%! int i=0; String str="Login"; String url = "Login.do"; %>
-        <%  str="Login"; url = "Login.do"; %>
+        <%! int i=0; String str="Login"; String url = "auth"; %>
+        <%  str="Login"; url = "auth"; %>
 
         <main class="container">
             
@@ -27,7 +27,7 @@
                           <h1 class="h3 mt-1 fw-normal">User Login</h1>
                         </div>
                         <div class="card-body">
-                            <form method="POST" action="<%=url%>">   
+                            <form method="POST" action="app">   
                                 <i class="fas fa-laptop-medical mb-4" style="font-size:90px"></i>
                                 
                                 <c:if test="${badPw == true}">
@@ -40,7 +40,6 @@
                                 <div class="alert alert-secondary ${not empty message ? message: 'd-none'}" role="alert">
                                   <c:out value="${not empty message ? message: ''}" />
                                 </div>
-
                                 <label for="inputEmail" class="visually-hidden">Email address</label>
                                 <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="" name="mail" required />
                                 
@@ -49,7 +48,7 @@
                                 
                                 <button class="w-100 btn btn-lg btn-primary" type="submit" name="LoginOperation" value="Login" >Login</button>
                              </form>
-                            <form method="POST" action="<%=url%>">
+                            <form method="POST" action="signup">
                               <button class="w-100 mt-3 btn btn-lg btn-outline-primary" type="submit" name="LoginOperation" value="NewUser">Sign Up</button>
                             </form>
                       </div>

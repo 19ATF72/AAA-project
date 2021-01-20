@@ -59,7 +59,7 @@ import model.Service.PatientService;
  * @date  last_review date
  */
 
-@WebServlet(name = "Login", urlPatterns = {"/"})
+//@WebServlet(name = "Login", urlPatterns = {"/login"})
 public class Login extends HttpServlet {
 
     /**
@@ -106,7 +106,7 @@ public class Login extends HttpServlet {
         //saves data objects in the session
         session.setAttribute("dynamicDao", dynamicDao);
         session.setAttribute("ListHandler", listHandler);
-        session.setAttribute("User", user);     
+        session.setAttribute("user", user);     
         session.setAttribute("storedData", storedData);
         session.setAttribute("docSalary", (Double)request.getServletContext().getAttribute("docSalary"));
         session.setAttribute("nurseSalary", (Double)request.getServletContext().getAttribute("nurseSalary"));
@@ -124,25 +124,20 @@ public class Login extends HttpServlet {
                 //retrieves user from database if it exists  
                 user = userService.loginUser(email, password);
                 
+                
+                
                 if (user != null) {
                     int userStatus = user.getAccountStatus();
                 switch (userStatus) {
                     case Enums.APPROVED:
-                        session.setAttribute("User", user);
+                        session.setAttribute("user", user);
                         switch(user.getUserType()) {
-                            case "patient":
-                                PatientService patientService = new PatientService(dynamicDao);
-                                PatientEntity patient = patientService.getPatient(user);
-                                
-                                session.setAttribute("Patient", patient); 
-                                //retrieve appointment for display and senthem to the page
-                                //ArrayList appointments = patientService.retrievePatientDisplayableAppointments(patient);
-                                
-                                listPatientAppointments(dynamicDao, request, patient.getPatientId());   
+                            case "Patient":
+                    
                                 request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
                                 break;
-                            case "doctor":
-                            case "nurse:":
+                            case "Doctor":
+                            case "Nurse:":
                                 EmployeeService employeeService = new EmployeeService(dynamicDao);
                                 EmployeeEntity employee = employeeService.fetchEmployee(user);
                                 
@@ -156,7 +151,7 @@ public class Login extends HttpServlet {
                                 
                                 request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);
                                 break;
-                            case "admin":
+                            case "Admin":
                                 break;
                             default:
                         }
@@ -178,17 +173,7 @@ public class Login extends HttpServlet {
         }
         
     }
-    
-    private void listPatientAppointments(DynamicDao dynamicDao, HttpServletRequest request, int patientId){
-        AppointmentService appointmentService = new AppointmentService(dynamicDao);
-        ArrayList<AppointmentEntity> patientsAppointments = new ArrayList();
-        
-        
-        patientsAppointments = appointmentService.getPatientsAppointments(patientId);
-       
-        
-        request.setAttribute("patientsAppointments", patientsAppointments);
-    }
+  
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

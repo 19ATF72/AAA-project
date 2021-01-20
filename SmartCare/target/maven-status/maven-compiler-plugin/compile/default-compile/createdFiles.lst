@@ -8,6 +8,7 @@ model\Service\UserService.class
 controller\ViewAppointments.class
 controller_Login\employeeController.class
 controller\Book.class
+controller\filters\LoginFilter.class
 controller\listener.class
 model\Entity\PatientEntity.class
 model\Service\PatientService.class
@@ -17,11 +18,14 @@ model\PatientModelInterface.class
 controller_Login\Login.class
 controller\TurnoverController.class
 model\Entity\AppointmentSlotsEntity.class
+controller\servlet\IndexSevlet.class
 model\Dao\DynamicDao.class
 model\Service\AppointmentService.class
+controller\servlet\LoginServlet.class
 controller_Login\NewUserController.class
 model\Service\OrganisationService.class
 model\Entity\UserEntity.class
+controller\filters\AuthFilter.class
 controller\ViewAppointments$MyServlet.class
 model\Helper\Enums.class
 model\Entity\AppointmentEntity.class

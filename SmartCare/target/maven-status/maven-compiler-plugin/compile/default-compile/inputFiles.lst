@@ -3,8 +3,10 @@ C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\model\Enti
 C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\model\Entity\EmployeeEntity.java
 C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\controller_Login\Delete.java
 C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\model\TurnoverModel.java
+C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\controller\servlet\IndexSevlet.java
 C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\model\Entity\UserEntity.java
 C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\controller_Login\employeeController.java
+C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\controller\filters\AuthFilter.java
 C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\model\Service\OrganisationService.java
 C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\controller_Login\Login.java
 C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\model\Entity\AppointmentSlotsEntity.java
@@ -12,12 +14,14 @@ C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\controller
 C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\controller_Login\PatientController.java
 C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\model\Helper\StoredProcedures.java
 C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\controller\OrganisationServlet.java
+C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\controller\filters\LoginFilter.java
 C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\model\Dao\DynamicDao.java
 C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\controller\Book.java
 C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\model\Entity\OrganisationEntity.java
 C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\model\Service\AppointmentService.java
 C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\model\PatientModelInterface.java
 C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\controller_Login\NewUserController.java
+C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\controller\servlet\LoginServlet.java
 C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\model\Helper\Enums.java
 C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\model\Entity\AppointmentEntity.java
 C:\Users\rob\Documents\CodingRepo\AAA-project\SmartCare\src\main\java\model\Service\ListService.java
