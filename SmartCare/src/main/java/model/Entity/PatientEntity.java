@@ -34,8 +34,8 @@ public class PatientEntity extends UserEntity{
         this.patientType = patientType;
     }
 
-    public PatientEntity(int patientId, String address, String patientPostCode, int patientType, int uniqueUserId, String userPrefix, String userFirstname, String userSurname, String password, String email, Date dateOfBirth, Date dateCreated, Date lastAccessed, boolean loggedIn, String userType, int accountStatus) {
-        super(uniqueUserId, userPrefix, userFirstname, userSurname, password, email, dateOfBirth, dateCreated, lastAccessed, loggedIn, userType, accountStatus);
+    public PatientEntity(int patientId, String address, String patientPostCode, int patientType, int uniqueUserId, String userPrefix, String userFirstname, String userSurname, String password, String email, Date dateOfBirth, Date dateCreated, Date lastAccessed, boolean loggedIn, String userType, int accountStatus, String phoneNumber) {
+        super(uniqueUserId, userPrefix, userFirstname, userSurname, password, email, dateOfBirth, dateCreated, lastAccessed, loggedIn, userType, accountStatus, phoneNumber);
         this.address = address;
         this.patientType = patientType;
         this.patientId = patientId;

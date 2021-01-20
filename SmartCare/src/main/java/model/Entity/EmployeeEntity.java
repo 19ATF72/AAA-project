@@ -30,24 +30,23 @@ public class EmployeeEntity extends UserEntity{
         this.organisation = organisation;
     }
     
-    public EmployeeEntity(int employeeId, double salary, String address, String postcode, int organisation) {
+    public EmployeeEntity(int employeeId, double salary, String address, String postcode, int organisation, int uniqueUserId) {
         this.employeeId = employeeId;
         this.salary = salary;
         this.address = address;
         this.postcode = postcode;
         this.organisation = organisation;
+        this.uniqueUserId = uniqueUserId;
     }
 
-    public EmployeeEntity(int employeeId, double salary, String address, String postcode, int organisation, int uniqueUserId, String userPrefix, String userFirstname, String userSurname, String password, String email, Date dateOfBirth, Date dateCreated, Date lastAccessed, boolean loggedIn, String userType, int accountStatus) {
-        super(uniqueUserId, userPrefix, userFirstname, userSurname, password, email, dateOfBirth, dateCreated, lastAccessed, loggedIn, userType, accountStatus);
+    public EmployeeEntity(int employeeId, double salary, String address, String postcode, int organisation, int uniqueUserId, String userPrefix, String userFirstname, String userSurname, String password, String email, Date dateOfBirth, Date dateCreated, Date lastAccessed, boolean loggedIn, String userType, int accountStatus, String phoneNumber) {
+        super(uniqueUserId, userPrefix, userFirstname, userSurname, password, email, dateOfBirth, dateCreated, lastAccessed, loggedIn, userType, accountStatus, phoneNumber);
         this.employeeId = employeeId;
         this.salary = salary;
         this.address = address;
         this.postcode = postcode;
         this.organisation = organisation;
     }
-    
-    
 
     public int getEmployeeId() {
         return employeeId;

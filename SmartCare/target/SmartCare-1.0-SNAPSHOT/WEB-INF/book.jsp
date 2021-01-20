@@ -8,11 +8,7 @@
 <html>
    <%@include file='/html/scripts.html'%>
    <style><%@include file="/css/style.css"%></style>
-   
-   <head>
-        <link rel="shortcut icon" href="icons/favicon.ico?" type="image/x-icon" />
-   </head>
-   
+
    <body>
       <%! int i=0;
          String str="List Patients"; 
@@ -23,9 +19,9 @@
          url = "PatientController.do";
          %>
       <%
-        LocalDate todaysDate = LocalDate.now();
-  
-         %>
+         LocalDate todaysDate = LocalDate.now();
+         
+          %>
       <jsp:include page="/html/headerSignOut.html"/>
       <main>
          <div class="container-fluid">
@@ -74,63 +70,61 @@
                               } 
                               %>                     
                         </div>
-                            <br>
-                            <button class="btn btn-primary" name="patientOperation" value="choosen" type="submit" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Find available appointment</button>
-                     </form>  
-                        
-                    <c:choose>
-                        <c:when test="${dayOfWeek eq 7 || dayOfWeek eq 1}">    
+                        <br>
+                        <button class="btn btn-primary" name="patientOperation" value="choosen" type="submit" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Find available appointment</button>
+                     
+                     <c:choose>
+                        <c:when test="${dayOfWeek eq 7 || dayOfWeek eq 1}">
                            <br>
                            <div class="alert alert-danger" role="alert">
-                               Please select a working day. (Monday - Friday)
-                          </div>
+                              Please select a working day. (Monday - Friday)
+                           </div>
                            <br>
-                        </c:when>   
-                       <c:otherwise>
-                  <form method="POST" action="PatientController.do">
+                        </c:when>
+                        <c:otherwise>
+
                   </div>
                   <div class="time_select">
-                     <c:if test="${dateSelected}">
-                        <br>
-                        <h5>Select a time slot:</h5>
-                        
-                           <select name="chosenTime" class="form-select" multiple aria-label="multiple select example">
-                              <table>
-                                 <c:forEach items="${lengths}" var="row">
-                                    <tr>
-                                       <td>
-                                          <label>
-                                             <c:out value="${row[0]}" />
-                                          </label>
-                                       </td>
-                                       <c:forEach items="${row[1]}" var="col">
-                                          <td>
-                                             <option type="checkbox" data-toggle="toggle" value="<c:out value="${col[0]},${col[1]},${col[2]}" />">
-                                             <label>
-                                                <c:out value="${col[1]}" />
-                                                - 
-                                                <c:out value="${col[2]}" />
-                                             </label>
-                                             </option>
-                                          </td>
-                                       </c:forEach>
-                                    </tr>
-                                 </c:forEach>
-                              </table>
-                           </select>
+                  <c:if test="${dateSelected}">
+                  <br>
+                  <h5>Select a time slot:</h5>
+                  <select name="chosenTime" class="form-select" multiple aria-label="multiple select example">
+                  <table>
+                  <c:forEach items="${lengths}" var="row">
+                  <tr>
+                  <td>
+                  <label>
+                  <c:out value="${row[0]}" />
+                  </label>
+                  </td>
+                  <c:forEach items="${row[1]}" var="col">
+                  <td>
+                  <option type="checkbox" data-toggle="toggle" value="<c:out value="${col[0]},${col[1]},${col[2]}" />">
+                  <label>
+                  <c:out value="${col[1]}" />
+                  - 
+                  <c:out value="${col[2]}" />
+                  </label>
+                  </option>
+                  </td>
+                  </c:forEach>
+                  </tr>
+                  </c:forEach>
+                  </table>
+                  </select>
                   </div>
                   <br>
                   <h5>Appointment details:</h5>
                   <div class="input-group">
-                  <textarea class="form-control" aria-label="With textarea"></textarea>
+                  <textarea class="form-control" name="appointmentNotes" aria-label="With textarea"></textarea>
                   </div>
                   <br>
                   <button class="btn btn-primary" name="patientOperation" value="booked" type="submit" id="menuButton"  aria-haspopup="true" aria-expanded="false">Book Appointment</button>
                   </form>
             </div>
-                        </c:if>
-                        </c:otherwise>
-                        </c:choose>
+            </c:if>
+            </c:otherwise>
+            </c:choose>
             </main>
          </div>
          </div>

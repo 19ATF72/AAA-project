@@ -12,6 +12,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@include file='/html/scripts.html'%>
 <style><%@include file="/css/style.css"%></style>
+<link rel="shortcut icon" href="icons/favicon.ico?" type="image/x-icon" />
 
     <head>
         <link rel="shortcut icon" href="icons/favicon.ico?" type="image/x-icon" />
@@ -44,7 +45,7 @@
                             <table class="table table-striped table-sm">
                                 <thead>
                                     <tr>
-                                        <th>Doctor Name</th>
+                                        <th>Practitioner Name</th>
                                         <th>Duration</th>
                                         <th>Notes</th>
                                         <th>Charge</th>
@@ -58,7 +59,7 @@
                                     <c:forEach items="${patientsAppointments}" var="AppointmentEntity">
                                         <tr>
                                            <td><c:out value="${AppointmentEntity.doctorsName}" /></td>
-                                           <td><c:out value="${AppointmentEntity.duration}" /> slot</td>
+                                           <td><c:out value="${AppointmentEntity.duration}" /> Minutes</td>
                                            <td><c:out value="${AppointmentEntity.notes}" /></td>
                                            <td><c:out value="${AppointmentEntity.charge}" /></td>
                                            <td><c:out value="${AppointmentEntity.dateStr}" /></td>

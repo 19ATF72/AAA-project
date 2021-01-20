@@ -113,7 +113,6 @@ public class Login extends HttpServlet {
         //dynamicDao.addTimeSlots();
         
         String query = (String)request.getParameter("LoginOperation");
-        
         switch(query) {
             case "NewUser":
                 request.getRequestDispatcher("/WEB-INF/NewUser.jsp").forward(request, response);

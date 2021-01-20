@@ -12,6 +12,7 @@
     <%@page import="java.util.ArrayList"%>
     <style><%@include file="/css/style.css"%></style>
     <title>SmartCare - Turnover</title>
+    <link rel="shortcut icon" href="icons/favicon.ico?" type="image/x-icon" />
    
         <head>
             <link rel="shortcut icon" href="icons/favicon.ico?" type="image/x-icon" />

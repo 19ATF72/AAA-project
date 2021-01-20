@@ -16,6 +16,7 @@ controller_Login\PatientController.class
 model\PatientModelInterface.class
 controller_Login\Login.class
 controller\TurnoverController.class
+model\Entity\AppointmentSlotsEntity.class
 model\Dao\DynamicDao.class
 model\Service\AppointmentService.class
 controller_Login\NewUserController.class
