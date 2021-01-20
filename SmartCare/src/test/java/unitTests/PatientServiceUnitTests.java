@@ -6,6 +6,7 @@
 package unitTests;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -88,36 +89,26 @@ public class PatientServiceUnitTests {
         Assert.assertEquals("Patient created", actualResult);
     }
     
-    /*
-    public PatientEntity getPatient(int uniqueUserID)
-    {
-        ArrayList<String[]> result = new ArrayList();
-        try {  
-            result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getPatient), uniqueUserID); 
-           
-            String[] tempPatientEntityString = result.get(0);    
-            PatientEntity patient = new PatientEntity(Integer.parseInt(tempPatientEntityString[0]), tempPatientEntityString[1],
-                    tempPatientEntityString[2], Integer.parseInt(tempPatientEntityString[3]));
-            
-            return patient; 
-        } catch (Exception e) {
-           //THROW ERROR
-        }
-        return null;
-    }
-    */
+    
     @Test
     public void getPatient_Success(){
         
         // Arrange
         ArrayList<String[]> patientArrayList = new ArrayList<>();
-        String[] patientStringArray = {"1", "John Smith", "Address", "1"};
+        String[] patientStringArray = {"1", "Address", "Postcode", "2", 
+            "1", "Mr", "John", "Smith", "password", "email@email.com", 
+            "2020-01-01", "2020-01-01", "2020-01-01", "0", "Patient", "2", "5551234"};
         patientArrayList.add(patientStringArray);
         
-        //uniqueUserId, String username, String password, String email, String dateCreated, String lastAccessed, Boolean loggedIn, String picture, int accountStatus, String userRole)
-        //PatientEntity expectedPatient = new PatientEntity(1, "username", "pass", "email@email.com", "2020-12-12 15:42:50.221", "2020-12-12 15:42:50.221", false, "pic.png", 2, "0", 1, "John Smith", "Address", 1);
-        
-        PatientEntity expectedPatient = new PatientEntity(1, "John Smith", "Address", 1);
+        Date dateOfBirth = Date.valueOf("2000-01-01");
+        Date dateCreated = Date.valueOf("2000-01-01");
+        Date lastAccessed = Date.valueOf("2000-01-01");
+        UserEntity user = new UserEntity(1, "Mr", "John", "Smith", "root", "root@admin.com",
+                dateOfBirth, dateCreated, lastAccessed, false, "Patient", 5551234, "2");
+
+        PatientEntity expectedPatient = new PatientEntity(1, "Address", "Postcode", 2, 
+                1, "Mr", "John", "Smith", "root", "root@admin.com",
+                dateOfBirth, dateCreated, lastAccessed, false, "Patient", 5551234, "2");
         
         try{
             when(dynamicDaoMock.agnosticQuery(anyString(), anyInt())).thenReturn(patientArrayList);
@@ -126,11 +117,10 @@ public class PatientServiceUnitTests {
         }
         
         // Act
-        PatientEntity actualPatient = patientService.getPatient(1);
+        PatientEntity actualPatient = patientService.getPatient(user);
         
         // Assert
         Assert.assertThat(actualPatient, new ReflectionEquals(expectedPatient));
-        //Assert.assertSame(expectedPatient, actualPatient);
     }
     
     
@@ -140,6 +130,7 @@ public class PatientServiceUnitTests {
         ArrayList<String[]> appointmentsArrayList = new ArrayList<>();
         String[] appointmentStringArray = {"Duration", "Notes", "Charge", "2020-12-12", "1", "61", "1"};
         appointmentsArrayList.add(appointmentStringArray);
+        
         ArrayList expectedAppointments = new ArrayList();
         String[] expectedAppointmentsStringArray = {"Duration", "Notes", "Charge", "2020-12-12", "00:00:01", "00:01:01", "1"};
         expectedAppointments.add(expectedAppointmentsStringArray);
@@ -152,11 +143,10 @@ public class PatientServiceUnitTests {
             
         }
         
-
+        // Act
         ArrayList actualAppointments = patientService.retrievePatientDisplayableAppointments(patient);
         
         // Assert
         Assert.assertArrayEquals(expectedAppointments.toArray(), actualAppointments.toArray()); 
-
     }
 }

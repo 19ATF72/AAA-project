@@ -6,11 +6,13 @@
 package unitTests;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import model.Dao.DynamicDao;
 import model.Entity.EmployeeEntity;
+import model.Entity.UserEntity;
 import model.Service.EmployeeService;
 
 import org.junit.After;
@@ -33,6 +35,7 @@ import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
  
 public class EmployeeServiceUnitTests {
     
+    @Mock
     private DynamicDao dynamicDaoMock;    
     private EmployeeService employeeService;
     private Connection conn = null;
@@ -67,7 +70,7 @@ public class EmployeeServiceUnitTests {
         ArrayList<String> resultArrayList = new ArrayList();
         resultArrayList.add("1");
 
-        EmployeeEntity employee = new EmployeeEntity(1.0, "Address", 1, 1);
+        EmployeeEntity employee = new EmployeeEntity(1, 1.0, "Address", "Postcode", 1, 1);
 
         try{
             when(dynamicDaoMock.agnosticQuery(anyString(), anyObject())).thenReturn(resultArrayList);
@@ -83,33 +86,25 @@ public class EmployeeServiceUnitTests {
     }
     
     
-    /*
-    public EmployeeEntity getEmployee(int uniqueUserID)
-    {
-        ArrayList<String[]> result = new ArrayList();
-        try {  
-            result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getEmployee), uniqueUserID);
-            
-            String[] tempEmployeeEntityString = result.get(0);
-            EmployeeEntity employee = new EmployeeEntity(Integer.parseInt(tempEmployeeEntityString[0]), Double.parseDouble(tempEmployeeEntityString[1]), 
-                    tempEmployeeEntityString[2], Integer.parseInt(tempEmployeeEntityString[3]), Integer.parseInt(tempEmployeeEntityString[4]));
-            
-            return employee; 
-        } catch (Exception e) {
-           //THROW ERROR
-        }
-        return null;
-    }
-    */
     @Test
-    public void getEmployee_Success(){
+    public void fetchEmployee_Success(){
         
         // Arrange
         ArrayList<String[]> employeeArrayList = new ArrayList<>();
-        String[] patientStringArray = {"1", "1.0", "Address", "1", "1"};
+        String[] patientStringArray = {"1", "1.0", "Address", "Postcode", "1", 
+            "1", "Mr", "John", "Smith", "password", "email@email.com", 
+        "2020-01-01", "2020-01-01", "2020-01-01", "0", "Employee", "5551234", "1"};
         employeeArrayList.add(patientStringArray);
         
-        EmployeeEntity expectedEmployee = new EmployeeEntity(1, 1.0, "Address", 1, 1);
+        Date dateOfBirth = Date.valueOf("2000-01-01");
+        Date dateCreated = Date.valueOf("2000-01-01");
+        Date lastAccessed = Date.valueOf("2000-01-01");
+        UserEntity user = new UserEntity(1, "Mr", "John", "Smith", "root", "root@admin.com",
+                dateOfBirth, dateCreated, lastAccessed, false, "Employee", 1, "5551234");
+        
+        EmployeeEntity expectedEmployee = new EmployeeEntity(1, 1.0, "Address", "Postcode", 1, 1, 
+                "Mr", "John", "Smith", "root", "root@admin.com",
+                dateOfBirth, dateCreated, lastAccessed, false, "Employee", 1, "5551234");
         
         try{
             when(dynamicDaoMock.agnosticQuery(anyString(), anyInt())).thenReturn(employeeArrayList);
@@ -118,12 +113,35 @@ public class EmployeeServiceUnitTests {
         }
         
         // Act
-        EmployeeEntity actualEmployee = employeeService.getEmployee(1);
+        EmployeeEntity actualEmployee = employeeService.fetchEmployee(user);
         
         // Assert
         Assert.assertThat(actualEmployee, new ReflectionEquals(expectedEmployee));
     }
+
     
+    @Test
+    public void fetchEmployee_EId_Success(){
+        
+        // Arrange
+        ArrayList<String[]> employeeArrayList = new ArrayList<>();
+        String[] patientStringArray = {"1", "1.0", "Address", "Postcode", "1", "1"};
+        employeeArrayList.add(patientStringArray);
+        
+        EmployeeEntity expectedEmployee = new EmployeeEntity(1, 1.0, "Address", "Postcode", 1, 1);
+        
+        try{
+            when(dynamicDaoMock.agnosticQuery(anyString(), anyInt())).thenReturn(employeeArrayList);
+        }catch(SQLException e){
+            
+        }
+        
+        // Act
+        EmployeeEntity actualEmployee = employeeService.fetchEmployee_EId(1);
+        
+        // Assert
+        Assert.assertThat(actualEmployee, new ReflectionEquals(expectedEmployee));
+    }
     
     @Test
     public void retrieveEmployeeDisplayableAppointments_Success(){
@@ -133,7 +151,7 @@ public class EmployeeServiceUnitTests {
         String[] employeeAppointmentsStringArray = {"Duration", "Notes", "Charge", "Date", "1", "61", "Appointment status", "1", "1", "Username"};
         employeeAppointmentsArrayList.add(employeeAppointmentsStringArray);
                 
-        EmployeeEntity employee = new EmployeeEntity(1, 1.0, "Address", 1, 1);
+        EmployeeEntity employee = new EmployeeEntity(1, 1.0, "Address", "Postcode", 1, 1);
         
         ArrayList expectedEmployeeAppointments = new ArrayList();
         String[] expectedEmployeeStringArray = {"Duration", "Notes", "Charge", "Date", "00:00:01", "00:01:01", "Appointment status", "1", "1", "Username"};
@@ -161,7 +179,7 @@ public class EmployeeServiceUnitTests {
         String[] employeeAppointmentsStringArray = {"Duration", "Notes", "Charge", "Date", "1", "601", "Appointment status", "1", "1", "Username"};
         employeeAppointmentsArrayList.add(employeeAppointmentsStringArray);
                 
-        EmployeeEntity employee = new EmployeeEntity(1, 1.0, "Address", 1, 1);
+        EmployeeEntity employee = new EmployeeEntity(1, 1.0, "Address", "Postcode", 1, 1);
         
         ArrayList expectedEmployeeAppointments = new ArrayList();
         String[] expectedEmployeeStringArray = {"Duration", "Notes", "Charge", "Date", "00:00:01", "00:01:01", "Appointment status", "1", "1", "Username"};
@@ -197,7 +215,7 @@ public class EmployeeServiceUnitTests {
         params.add(1);
         params.add(1);
         
-        EmployeeEntity employee = new EmployeeEntity(1, 1.0, "Address", 1, 1);
+        EmployeeEntity employee = new EmployeeEntity(1, 1.0, "Address", "Postcode", 1, 1);
         
         ArrayList expecetedUpdatedAppointment = new ArrayList();
         

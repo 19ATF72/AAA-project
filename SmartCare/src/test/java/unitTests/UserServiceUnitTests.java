@@ -6,6 +6,7 @@
 package unitTests;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -45,6 +46,7 @@ public class UserServiceUnitTests {
     private UserService userServiceMock;
     private UserService userService;
     private Connection conn = null;
+    private Date dateMock;
     
     public UserServiceUnitTests() {
     }
@@ -62,6 +64,7 @@ public class UserServiceUnitTests {
         dynamicDaoMock = mock(DynamicDao.class);
         userService = new UserService(dynamicDaoMock);  
         userServiceMock = mock(UserService.class);
+        dateMock = Date.valueOf("2000-01-01");
 
     }
     
@@ -70,21 +73,64 @@ public class UserServiceUnitTests {
     }
     
     
+    /*
+    public String createUser(UserEntity user)
+    {    
+        
+        modifyAccountStatus(user);
+        
+        String hashedPassword = hashPassword(user.getPassword());
+        
+        user.setPassword(hashedPassword);
+
+        String result = "";
+        
+        Date date;
+        date = Date.valueOf(LocalDate.now());
+        
+        try {
+            int intRepOfIsLoggenIn; 
+            if(user.isLoggedIn()){
+                intRepOfIsLoggenIn = 1; 
+            }
+            else{
+                intRepOfIsLoggenIn = 0; 
+            }
+            
+            
+            int uniqueUserId = (Integer)dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.NewUser), user.getUserPrefix(), user.getUserFirstname(), user.getUserSurname(), user.getPassword(), user.getEmail(), user.getDateOfBirth(),
+                    date, date, intRepOfIsLoggenIn, user.getUserType(), user.getAccountStatus()).get(0);
+            user.setUniqueUserId(uniqueUserId);
+           
+            result = "User created successfully";
+           
+        } catch (Exception e) {          
+            result = "Email already registered ";
+        }
+        
+        return result;
+    } 
+    */
+    
     @Test
     public void createUser_Success(){
         
         // Arrange
         ArrayList resultArrayList = new ArrayList();
         resultArrayList.add(1);
-
-        UserEntity user = new UserEntity(1, "Rob", "password", "email@email.com", "01/01/2021", "02/01/2021", false, "pic string", 2);
+        
+        Date dateOfBirth = Date.valueOf("2000-01-01");
+        Date dateCreated = Date.valueOf("2000-01-01");
+        Date lastAccessed = Date.valueOf("2000-01-01");
+        UserEntity user = new UserEntity(1, "Mr", "John", "Smith", "root", "root@admin.com",
+                dateOfBirth, dateCreated, lastAccessed, false, "User", 5551234, "2");
 
         try{
-            when(dynamicDaoMock.agnosticQuery(anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyBoolean(), anyString(), anyInt())).thenReturn(resultArrayList);
+            when(dynamicDaoMock.agnosticQuery(anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), dateMock, dateMock, dateMock, anyInt(), anyString(), anyInt())).thenReturn(resultArrayList);
         }catch(Exception e){
             
         }
-        
+
         // Act
         String actualResult = userService.createUser(user);
        
@@ -98,53 +144,57 @@ public class UserServiceUnitTests {
         
         // Arrange
         ArrayList<String[]> userArrayList = new ArrayList<>();
-        String[] userStringArray = {"1", "root", "root", "root@admin.com", 
-            "2020-12-12 15:42:50.221", "2020-12-12 15:42:50.221", "0", "default.png", "2"};
+        String[] userStringArray = {"1", "Mr", "John", "Smith", "root", "root@admin.com",
+            "2000-01-01", "2000-01-01", "2000-01-01", "0", "User", "2", "5551234"};
         userArrayList.add(userStringArray);
        
-
-        UserEntity expectedUser = new UserEntity(1, "root", "root", "root@admin.com", 
-                "2020-12-12 15:42:50.221", "2020-12-12 15:42:50.221", false, "default.png", 2);
-        expectedUser.setUserRole("");
+        Date dateOfBirth = Date.valueOf("2000-01-01");
+        Date dateCreated = Date.valueOf("2000-01-01");
+        Date lastAccessed = Date.valueOf("2000-01-01");
+        UserEntity expectedUser = new UserEntity(1, "Mr", "John", "Smith", "root", "root@admin.com",
+                dateOfBirth, dateCreated, lastAccessed, false, "User", 5551234, "2");
                 
-        Assert.assertThat(expectedUser, new ReflectionEquals(actualUser));
-    }
-
-    
-    @Test
-    public void getUserRole_Success(){ //Seems to just work even though it shouldn't be able to query properly yet?
-        
-        // Arrange
-        ArrayList<String[]> roleArrayList = new ArrayList<>();
-        String[] roleStringArray = {"1", "root", "root", "root@admin.com", 
-            "2020-12-12 15:42:50.221", "2020-12-12 15:42:50.221", "0", "default.png", "2", "0"};
-        roleArrayList.add(roleStringArray);
-        
-        String expectedRole = "patient";
-
-        
         try{
-            when(dynamicDaoMock.agnosticQuery(anyString(), anyInt())).thenReturn(roleArrayList); //Should need 'getRole' in model.Helper.StoredProcedures to be developed first?
+            when(dynamicDaoMock.agnosticQuery(anyString(), anyString(), anyString())).thenReturn(userArrayList);
+         //   when(userServiceMock.getUserRole(anyInt())).thenReturn("");
         }catch(SQLException e){
             
         }
         
         // Act
-        String actualRole = userService.getUserRole(1);
+        UserEntity actualUser = userService.loginUser("root@admin.com", "root");     
         
         // Assert
-       Assert.assertThat(expectedRole, new ReflectionEquals(actualRole));
+        Assert.assertThat(actualUser, new ReflectionEquals(expectedUser));
     }
+
     
-    /*
     @Test
-    public void getUserRole_Failure(){
+    public void fetchUser_Success(){
         
         // Arrange
+        ArrayList<String[]> userArrayList = new ArrayList<>();
+        String[] userStringArray = {"1", "Mr", "John", "Smith", "root", "root@admin.com",
+            "2000-01-01", "2000-01-01", "2000-01-01", "0", "User", "2", "5551234"};
+        userArrayList.add(userStringArray);
+        
+        Date dateOfBirth = Date.valueOf("2000-01-01");
+        Date dateCreated = Date.valueOf("2000-01-01");
+        Date lastAccessed = Date.valueOf("2000-01-01");
+        UserEntity expectedUser = new UserEntity(1, "Mr", "John", "Smith", "root", "root@admin.com",
+                dateOfBirth, dateCreated, lastAccessed, false, "User", 5551234, "2");
+
+        
+        try{
+            when(dynamicDaoMock.agnosticQuery(anyString(), anyInt())).thenReturn(userArrayList);
+        }catch(SQLException e){
+            
+        }
         
         // Act
+        UserEntity actualUser = userService.fetchUser(1);
         
         // Assert
+       Assert.assertThat(actualUser, new ReflectionEquals(expectedUser));
     }
-    */
 }
