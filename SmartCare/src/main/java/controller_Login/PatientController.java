@@ -198,7 +198,7 @@ public class PatientController extends HttpServlet {
             }
           
         }
-        request.setAttribute("patientsActiveAppointments", patientsAppointments);
+        request.setAttribute("patientsActiveAppointments", patientsActiveAppointments);
         request.setAttribute("patientsInvoicedAppointments", patientsInvoicedAppointments);
         request.setAttribute("patientsPaidAppointments", patientsPaidAppointments);
         request.setAttribute("patientsCancelledAppointments", patientsCancelledAppointments);
