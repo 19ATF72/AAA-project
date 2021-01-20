@@ -152,10 +152,11 @@ public class PatientServiceUnitTests {
             
         }
         
-        // Act
+
         ArrayList actualAppointments = patientService.retrievePatientDisplayableAppointments(patient);
         
         // Assert
         Assert.assertArrayEquals(expectedAppointments.toArray(), actualAppointments.toArray()); 
+
     }
 }

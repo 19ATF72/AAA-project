@@ -10,6 +10,7 @@ package controller_Login;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import model.Service.ListService;
 import model.Entity.AppointmentEntity;
 import model.Entity.EmployeeEntity;
 import model.Entity.UserEntity;
@@ -68,7 +69,7 @@ public class employeeController extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         
         String query;
-        ListModel listHandler = (ListModel)session.getAttribute("ListHandler");
+        ListService listHandler = (ListService)session.getAttribute("ListHandler");
         query = (String)request.getParameter("employeeOperation");
         AppointmentEntity apointment_handling = new AppointmentEntity();
         

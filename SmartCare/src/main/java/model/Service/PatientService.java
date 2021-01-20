@@ -8,7 +8,7 @@ package model.Service;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import model.Dao.DynamicDao;
-import model.Entity.EmployeeEntity;
+import model.Entity.UserEntity;
 import model.Entity.PatientEntity;
 import model.Helper.StoredProcedures;
 
@@ -38,15 +38,17 @@ public class PatientService {
         return result; 
     }
     
-    public PatientEntity getPatient(int uniqueUserID)
+    public PatientEntity getPatient(UserEntity user)
     {
         ArrayList<String[]> result = new ArrayList();
         try {  
-            result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getPatient), uniqueUserID); 
+            result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getPatient_Uuid), user.getUniqueUserId()); 
            
             String[] tempPatientEntityString = result.get(0);    
             PatientEntity patient = new PatientEntity(Integer.parseInt(tempPatientEntityString[0]), tempPatientEntityString[1],
-                    tempPatientEntityString[2], Integer.parseInt(tempPatientEntityString[3]));
+                    tempPatientEntityString[2], Integer.parseInt(tempPatientEntityString[3]), user.getUniqueUserId(), user.getUserPrefix(),
+                    user.getUserFirstname(), user.getUserSurname(), user.getPassword(), user.getEmail(), user.getDateOfBirth(), user.getDateCreated(), 
+                    user.getLastAccessed(), user.isLoggedIn(), user.getUserType(), user.getAccountStatus(), user.getPhoneNumber());
             
             return patient; 
         } catch (Exception e) {
@@ -73,7 +75,7 @@ public class PatientService {
 //    public ArrayList get_patient(ArrayList params, DynamicDao dynamicDao){
 //        ArrayList result = new ArrayList();
 //        try { 
-//               ArrayList<String[]> patientString = dynamicDao.agnosticQuery(storedStatements.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getPatient), params.get(0) );
+//               ArrayList<String[]> patientString = dynamicDao.agnosticQuery(storedStatements.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getPatient_Uuid), params.get(0) );
 //               String[] patient = patientString.get(0);   
 //               setAddress(patient[0]);
 //               setPatientID(Integer.parseInt(patient[1]));

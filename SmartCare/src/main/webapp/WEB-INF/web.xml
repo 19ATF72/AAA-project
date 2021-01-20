@@ -17,7 +17,7 @@
         <param-value>20.0</param-value>
     </context-param>
     <welcome-file-list>
-        <welcome-file>/login.jsp</welcome-file>
+        <welcome-file>/index.jsp</welcome-file>
     </welcome-file-list>
     <servlet>
         <servlet-name>Book</servlet-name>
@@ -36,15 +36,9 @@
         <servlet-class>controller_Login.NewUserController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>Login</servlet-name>
-        <servlet-class>controller_Login.Login</servlet-class>
-    </servlet>
-    
-    <servlet>
         <servlet-name>OrganisationServlet</servlet-name>
         <servlet-class>controller.OrganisationServlet</servlet-class>
     </servlet>
-    
     <servlet>
         <servlet-name>BookingSucessful</servlet-name>
         <jsp-file>BookingSucessful.jsp</jsp-file>
@@ -57,6 +51,10 @@
         <servlet-name>TurnoverController</servlet-name>
         <servlet-class>controller.TurnoverController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>IndexServlet</servlet-name>
+        <servlet-class>controller.servlet.IndexServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Book</servlet-name>
         <url-pattern>/Book.do</url-pattern>
@@ -66,14 +64,9 @@
         <url-pattern>/NewUserController.do</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>Login</servlet-name>
-        <url-pattern>/Login.do</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
         <servlet-name>OrganisationServlet</servlet-name>
         <url-pattern>/OrganisationServlet.do</url-pattern>
-    </servlet-mapping>  
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>OrganisationServlet</servlet-name>
         <url-pattern>/OrganisationServlet.do/new_organisation</url-pattern>
@@ -86,16 +79,25 @@
         <servlet-name>OrganisationServlet</servlet-name>
         <url-pattern>/OrganisationServlet.do/delete_organisation</url-pattern>
     </servlet-mapping>
-    
-    
-    
     <servlet-mapping>
         <servlet-name>BookingSucessful</servlet-name>
         <url-pattern>/BookingSucessful.do</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PatientController</servlet-name>
-        <url-pattern>/PatientController.do</url-pattern>
+        <url-pattern>/app/book_appointment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PatientController</servlet-name>
+        <url-pattern>/app/book_appointment/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PatientController</servlet-name>
+        <url-pattern>/app</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PatientController</servlet-name>
+        <url-pattern>/app/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>employeeController</servlet-name>
@@ -108,9 +110,21 @@
     <servlet-mapping>
         <servlet-name>TurnoverController</servlet-name>
         <url-pattern>/TurnoverController.do</url-pattern>
-    </servlet-mapping>  
+    </servlet-mapping>
     
-
+    
+    <filter>
+        <filter-name>loginFilter</filter-name>
+        <filter-class>controller.filters.LoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>loginFilter</filter-name>
+        <url-pattern>/app</url-pattern>
+    </filter-mapping>
+    <servlet-mapping>
+        <servlet-name>IndexServlet</servlet-name>
+        <url-pattern></url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             20

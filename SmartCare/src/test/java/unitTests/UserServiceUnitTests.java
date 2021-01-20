@@ -102,21 +102,11 @@ public class UserServiceUnitTests {
             "2020-12-12 15:42:50.221", "2020-12-12 15:42:50.221", "0", "default.png", "2"};
         userArrayList.add(userStringArray);
        
+
         UserEntity expectedUser = new UserEntity(1, "root", "root", "root@admin.com", 
                 "2020-12-12 15:42:50.221", "2020-12-12 15:42:50.221", false, "default.png", 2);
         expectedUser.setUserRole("");
                 
-        try{
-            when(dynamicDaoMock.agnosticQuery(anyString(), anyString(), anyString())).thenReturn(userArrayList);
-            when(userServiceMock.getUserRole(anyInt())).thenReturn("");
-        }catch(SQLException e){
-            
-        }
-        
-        // Act
-        UserEntity actualUser = userService.loginUser("root@admin.com", "root");     
-        
-        // Assert
         Assert.assertThat(expectedUser, new ReflectionEquals(actualUser));
     }
 

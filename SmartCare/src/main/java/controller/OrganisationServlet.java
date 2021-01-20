@@ -107,8 +107,7 @@ public class OrganisationServlet extends HttpServlet {
     
     private void insertOrganisation(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
-        
-        
+             
         String name = request.getParameter("name");
         String type = request.getParameter("orgType");
         String address = request.getParameter("address");

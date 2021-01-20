@@ -4,11 +4,18 @@
  * and open the template in the editor.
  */
 package model.Service;
-
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.Date;  
+import java.sql.SQLException;
+import java.time.LocalDate;  
 import java.util.ArrayList;
+import java.util.Formatter;
 import model.Dao.DynamicDao;
 import model.Helper.StoredProcedures;
 import model.Entity.UserEntity;
+import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  *
@@ -26,15 +33,33 @@ public class UserService{
     
     public String createUser(UserEntity user)
     {    
+        
+        modifyAccountStatus(user);
+        
+        String hashedPassword = hashPassword(user.getPassword());
+        
+        user.setPassword(hashedPassword);
+
         String result = "";
         
+        Date date;
+        date = Date.valueOf(LocalDate.now());
+        
         try {
-            int uniqueUserId = (Integer)dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.NewUser), user.getUsername(), user.getPassword(), user.getEmail(), 
-                   user.getDateCreated(), user.getLastAccessed(), user.getIsLoggedIn(), user.getPicture(), user.getAccountStatus()).get(0);
+            int intRepOfIsLoggenIn; 
+            if(user.isLoggedIn()){
+                intRepOfIsLoggenIn = 1; 
+            }
+            else{
+                intRepOfIsLoggenIn = 0; 
+            }
+            
+            
+            int uniqueUserId = (Integer)dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.NewUser), user.getUserPrefix(), user.getUserFirstname(), user.getUserSurname(), user.getPassword(), user.getEmail(), user.getDateOfBirth(),
+                    date, date, intRepOfIsLoggenIn, user.getUserType(), user.getAccountStatus()).get(0);
             user.setUniqueUserId(uniqueUserId);
            
             result = "User created successfully";
-            //result.add(uniqueUserId);
            
         } catch (Exception e) {          
             result = "Email already registered ";
@@ -43,54 +68,67 @@ public class UserService{
         return result;
     } 
     
+    private void modifyAccountStatus(UserEntity user){
+        if(user.getUserType() == "patient") // If a patient
+        {
+            user.setAccountStatus(2);
+        }
+        else
+        {
+            user.setAccountStatus(1);
+        }
+    }
+    
     public UserEntity loginUser(String email, String password)
     {    
+        
+        String hashedInputPassword = hashPassword(password);
+        
         try { 
-            ArrayList<String[]> userString = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.LoginUser), email, password);
+            ArrayList<String[]> userString = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.LoginUser), email, hashedInputPassword);
             String[] tempUserStringArray = userString.get(0);
-
-            UserEntity user = new UserEntity(Integer.parseInt(tempUserStringArray[0]), tempUserStringArray[1], tempUserStringArray[2], tempUserStringArray[3], tempUserStringArray[4], tempUserStringArray[5], tempUserStringArray[6].equals("1"), tempUserStringArray[7],  Integer.parseInt(tempUserStringArray[8]));
+              
+            Date dateOfBirth = Date.valueOf(tempUserStringArray[6]);
+            Date dateCreated = Date.valueOf(tempUserStringArray[7]);
+            Date lastAccessed = Date.valueOf(tempUserStringArray[8]);
             
-            String role = getUserRole(user.getUniqueUserId());
-            user.setUserRole(role);
+            UserEntity user = new UserEntity(Integer.parseInt(tempUserStringArray[0]), tempUserStringArray[1], tempUserStringArray[2], tempUserStringArray[3], 
+                    tempUserStringArray[4], tempUserStringArray[5], dateOfBirth, dateCreated, lastAccessed, Boolean.parseBoolean(tempUserStringArray[9]), tempUserStringArray[10], Integer.parseInt(tempUserStringArray[12]),tempUserStringArray[11]);
+                    
+            return user;
+        } catch (Exception e) { 
+            System.out.println("Exception " + e);
+            return null;
+        }  
+        
+    }
+    
+    public UserEntity fetchUser(int uniqueUserId)
+    {    
+        try { 
+            ArrayList<String[]> userString = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.GetUser), uniqueUserId);
+            String[] tempUserStringArray = userString.get(0);
+            
+            Date dateOfBirth = Date.valueOf(tempUserStringArray[6]);
+            Date dateCreated = Date.valueOf(tempUserStringArray[7]);
+            Date lastAccessed = Date.valueOf(tempUserStringArray[8]);
+  
+            UserEntity user = new UserEntity(Integer.parseInt(tempUserStringArray[0]), tempUserStringArray[1], tempUserStringArray[2], tempUserStringArray[3], 
+                    tempUserStringArray[4], tempUserStringArray[5], dateOfBirth, dateCreated, lastAccessed, Boolean.parseBoolean(tempUserStringArray[9]), tempUserStringArray[10],  Integer.parseInt(tempUserStringArray[12]),tempUserStringArray[11]);
             
             return user;
         } catch (Exception e) { 
             //FIX
+            
             //result.add("email or password wrong");
         }  
         //MAYBE CHANGE
         return null;    
     }
     
-    public String getUserRole(int uniqueUserId){     
-        StoredProcedures.SqlQueryEnum[] userRoleEnums = {StoredProcedures.SqlQueryEnum.getPatient, StoredProcedures.SqlQueryEnum.getEmployee, StoredProcedures.SqlQueryEnum.getEmployee};
-        String[] userRoleStringArray = {"patient", "employee", "admin"};
-            
-        ArrayList roleArrayLst = new ArrayList();
-        
-        String result = ""; 
-        
-        try {
-        
-            // TODO: FIX .getEmployee to getAdmin for admin
-        
-            for (int i = 0; i < 3; i++)
-            {
-                roleArrayLst = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(userRoleEnums[i]), uniqueUserId);
-                if(roleArrayLst.size() != 0){
-                    result = userRoleStringArray[0];
-                }
-            }   
-            
-            if(result.isEmpty()){
-                throw new Exception("Result is empty");
-            }
-            
-        } catch (Exception p) {
-            //THROW EXCEPTION
-        } 
-        
-        return result;
+    private String hashPassword(String password){
+        return (String)DigestUtils.sha1Hex(password);
     }
+   
+    
 }

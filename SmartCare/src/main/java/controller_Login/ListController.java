@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Entity.EmployeeEntity;
-import model.ListModel;
+import model.Service.ListService;
 import model.Entity.PatientEntity;
 import model.Entity.UserEntity;
 
@@ -53,7 +53,7 @@ public class ListController extends HttpServlet {
         //HttpSession session = request.getSession(false); // UNCOMMENT
         response.setContentType("text/html;charset=UTF-8");
         
-        ListModel ListHandler = (ListModel)session.getAttribute("ListHandler");
+        ListService ListHandler = (ListService)session.getAttribute("ListHandler");
         
         //DynamicDao dynamicDao = (DynamicDao)session.getAttribute("dynamicDao"); //UNCOMMENT
         if (dynamicDao == null)
