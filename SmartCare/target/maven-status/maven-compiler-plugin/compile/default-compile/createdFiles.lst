@@ -9,6 +9,7 @@ model\Service\ListService.class
 model\Service\UserService.class
 controller\ViewAppointments.class
 controller_Login\employeeController.class
+model\ListModel.class
 controller\Book.class
 controller\filters\LoginFilter.class
 controller\listener.class
