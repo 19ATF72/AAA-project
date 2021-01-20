@@ -65,6 +65,9 @@ public class StoredProcedures extends Enums{
         sqlQueryMap.put(SqlQueryEnum.insertOrganisation, "INSERT INTO organisation (name, organisation_type_oid, address, postcode, phone_number) VALUES (?, ?, ?, ?, ?)");
         sqlQueryMap.put(SqlQueryEnum.getOrganisation, "SELECT * FROM organisation WHERE oid = ?");
         sqlQueryMap.put(SqlQueryEnum.deleteOrganisation, "DELETE FROM organisation where oid = ?");
-   
+        
+        sqlQueryMap.put(SqlQueryEnum.updatePatientCost, "UPDATE prices SET patient_cost=? WHERE price_id=1");
+        sqlQueryMap.put(SqlQueryEnum.updateNurseBaseSalary, "UPDATE prices SET nurse_base_salary=? WHERE price_id=1");
+        sqlQueryMap.put(SqlQueryEnum.updateDoctorBaseSalary, "UPDATE prices SET doctor_base_salary=? WHERE price_id=1");
     }   
 }

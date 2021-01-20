@@ -57,6 +57,12 @@
         <servlet-name>TurnoverController</servlet-name>
         <servlet-class>controller.TurnoverController</servlet-class>
     </servlet>
+    
+     <servlet>
+        <servlet-name>pricingUpdateController</servlet-name>
+        <servlet-class>controller.pricingUpdateController</servlet-class>
+    </servlet>
+    
     <servlet-mapping>
         <servlet-name>Book</servlet-name>
         <url-pattern>/Book.do</url-pattern>
@@ -108,8 +114,10 @@
         <servlet-name>TurnoverController</servlet-name>
         <url-pattern>/TurnoverController.do</url-pattern>
     </servlet-mapping>  
-    
-
+    <servlet-mapping>
+        <servlet-name>pricingUpdateController</servlet-name>
+        <url-pattern>/pricingUpdateController.do</url-pattern>
+    </servlet-mapping>  
     <session-config>
         <session-timeout>
             20
