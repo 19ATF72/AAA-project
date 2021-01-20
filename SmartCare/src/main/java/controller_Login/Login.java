@@ -157,6 +157,7 @@ public class Login extends HttpServlet {
                                 request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);
                                 break;
                             case "admin":
+                                request.getRequestDispatcher("/WEB-INF/adminPage.jsp").forward(request, response);
                                 break;
                             default:
                         }
