@@ -111,6 +111,16 @@ public class ListService {
         return result;
     } 
     
+    public ArrayList getPrescriptionsForDisplay(DynamicDao dynamicDao){
+        ArrayList result = new ArrayList();
+        try {  
+          result = dynamicDao.agnosticQuery(storedStatements.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getPatientRepeatPrescriptions));
+        } catch (Exception e) {
+          result.add("Could not retrieve prescriptions.");
+        }
+        return result;
+    } 
+    
 }
 
 
