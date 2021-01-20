@@ -130,10 +130,12 @@ public class Login extends HttpServlet {
                     int userStatus = user.getAccountStatus();
                 switch (userStatus) {
                     case Enums.APPROVED:
+
                         session.setAttribute("user", user);
                         switch(user.getUserType()) {
                             case "Patient":
                     
+
                                 request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
                                 break;
                             case "Doctor":
