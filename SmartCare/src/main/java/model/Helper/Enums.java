@@ -62,6 +62,9 @@ public class Enums {
         getOrganisation,
         deleteOrganisation,
         listAllOrganisations,
+        getNurseBaseSalary,
+        getDoctorBaseSalary,
+        getPatientCost,
         cancelAppointment
     }
 }
