@@ -21,8 +21,8 @@
     <body>
         <%@include file='/html/headerSignOut.html'%>
         
-        <%! int i=0; String str="PatientController"; String url = "PatientController.do"; %>
-        <% str="PatientController"; url = "PatientController.do"; %>
+        <%! int i=0; String str="PatientController"; String url = "./app/book_appointment"; %>
+        <% str="PatientController"; url = "./app/book_appointment"; %>
 
         <div class="container-fluid">
             
@@ -30,13 +30,13 @@
                 <div class="row" >
                     
                     <%@include file='/html/patientSidebar.html'%>
-                    
+             </form>
                     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                           <h1 class="h2">Patient Dashboard</h1>
                         </div>
                         
-                        <div class="alert alert-secondary ${not empty message ? message: 'd-none'}" role="alert">
+                        <div class="alert alert-success ${not empty message ? message: 'd-none'}" role="alert">
                             <c:out value="${not empty message ? message: ''}" />
                         </div>
 
@@ -57,7 +57,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach items="${patientsAppointments}" var="AppointmentEntity">
+                                    <c:forEach items="${patientsActiveAppointments}" var="AppointmentEntity">
                                         <tr>
                                            <td><c:out value="${AppointmentEntity.doctorsName}" /></td>
                                            <td><c:out value="${AppointmentEntity.duration}" /> Minutes</td>
@@ -66,19 +66,17 @@
                                            <td><c:out value="${AppointmentEntity.dateStr}" /></td>
                                            <td><c:out value="${AppointmentEntity.startTime}" /></td>
                                            <td><c:out value="${AppointmentEntity.endTime}" /></td>
-                                           <td><c:out value="${AppointmentEntity.status}" /></td> 
-                                           <td>  
-                                               <form action="PatientController.do/delete" method="post">  
-                                                   <input type="submit" name="patientOperation" value="Cancel" class="btn btn-danger" />
-                                                    <input type="hidden" name="id" value=" ${AppointmentEntity.uniqueAppointmentId}" />
-                                               </form>
-                                           </td> 
+                                           <td><c:out value="${AppointmentEntity.status}" /></td>                          
+                                           <td>
+                                                <form action="./app/cancel?id=<c:out value='${AppointmentEntity.uniqueAppointmentId}'/>" method="post">
+                                                    <button class="btn btn-danger" type="submit" name="patientOperation" value="cancel" >Cancel</button>
+                                                </form>
+                                            </td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
                             </table>
                         </div>
-
                         <h2>Invoiced appointments</h2>
                         <div class="table-responsive">
                             <table class="table table-striped table-sm">
@@ -95,7 +93,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach items="${patientsAppointments}" var="AppointmentEntity">
+                                    <c:forEach items="${patientsInvoicedAppointments}" var="AppointmentEntity">
                                         <tr>
                                            <td><c:out value="${AppointmentEntity.doctorsName}" /></td>
                                            <td><c:out value="${AppointmentEntity.duration}" /> slot</td>
@@ -130,7 +128,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${patientsAppointments}" var="AppointmentEntity">
+                                <c:forEach items="${patientsPaidAppointments}" var="AppointmentEntity">
                                     <tr>
                                        <td><c:out value="${AppointmentEntity.doctorsName}" /></td>
                                        <td><c:out value="${AppointmentEntity.duration}" /> slot</td>
@@ -162,7 +160,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${patientsAppointments}" var="AppointmentEntity">
+                                <c:forEach items="${patientsCancelledAppointments}" var="AppointmentEntity">
                                     <tr>
                                        <td><c:out value="${AppointmentEntity.doctorsName}" /></td>
                                        <td><c:out value="${AppointmentEntity.duration}" /> slot</td>
@@ -179,7 +177,7 @@
                         </div>
                     </main> 
                 </div>     
-            </form>
+            
 
             <%@include file='/html/footer.html'%>
         </div>

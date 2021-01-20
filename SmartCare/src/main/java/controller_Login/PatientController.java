@@ -39,7 +39,7 @@ import model.Service.PatientService;
  *
  * @author me-aydin
  */
-@WebServlet(name = "PatientController", urlPatterns = {"/PatientController.do"})
+//@WebServlet(name = "PatientController", urlPatterns = {"/app"})
 public class PatientController extends HttpServlet {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -55,19 +55,27 @@ public class PatientController extends HttpServlet {
         
               
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
         DynamicDao dynamicDao = (DynamicDao)session.getAttribute("dynamicDao");
         
         // TODO is it needed
-        UserEntity user = (UserEntity)session.getAttribute("User");
+        UserEntity user = (UserEntity)session.getAttribute("user");
         
         PatientEntity patient = (PatientEntity)session.getAttribute("Patient");
         if (dynamicDao == null)
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         
-        String query;
         ListService listHandler = (ListService)session.getAttribute("ListHandler");
-        query = (String)request.getParameter("patientOperation");
+        String query = (String)request.getParameter("patientOperation");
+        
+        if(query == null)
+            query = "default";
+        
+        String action = request.getServletPath();
+        
+        if(action == "/app/cancel")
+            query = action;
+        
         AppointmentService appointmentService = new AppointmentService(dynamicDao);
         PatientService patientService = new PatientService(dynamicDao);
         switch(query){
@@ -128,12 +136,10 @@ public class PatientController extends HttpServlet {
                 request.getSession().setAttribute("lengths", null);
                 request.getSession().setAttribute("choosenDoctor", null);
                 request.getSession().setAttribute("choosenDate", null);
-                request.setAttribute("message", "booked successfully");
-
-
+                request.setAttribute("message", "Appointment Booked Sucessfully");
+                
                 ArrayList<AppointmentEntity> patientsAppointments = new ArrayList();
                 patientsAppointments = appointmentService.getPatientsAppointments(patient.getPatientId());
-
 
                 request.setAttribute("patientsAppointments", patientsAppointments);
                 request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
@@ -142,16 +148,62 @@ public class PatientController extends HttpServlet {
                 request.getSession().setAttribute("prescriptions", listHandler.getDoctorsForDisplay(dynamicDao));
                 request.getRequestDispatcher("/WEB-INF/listPrescriptions.jsp").forward(request, response);
                 break;
-            case "Cancel":
-                String appointmentIdToCancel = request.getParameter("id");
+            case "cancel":
+                int id = Integer.parseInt(request.getParameter("id"));
+                String result = appointmentService.cancelAppointment(id);
+                
+                if(result == "Cancelled")
+                {
+                    request.setAttribute("message", "Appointment Cancelled");
+                } 
+                listPatientAppointments(dynamicDao, request, patient.getPatientId());   
+                request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
+                break;
+            case "default":
+                patient = patientService.getPatient(user);
+                session.setAttribute("Patient", patient); 
+                
+                listPatientAppointments(dynamicDao, request, patient.getPatientId());   
+                request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
                 break;
             default:
+                listPatientAppointments(dynamicDao, request, patient.getPatientId());   
                 request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
         }
-        
-
     }
-
+    
+     private void listPatientAppointments(DynamicDao dynamicDao, HttpServletRequest request, int patientId){
+        AppointmentService appointmentService = new AppointmentService(dynamicDao);
+        ArrayList<AppointmentEntity> patientsAppointments = new ArrayList();
+           
+        patientsAppointments = appointmentService.getPatientsAppointments(patientId);
+        
+        ArrayList<AppointmentEntity> patientsActiveAppointments = new ArrayList();
+        ArrayList<AppointmentEntity> patientsInvoicedAppointments = new ArrayList();
+        ArrayList<AppointmentEntity> patientsPaidAppointments = new ArrayList();
+        ArrayList<AppointmentEntity> patientsCancelledAppointments = new ArrayList();
+  
+        for (int i = 0; i < patientsAppointments.size(); i++) {
+            if(patientsAppointments.get(i).getStatus() == 1){
+                patientsActiveAppointments.add(patientsAppointments.get(i));
+            }    
+            else if(patientsAppointments.get(i).getStatus() == 4){
+                patientsInvoicedAppointments.add(patientsAppointments.get(i));
+            }
+            else if(patientsAppointments.get(i).getStatus() == 5){
+                patientsPaidAppointments.add(patientsAppointments.get(i));
+            }      
+            else if(patientsAppointments.get(i).getStatus() == 3){
+                patientsCancelledAppointments.add(patientsAppointments.get(i));
+            }
+          
+        }
+        request.setAttribute("patientsActiveAppointments", patientsAppointments);
+        request.setAttribute("patientsInvoicedAppointments", patientsInvoicedAppointments);
+        request.setAttribute("patientsPaidAppointments", patientsPaidAppointments);
+        request.setAttribute("patientsCancelledAppointments", patientsCancelledAppointments);
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
