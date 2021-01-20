@@ -13,6 +13,10 @@
     <style><%@include file="/css/style.css"%></style>
     <title>SmartCare - Turnover</title>
    
+        <head>
+            <link rel="shortcut icon" href="icons/favicon.ico?" type="image/x-icon" />
+        </head>
+    
         <body>
        
             <%@include file='/html/headerSignIn.html'%>
