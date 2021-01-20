@@ -135,7 +135,7 @@ public class Login extends HttpServlet {
                         switch(UserType) {
                             case "patient":
                                 PatientService patientService = new PatientService(dynamicDao);
-                                PatientEntity patient = patientService.getEmployee(user.getUniqueUserId());
+                                PatientEntity patient = patientService.getPatient(user.getUniqueUserId());
                                 patient.setPatientEntityFromUser(user);
                                 session.setAttribute("Patient", patient);
 

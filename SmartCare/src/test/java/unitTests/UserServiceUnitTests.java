@@ -77,7 +77,7 @@ public class UserServiceUnitTests {
         ArrayList resultArrayList = new ArrayList();
         resultArrayList.add(1);
 
-        UserEntity user = new UserEntity(1, "Rob", "password", "email@email.com", "01/01/2021", "02/01/2021", false, "pic string", 2, "0");
+        UserEntity user = new UserEntity(1, "Rob", "password", "email@email.com", "01/01/2021", "02/01/2021", false, "pic string", 2);
 
         try{
             when(dynamicDaoMock.agnosticQuery(anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyBoolean(), anyString(), anyInt())).thenReturn(resultArrayList);
@@ -99,11 +99,11 @@ public class UserServiceUnitTests {
         // Arrange
         ArrayList<String[]> userArrayList = new ArrayList<>();
         String[] userStringArray = {"1", "root", "root", "root@admin.com", 
-            "2020-12-12 15:42:50.221", "2020-12-12 15:42:50.221", "0", "default.png", "2", "0"};
+            "2020-12-12 15:42:50.221", "2020-12-12 15:42:50.221", "0", "default.png", "2"};
         userArrayList.add(userStringArray);
        
-        UserEntity expectedUser = new UserEntity(1, "boot", "root", "root@admin.com", 
-                "2020-12-12 15:42:50.221", "2020-12-12 15:42:50.221", false, "default.png", 2, "0");
+        UserEntity expectedUser = new UserEntity(1, "root", "root", "root@admin.com", 
+                "2020-12-12 15:42:50.221", "2020-12-12 15:42:50.221", false, "default.png", 2);
         expectedUser.setUserRole("");
                 
         try{

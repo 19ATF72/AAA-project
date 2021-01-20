@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import model.Dao.DynamicDao;
 import model.Entity.PatientEntity;
+import model.Entity.UserEntity;
 import model.Service.PatientService;
 
 import org.junit.After;
@@ -129,6 +130,7 @@ public class PatientServiceUnitTests {
         
         // Assert
         Assert.assertThat(actualPatient, new ReflectionEquals(expectedPatient));
+        //Assert.assertSame(expectedPatient, actualPatient);
     }
     
     
@@ -154,6 +156,6 @@ public class PatientServiceUnitTests {
         ArrayList actualAppointments = patientService.retrievePatientDisplayableAppointments(patient);
         
         // Assert
-       Assert.assertEquals(actualAppointments, expectedAppointments); 
+        Assert.assertArrayEquals(expectedAppointments.toArray(), actualAppointments.toArray()); 
     }
 }

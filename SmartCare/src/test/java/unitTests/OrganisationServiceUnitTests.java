@@ -56,12 +56,6 @@ public class OrganisationServiceUnitTests {
         dynamicDaoMock = mock(DynamicDao.class);
         organisationService = new OrganisationService(dynamicDaoMock); 
     }
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
     
     /*
     public ArrayList<OrganisationEntity> listAllOrganisations() throws SQLException {
@@ -87,29 +81,30 @@ public class OrganisationServiceUnitTests {
         // Arrange
         ArrayList<String[]> organisationArrayList = new ArrayList<>();
         //"INSERT INTO organisation (name, organisation_type_oid, address, postcode, phone_number) VALUES (?, ?, ?, ?, ?)");
-        String[] organisationStringArray = {"Name", "ID", "Address", "Postcode", "1"};
+        String[] organisationStringArray = {"1", "Name", "ID", "Address", "Postcode", "5550123"};
         organisationArrayList.add(organisationStringArray);
        
-        OrganisationEntity organisation = new OrganisationEntity("Name", "ID", "Address", "Postcode", "1");
-        ArrayList<OrganisationEntity> expectedListOfOrganisation = new ArrayList<>();
-        expectedListOfOrganisation.add(organisation);
-                
+        OrganisationEntity organisation = new OrganisationEntity("1", "Name", "ID", "Address", "Postcode", "5550123");
+        ArrayList<OrganisationEntity> expectedOrganisationList = new ArrayList<>();
+        expectedOrganisationList.add(organisation);
+
         try{
             when(dynamicDaoMock.agnosticQuery(anyString(), anyString())).thenReturn(organisationArrayList);
         }catch(SQLException e){
             
         }
-        
+
         // Act
-        ArrayList<OrganisationEntity> actualListOfOrganisation = new ArrayList<>(); 
+        ArrayList<OrganisationEntity> actualOrganisationList = new ArrayList<>();
         try{
-            actualListOfOrganisation = organisationService.listAllOrganisations(); 
+            actualOrganisationList = organisationService.listAllOrganisations(); 
         }catch(SQLException e){
             
         } 
         
         // Assert
-        Assert.assertThat(expectedListOfOrganisation, new ReflectionEquals(actualListOfOrganisation));
+        Assert.assertThat(expectedOrganisationList, new ReflectionEquals(actualOrganisationList));
+
     }
     
     
@@ -130,7 +125,7 @@ public class OrganisationServiceUnitTests {
         appointmentsArrayList.add(appointmentStringArray);
        
         //public OrganisationEntity(String name, String orgType, String address, String postcode, String phoneNum)
-        OrganisationEntity organisation = new OrganisationEntity("Name", "Type", "Address", "Postcode", "1");
+        OrganisationEntity organisation = new OrganisationEntity("1", "Name", "ID", "Address", "Postcode", "5550123");
                 
         try{
             when(dynamicDaoMock.agnosticQuery(anyString(), anyString(), anyString(), anyString(), anyString(), anyString())).thenReturn(appointmentsArrayList);
@@ -143,9 +138,8 @@ public class OrganisationServiceUnitTests {
             organisationService.insertOrganisation(organisation);
         }catch(SQLException e){
         
-        }
-        
-        // Assert 
+        }     
+         
         ArrayList<OrganisationEntity> organisationList = new ArrayList<>(); 
         try{
             organisationList = organisationService.listAllOrganisations(); 
@@ -154,7 +148,8 @@ public class OrganisationServiceUnitTests {
         }
         
         OrganisationEntity resultOrganisation = organisationList.get(organisationList.size()-1);
-      
+        
+        // Assert
         Assert.assertThat(organisation, new ReflectionEquals(resultOrganisation));  
     }
     
@@ -221,10 +216,10 @@ public class OrganisationServiceUnitTests {
         
         // Arrange
         ArrayList<String[]> organisationArrayList = new ArrayList<>();
-        String[] organisationStringArray = {"Name", "Type", "Address", "Postcode", "1"};
+        String[] organisationStringArray = {"1", "Name", "Type", "Address", "Postcode", "5550123"};
         organisationArrayList.add(organisationStringArray);
        
-        OrganisationEntity expectedOrganisation = new OrganisationEntity("Name", "Type", "Address", "Postcode", "1");
+        OrganisationEntity expectedOrganisation = new OrganisationEntity("1", "Name", "Type", "Address", "Postcode", "5550123");
                 
         try{
             when(dynamicDaoMock.agnosticQuery(anyString(), anyString())).thenReturn(organisationArrayList);
@@ -233,7 +228,7 @@ public class OrganisationServiceUnitTests {
         }
         
         // Act
-        OrganisationEntity actualOrganisation = new OrganisationEntity("", "", "", "", ""); 
+        OrganisationEntity actualOrganisation = new OrganisationEntity("", "", "", "", "", ""); 
         try{
             actualOrganisation = organisationService.getOrganisation("1"); 
         }catch(SQLException e){

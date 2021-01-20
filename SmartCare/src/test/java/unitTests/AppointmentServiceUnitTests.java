@@ -86,28 +86,17 @@ public class AppointmentServiceUnitTests {
         ArrayList<String[]> actualAppointments = appointmentService.retrieveAvaialbleAppointmentsForDoctor(1, "");     
         
         // Assert
-        Assert.assertThat(actualAppointments, new ReflectionEquals(expectedAppointments));
+        Assert.assertArrayEquals(actualAppointments.toArray(), expectedAppointments.toArray());
     }
     
-    /*
-    public void CreateAppointment(ArrayList params){   
-        try {
-            ArrayList slot_ids = (ArrayList)params.get(9);                                  
-            dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.NewAppointment), params.get(0), params.get(1),params.get(2),params.get(3),params.get(4),params.get(5),params.get(6),params.get(7),params.get(8));
-            for (int slot = 0; slot < slot_ids.size(); slot++) {
-                           dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.NewEmployeeAppointmentSlot), slot_ids.get(slot), params.get(7),params.get(3));
-            }
-        } catch (Exception e) {
-        }
-    }
-    */
+    
     @Test
     public void CreateAppointment_Success(){
         
         // Arrange
-        //ArrayList<String[]> appointmentsArrayList = new ArrayList<>();
-        //String[] userStringArray = {"1", "1", "2020-12-12", "00:00:00.000", "01:00:00.000", "1", "1", "1", "1"};
-        //appointmentsArrayList.add(userStringArray);
+        ArrayList<String[]> appointmentsArrayList = new ArrayList<>();
+        String[] appointmentStringArray = {"1", "2020-12-12 15:42:50.221"};
+        appointmentsArrayList.add(appointmentStringArray);
        
         //"INSERT INTO appointment (duration, charge, date, start_time, end_time, patient_pid, employee_eid, appointment_type_atid, appointment_status_asid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         ArrayList params = new ArrayList();
@@ -121,41 +110,13 @@ public class AppointmentServiceUnitTests {
         params.add(1); //appointment type id
         params.add(1); // appointment status id
         
-        
         String[] expectedAppointment = {"1", "1", "2020-12-12", "00:00:00.000", "01:00:00.000", "1", "1", "1", "1"};
-        /*
-        ArrayList expectedAppointment = new ArrayList();
-        expectedAppointment.add(1); //duration
-        expectedAppointment.add(1); //charge
-        expectedAppointment.add("2020-12-12"); //date
-        expectedAppointment.add("00:00:00.000"); //start time
-        expectedAppointment.add("01:00:00.000"); //end time
-        expectedAppointment.add(1); //patient id
-        expectedAppointment.add(1); //employee id
-        expectedAppointment.add(1); //appointment type id
-        expectedAppointment.add(1); // appointment status id
-         
         
-        try{
-            when(dynamicDaoMock.agnosticQuery(anyString(), anyInt(), anyInt(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyInt(), anyInt())).thenReturn(appointmentsArrayList);
-            // "INSERT INTO employee_has_appointment_slots (employee_eid, date) VALUES (?, ?)");
-            //when(dynamicDaoMock.agnosticQuery(anyString(), anyObject(), anyString())).thenReturn(appointmentsArrayList);
-        }catch(SQLException e){
-            
-        }
-        */  
-        
-        ArrayList<String[]> appointmentsArrayList = new ArrayList<>();
-        String[] appointmentStringArray = {"1", "2020-12-12 15:42:50.221"};
-        appointmentsArrayList.add(appointmentStringArray);
-
         try{
             when(dynamicDaoMock.agnosticQuery(anyString(), anyInt(), anyString())).thenReturn(appointmentsArrayList);
         }catch(SQLException e){
             
         }
-        
-        
         
         // Act
         appointmentService.CreateAppointment(params);
