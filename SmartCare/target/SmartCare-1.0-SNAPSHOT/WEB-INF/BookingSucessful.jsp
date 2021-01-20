@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="shortcut icon" href="icons/favicon.ico?" type="image/x-icon" />
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 <link rel="shortcut icon" href="icons/favicon.ico?" type="image/x-icon" />
