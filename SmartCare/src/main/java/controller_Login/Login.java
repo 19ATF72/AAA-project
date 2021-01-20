@@ -10,6 +10,7 @@ package controller_Login;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import model.Service.ListService;
 import model.Entity.EmployeeEntity;
 import model.Entity.PatientEntity;
 import model.Entity.UserEntity;
@@ -57,6 +58,7 @@ import model.Service.PatientService;
  * 
  * @date  last_review date
  */
+
 @WebServlet(name = "Login", urlPatterns = {"/"})
 public class Login extends HttpServlet {
 
@@ -74,8 +76,8 @@ public class Login extends HttpServlet {
      * @param request servlet request
      * @param response servlet response
      * @param[out] HttpSession session A containing all attributes which will be used in other pages  
-     * @param[out] ListModel listHandler Object set to the current session so other pages can list data from the database 
-     * @param[out] ListModel user Object set to the current session so data base does not need to be called to retrieve user info
+     * @param[out] ListService listHandler Object set to the current session so other pages can list data from the database 
+     * @param[out] ListService user Object set to the current session so data base does not need to be called to retrieve user info
      * 
      * @param[in] input_name input_description 
      *
@@ -93,7 +95,7 @@ public class Login extends HttpServlet {
         
         DynamicDao dynamicDao = new DynamicDao();
         
-        ListModel listHandler = new ListModel();
+        ListService listHandler = new ListService();
         UserEntity user = new UserEntity();
         UserService userService = new UserService(dynamicDao);
         //set database object connection 
@@ -111,7 +113,6 @@ public class Login extends HttpServlet {
         session.setAttribute("clientCharge", (Double)request.getServletContext().getAttribute("clientCharge"));
         //uncoment to populate appointment slots type table
         //dynamicDao.addTimeSlots();
-        
         String query = (String)request.getParameter("LoginOperation");
         switch(query) {
             case "NewUser":
@@ -122,6 +123,7 @@ public class Login extends HttpServlet {
                 String password = (String)request.getParameter("password");
                 //retrieves user from database if it exists  
                 user = userService.loginUser(email, password);
+                
                 if (user != null) {
                     int userStatus = user.getAccountStatus();
                 switch (userStatus) {
@@ -139,7 +141,8 @@ public class Login extends HttpServlet {
                                 listPatientAppointments(dynamicDao, request, patient.getPatientId());   
                                 request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
                                 break;
-                            case "employee":
+                            case "doctor":
+                            case "nurse:":
                                 EmployeeService employeeService = new EmployeeService(dynamicDao);
                                 EmployeeEntity employee = employeeService.fetchEmployee(user);
                                 
@@ -154,6 +157,7 @@ public class Login extends HttpServlet {
                                 request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);
                                 break;
                             case "admin":
+                                request.getRequestDispatcher("/WEB-INF/adminPage.jsp").forward(request, response);
                                 break;
                             default:
                         }
@@ -167,6 +171,10 @@ public class Login extends HttpServlet {
                         request.getRequestDispatcher("/login.jsp").forward(request, response);
                         break;
                     }
+                }
+                else{
+                    request.setAttribute("badPw", true);
+                    request.getRequestDispatcher("/login.jsp").forward(request, response);
                 }
         }
         

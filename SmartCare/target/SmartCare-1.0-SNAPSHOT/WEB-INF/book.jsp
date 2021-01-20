@@ -8,6 +8,7 @@
 <html>
    <%@include file='/html/scripts.html'%>
    <style><%@include file="/css/style.css"%></style>
+
    <body>
       <%! int i=0;
          String str="List Patients"; 
@@ -47,6 +48,7 @@
                               <c:forEach items="${doctors}" var="row">
                                  <tr>
                                     <option class="dropdown-item" value="<c:out value="${row[0]}" />">
+                                    (<c:out value="${row[3]}" />) 
                                     <c:out value="${row[1]}" />
                                     <c:out value="${row[2]}" />
                                     </option>
@@ -114,9 +116,10 @@
                   </div>
                   <br>
                   <h5>Appointment details:</h5>
+                  <h9>400 Character Limit</h9>
                   <div class="input-group">
                   <textarea class="form-control" name="appointmentNotes" aria-label="With textarea"></textarea>
-                  </div>
+                  </div>           
                   <br>
                   <button class="btn btn-primary" name="patientOperation" value="booked" type="submit" id="menuButton"  aria-haspopup="true" aria-expanded="false">Book Appointment</button>
                   </form>

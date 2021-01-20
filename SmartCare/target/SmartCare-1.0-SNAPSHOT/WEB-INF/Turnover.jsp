@@ -12,7 +12,12 @@
     <%@page import="java.util.ArrayList"%>
     <style><%@include file="/css/style.css"%></style>
     <title>SmartCare - Turnover</title>
+    <link rel="shortcut icon" href="icons/favicon.ico?" type="image/x-icon" />
    
+        <head>
+            <link rel="shortcut icon" href="icons/favicon.ico?" type="image/x-icon" />
+        </head>
+    
         <body>
        
             <%@include file='/html/headerSignIn.html'%>
@@ -23,7 +28,7 @@
                 <div class="container-fluid">
                     <div class="row">
                     
-                        <%@include file='/html/employeeSidebar.html'%>
+                        <%@include file='/html/adminSidebar.html'%>
                     
                         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 
