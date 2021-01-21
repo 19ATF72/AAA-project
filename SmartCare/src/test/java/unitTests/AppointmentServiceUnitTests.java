@@ -87,43 +87,11 @@ public class AppointmentServiceUnitTests {
         // Arrange
         ArrayList<String[]> appointmentsArrayList = new ArrayList<>();
         String[] appointmentStringArray1 = {"1", "3600", "4200"};
-        String[] appointmentStringArray2 = {"2", "4200", "4800"};
-        String[] appointmentStringArray3 = {"3", "4800", "5400"};
-        String[] appointmentStringArray4 = {"4", "5400", "6000"};
-        String[] appointmentStringArray5 = {"5", "6000", "6600"};
-        String[] appointmentStringArray6 = {"6", "6600", "7200"};
-        String[] appointmentStringArray7 = {"7", "7200", "7800"};
         appointmentsArrayList.add(appointmentStringArray1);
-        appointmentsArrayList.add(appointmentStringArray2);
-        appointmentsArrayList.add(appointmentStringArray3);
-        appointmentsArrayList.add(appointmentStringArray4);
-        appointmentsArrayList.add(appointmentStringArray5);
-        appointmentsArrayList.add(appointmentStringArray6);
-        appointmentsArrayList.add(appointmentStringArray7);
-        
-        
-        ArrayList<String[]> appointments = new ArrayList<>();
-        String[] expectedAppointmentsStringArray1 = {"1", "01:00", "01:10", "slot_1"};
-        String[] expectedAppointmentsStringArray2 = {"2", "01:10", "01:20", "slot_2"};
-        String[] expectedAppointmentsStringArray3 = {"3", "01:20", "01:30", "slot_3"};
-        String[] expectedAppointmentsStringArray4 = {"4", "01:30", "01:40", "slot_4"};
-        String[] expectedAppointmentsStringArray5 = {"5", "01:40", "01:50", "slot_5"};
-        String[] expectedAppointmentsStringArray6 = {"6", "01:50", "02:00", "slot_6"};
-        String[] expectedAppointmentsStringArray7 = {"7", "02:00", "02:10", "slot_7"};
-        appointments.add(expectedAppointmentsStringArray1);
-        appointments.add(expectedAppointmentsStringArray2);
-        appointments.add(expectedAppointmentsStringArray3);
-        appointments.add(expectedAppointmentsStringArray4);
-        appointments.add(expectedAppointmentsStringArray5);
-        appointments.add(expectedAppointmentsStringArray6);
-        appointments.add(expectedAppointmentsStringArray7);
-          
-        String appointmentsStartTime = "01:00";
-        ArrayList appointmentSlots = new ArrayList();
-        appointmentSlots.add(appointmentsStartTime);
-        appointmentSlots.add(appointments);
-        
-        ArrayList expectedAppointmentSlots = new ArrayList();
+
+        AppointmentSlotsEntity appointmentSlots = new AppointmentSlotsEntity(1, "3600", "4800");
+       
+        ArrayList<AppointmentSlotsEntity> expectedAppointmentSlots = new ArrayList<>();
         expectedAppointmentSlots.add(appointmentSlots);
         
         try{
@@ -134,7 +102,8 @@ public class AppointmentServiceUnitTests {
         }
         
         // Act
-       // ArrayList<String[]> actualAppointmentSlots = appointmentService.getAppointmentTimeSlots(1, "2020-05-12");     
+        ArrayList<AppointmentSlotsEntity> actualAppointmentSlots = new ArrayList<>();
+        actualAppointmentSlots = appointmentService.getAppointmentTimeSlots(1, "2020-05-12");     
         
         // Assert
         Assert.assertThat(actualAppointmentSlots, new ReflectionEquals(expectedAppointmentSlots));

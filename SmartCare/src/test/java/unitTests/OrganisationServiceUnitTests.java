@@ -102,12 +102,12 @@ public class OrganisationServiceUnitTests {
         String[] organisationStringArray = {"1", "Name", "ID", "Address", "Postcode", "5550123"};
         organisationArrayList.add(organisationStringArray);
        
-        OrganisationEntity organisation = new OrganisationEntity("1", "Name", "ID", "Address", "Postcode", "5550123");
+        OrganisationEntity organisation = new OrganisationEntity(1, "Name", "ID", "Address", "Postcode", "5550123");
         
-        OrganisationEntity expectedOrganisation = new OrganisationEntity("1", "Name", "ID", "Address", "Postcode", "5550123");
+        OrganisationEntity expectedOrganisation = new OrganisationEntity(1, "Name", "ID", "Address", "Postcode", "5550123");
                 
         try{
-            when(dynamicDaoMock.agnosticQuery(anyString(), anyString(), anyString(), anyString(), anyString(), anyString())).thenReturn(resultArray);
+            when(dynamicDaoMock.agnosticQuery(anyString(), anyInt(), anyString(), anyString(), anyString(), anyString())).thenReturn(resultArray);
             when(dynamicDaoMock.agnosticQuery(anyString(), anyString())).thenReturn(organisationArrayList);
         }catch(SQLException e){
             
