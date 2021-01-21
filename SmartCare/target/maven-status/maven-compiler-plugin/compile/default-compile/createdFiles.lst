@@ -1,68 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> SS-92-functionality-for-pricing-changing
-controller_Login\ListController.class
-model\Entity\OrganisationEntity.class
-model\Helper\StoredProcedures.class
-model\Service\EmployeeService.class
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> SS-92-functionality-for-pricing-changing
-model\Helper\Enums$SqlQueryEnum.class
-model\Service\ListService.class
-model\Service\UserService.class
-controller\ViewAppointments.class
-controller_Login\employeeController.class
-model\ListModel.class
-controller\Book.class
-<<<<<<< HEAD
-controller\filters\LoginFilter.class
-controller\listener.class
-=======
-model\Service\UserService.class
-controller\ViewAppointments.class
-controller_Login\employeeController.class
-model\ListModel.class
-controller\Book.class
->>>>>>> develop
-=======
-controller\listener.class
->>>>>>> SS-92-functionality-for-pricing-changing
-model\Entity\PatientEntity.class
-model\Service\PatientService.class
-model\TurnoverModel.class
-controller_Login\PatientController.class
-model\PatientModelInterface.class
-controller_Login\Login.class
-controller\TurnoverController.class
-model\Entity\AppointmentSlotsEntity.class
-<<<<<<< HEAD
-<<<<<<< HEAD
-controller\servlet\IndexSevlet.class
-model\Dao\DynamicDao.class
-model\Service\AppointmentService.class
-controller\servlet\LoginServlet.class
-controller_Login\NewUserController.class
-model\Service\OrganisationService.class
-model\Entity\UserEntity.class
-controller\filters\AuthFilter.class
-controller\ViewAppointments$MyServlet.class
-model\Helper\Enums.class
-=======
-model\Dao\DynamicDao.class
-model\Service\AppointmentService.class
-controller_Login\NewUserController.class
-model\Service\OrganisationService.class
-model\Entity\UserEntity.class
-controller\ViewAppointments$MyServlet.class
->>>>>>> develop
-model\Entity\AppointmentEntity.class
-model\Entity\Status.class
-model\Entity\EmployeeEntity.class
-controller\OrganisationServlet.class
-=======
+net/codejava/ReviewPaymentServlet.class
 controller/ViewAppointments.class
 model/Entity/AppointmentSlotsEntity.class
 model/Entity/PatientEntity.class
@@ -71,41 +7,35 @@ model/Service/ListService.class
 controller/listener.class
 model/PatientModelInterface.class
 model/Service/UserService.class
+controller/filters/AuthFilter.class
+controller/servlet/IndexSevlet.class
 controller/OrganisationServlet.class
 controller/ViewAppointments$MyServlet.class
 controller_Login/employeeController.class
 model/Service/AppointmentService.class
+net/codejava/ExecutePaymentServlet.class
+controller/pricingUpdateController.class
 controller_Login/PatientController.class
 controller_Login/NewUserController.class
 controller_Login/ListController.class
 model/Entity/Status.class
 model/Helper/StoredProcedures.class
 model/Service/PatientService.class
+net/codejava/PaymentServices.class
 model/Helper/Enums.class
-controller_Login/Login.class
+controller/filters/LoginFilter.class
+model/pricingUpdateModel.class
 controller/TurnoverController.class
 model/Entity/AppointmentEntity.class
 model/Helper/Enums$SqlQueryEnum.class
+net/codejava/AuthorizePaymentServlet.class
 model/Entity/UserEntity.class
+net/codejava/OrderDetail.class
 model/TurnoverModel.class
 controller/Book.class
 model/Dao/DynamicDao.class
 model/Service/OrganisationService.class
 model/Entity/OrganisationEntity.class
+controller/prescriptionController.class
 model/Entity/EmployeeEntity.class
-controller/filters/deleteAppointmentFilter.class
->>>>>>> develop
-=======
-model\Dao\DynamicDao.class
-model\Service\AppointmentService.class
-controller_Login\NewUserController.class
-model\Service\OrganisationService.class
-model\Entity\UserEntity.class
-controller\ViewAppointments$MyServlet.class
-model\Helper\Enums.class
-model\Entity\AppointmentEntity.class
-model\Entity\Status.class
-controller\filters\deleteAppointmentFilter.class
-model\Entity\EmployeeEntity.class
-controller\OrganisationServlet.class
->>>>>>> SS-92-functionality-for-pricing-changing
+controller/servlet/LoginServlet.class
