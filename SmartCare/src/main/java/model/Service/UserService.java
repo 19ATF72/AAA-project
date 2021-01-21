@@ -56,7 +56,7 @@ public class UserService{
             
             
             int uniqueUserId = (Integer)dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.NewUser), user.getUserPrefix(), user.getUserFirstname(), user.getUserSurname(), user.getPassword(), user.getEmail(), user.getDateOfBirth(),
-                    date, date, intRepOfIsLoggenIn, user.getUserType(), user.getAccountStatus()).get(0);
+                    date, date, intRepOfIsLoggenIn, user.getUserType(), user.getPhoneNumber(), user.getAccountStatus()).get(0);
             user.setUniqueUserId(uniqueUserId);
            
             result = "User created successfully";
@@ -128,6 +128,19 @@ public class UserService{
     
     private String hashPassword(String password){
         return (String)DigestUtils.sha1Hex(password);
+    }
+    
+    public String telephoneValidation(String telephoneNumber){ 
+        String resultTelephone = telephoneNumber;
+        if(telephoneNumber.startsWith("+44"))
+        {
+            resultTelephone = "0" + telephoneNumber.substring(3, telephoneNumber.length());
+        }
+        else if (telephoneNumber.length() != 11){
+            resultTelephone = "Please enter a valid UK mobile number.";
+        }
+   
+        return resultTelephone;
     }
    
     

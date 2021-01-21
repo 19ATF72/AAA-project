@@ -84,7 +84,7 @@ public class OrganisationServiceUnitTests {
         String[] organisationStringArray = {"1", "Name", "ID", "Address", "Postcode", "5550123"};
         organisationArrayList.add(organisationStringArray);
        
-        OrganisationEntity organisation = new OrganisationEntity("1", "Name", "ID", "Address", "Postcode", "5550123");
+        OrganisationEntity organisation = new OrganisationEntity(1, "Name", "ID", "Address", "Postcode", "5550123");
         ArrayList<OrganisationEntity> expectedOrganisationList = new ArrayList<>();
         expectedOrganisationList.add(organisation);
 
@@ -125,7 +125,7 @@ public class OrganisationServiceUnitTests {
         appointmentsArrayList.add(appointmentStringArray);
        
         //public OrganisationEntity(String name, String orgType, String address, String postcode, String phoneNum)
-        OrganisationEntity organisation = new OrganisationEntity("1", "Name", "ID", "Address", "Postcode", "5550123");
+        OrganisationEntity organisation = new OrganisationEntity(1, "Name", "ID", "Address", "Postcode", "5550123");
                 
         try{
             when(dynamicDaoMock.agnosticQuery(anyString(), anyString(), anyString(), anyString(), anyString(), anyString())).thenReturn(appointmentsArrayList);
@@ -219,7 +219,7 @@ public class OrganisationServiceUnitTests {
         String[] organisationStringArray = {"1", "Name", "Type", "Address", "Postcode", "5550123"};
         organisationArrayList.add(organisationStringArray);
        
-        OrganisationEntity expectedOrganisation = new OrganisationEntity("1", "Name", "Type", "Address", "Postcode", "5550123");
+        OrganisationEntity expectedOrganisation = new OrganisationEntity(1, "Name", "Type", "Address", "Postcode", "5550123");
                 
         try{
             when(dynamicDaoMock.agnosticQuery(anyString(), anyString())).thenReturn(organisationArrayList);
@@ -228,7 +228,7 @@ public class OrganisationServiceUnitTests {
         }
         
         // Act
-        OrganisationEntity actualOrganisation = new OrganisationEntity("", "", "", "", "", ""); 
+        OrganisationEntity actualOrganisation = new OrganisationEntity(1, "", "", "", "", ""); 
         try{
             actualOrganisation = organisationService.getOrganisation("1"); 
         }catch(SQLException e){

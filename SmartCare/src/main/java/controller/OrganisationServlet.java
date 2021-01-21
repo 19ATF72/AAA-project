@@ -126,8 +126,7 @@ public class OrganisationServlet extends HttpServlet {
     private void deleteOrganisation(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException {
         int oId = Integer.parseInt(request.getParameter("oId"));
-        String oIdd = "";
-        OrganisationEntity organisation = new OrganisationEntity(oIdd);
+        OrganisationEntity organisation = new OrganisationEntity(oId);
   
         organisationDao.deleteOrganisation(organisation);
         response.sendRedirect("/SmartCare/OrganisationServlet.do");

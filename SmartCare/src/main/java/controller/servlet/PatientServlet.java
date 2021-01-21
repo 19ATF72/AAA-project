@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller_Login;
+package controller.servlet;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -33,14 +33,15 @@ import javax.servlet.http.HttpSession;
 
 
 import model.*;
+import model.Entity.AppointmentSlotsEntity;
 import model.Service.AppointmentService;
 import model.Service.PatientService;
 /**
  *
  * @author me-aydin
  */
-//@WebServlet(name = "PatientController", urlPatterns = {"/app"})
-public class PatientController extends HttpServlet {
+//@WebServlet(name = "PatientServlet", urlPatterns = {"/app"})
+public class PatientServlet extends HttpServlet {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -51,13 +52,12 @@ public class PatientController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
+            throws ServletException, IOException {        
               
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         DynamicDao dynamicDao = (DynamicDao)session.getAttribute("dynamicDao");
-        
+        ArrayList<AppointmentSlotsEntity> appointmentTimes = new ArrayList<>();
         // TODO is it needed
         UserEntity user = (UserEntity)session.getAttribute("user");
         
@@ -92,9 +92,11 @@ public class PatientController extends HttpServlet {
                 Calendar c = Calendar.getInstance();
                 c.setTime(Date.valueOf(dateSelected));
                 int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);  
-                request.setAttribute("dayOfWeek", dayOfWeek);      
-                
-                ArrayList<String[]> lengths = appointmentService.getAppointmentTimeSlots((int)session.getAttribute("chosenDoctor"),(String)session.getAttribute("chosenDate"));
+                request.setAttribute("dayOfWeek", dayOfWeek);            
+               
+                appointmentTimes = appointmentService.fetchAvaialbleAppointmentsForPractitioner((int)session.getAttribute("chosenDoctor"),(String)session.getAttribute("chosenDate"));
+
+                ArrayList<String[]> lengths = appointmentService.parseAppointmentsToTimeSlots(appointmentTimes);
                
                 request.setAttribute("lengths", lengths);
                 request.getSession().setAttribute("lengths", lengths);
@@ -126,9 +128,14 @@ public class PatientController extends HttpServlet {
                 double charge = (Double)session.getAttribute("clientCharge")*chosenSlots.length;
                 int durationInt = chosenSlots.length * 10;
                 
-                //NOT USED
-                String durationStr = durationInt + " Minutes"; 
-                
+                String[] sms = request.getParameterValues("smsCheckbox");
+                if(sms != null){
+                     if("true".equals(sms[0])){
+                    appointmentService.sendSMSReminder();
+                    }
+                }
+               
+
                 AppointmentEntity newAppointment = new AppointmentEntity(durationInt, appointmentNotes, charge, dateChosen, String.valueOf(startAndFinishTimes[0]), String.valueOf(startAndFinishTimes[1]), patient.getPatientId(), employeeId, patient.getPatientType(), 0, 0);
                 
                 appointmentService.createAppointment(newAppointment, chosenTimeSlots);
@@ -138,10 +145,8 @@ public class PatientController extends HttpServlet {
                 request.getSession().setAttribute("choosenDate", null);
                 request.setAttribute("message", "Appointment Booked Sucessfully");
                 
-                ArrayList<AppointmentEntity> patientsAppointments = new ArrayList();
-                patientsAppointments = appointmentService.getPatientsAppointments(patient.getPatientId());
+                listPatientAppointments(dynamicDao, request, patient.getPatientId());   
 
-                request.setAttribute("patientsAppointments", patientsAppointments);
                 request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
                 break;
             case "listPrescriptions":

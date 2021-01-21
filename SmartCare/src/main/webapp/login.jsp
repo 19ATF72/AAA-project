@@ -18,10 +18,6 @@
 
     <body>
         <%@include file='/html/headerSignIn.html'%>
-        
-        <%! int i=0; String str="Login"; String url = "auth"; %>
-        <%  str="Login"; url = "auth"; %>
-
         <main class="container">
             
             <div class="row row-cols-1 row-cols-md-3 mb-3 mt-4 text-center">
@@ -41,7 +37,7 @@
                                     </div>
                                     <br>                                    
                                 </c:if>                            
-                                <div class="alert alert-secondary ${not empty message ? message: 'd-none'}" role="alert">
+                                <div class="alert alert-primary ${not empty message ? message: 'd-none'}" role="alert">
                                   <c:out value="${not empty message ? message: ''}" />
                                 </div>
                                 <label for="inputEmail" class="visually-hidden">Email address</label>
