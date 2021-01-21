@@ -69,14 +69,12 @@ public class PatientServiceUnitTests {
         // Arrange
         ArrayList<String[]> resultArrayList = new ArrayList<>();
         
-        //public PatientEntity(int patientId, String patientName, String address, int patientType)
         String[] patientStringArray = {"1", "John Smith", "Address", "1"};
         resultArrayList.add(patientStringArray);
 
         PatientEntity patient = new PatientEntity(1, "John Smith", "Address", 1);
 
         try{
-            //dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.NewPatient), patient.getAddress(), patient.getPatientType(), patient.getUniqueUserId());
             when(dynamicDaoMock.agnosticQuery(anyString(), anyString(), anyString(), anyInt())).thenReturn(resultArrayList);
         }catch(Exception e){
             

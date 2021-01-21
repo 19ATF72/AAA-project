@@ -73,45 +73,6 @@ public class UserServiceUnitTests {
     }
     
     
-    /*
-    public String createUser(UserEntity user)
-    {    
-        
-        modifyAccountStatus(user);
-        
-        String hashedPassword = hashPassword(user.getPassword());
-        
-        user.setPassword(hashedPassword);
-
-        String result = "";
-        
-        Date date;
-        date = Date.valueOf(LocalDate.now());
-        
-        try {
-            int intRepOfIsLoggenIn; 
-            if(user.isLoggedIn()){
-                intRepOfIsLoggenIn = 1; 
-            }
-            else{
-                intRepOfIsLoggenIn = 0; 
-            }
-            
-            
-            int uniqueUserId = (Integer)dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.NewUser), user.getUserPrefix(), user.getUserFirstname(), user.getUserSurname(), user.getPassword(), user.getEmail(), user.getDateOfBirth(),
-                    date, date, intRepOfIsLoggenIn, user.getUserType(), user.getAccountStatus()).get(0);
-            user.setUniqueUserId(uniqueUserId);
-           
-            result = "User created successfully";
-           
-        } catch (Exception e) {          
-            result = "Email already registered ";
-        }
-        
-        return result;
-    } 
-    */
-    
     @Test
     public void createUser_Success(){
         
@@ -156,7 +117,6 @@ public class UserServiceUnitTests {
                 
         try{
             when(dynamicDaoMock.agnosticQuery(anyString(), anyString(), anyString())).thenReturn(userArrayList);
-         //   when(userServiceMock.getUserRole(anyInt())).thenReturn("");
         }catch(SQLException e){
             
         }

@@ -53,9 +53,14 @@ public class OrganisationService{
                 organisation.getAddress(), organisation.getPostcode(), organisation.getPhoneNum());
     }
     
-    public void deleteOrganisation(OrganisationEntity organisation) throws SQLException {
+    public boolean deleteOrganisation(OrganisationEntity organisation) throws SQLException {
         
-        dynamicDao.agnosticQuery(sp.sqlQueryMap.get(SqlQueryEnum.deleteOrganisation), organisation.getOId());
+        try{
+            dynamicDao.agnosticQuery(sp.sqlQueryMap.get(SqlQueryEnum.deleteOrganisation), organisation.getOId());
+            return true;
+        }catch (Exception e){
+            return false;
+        }
         
         //need to turn to bool 
         //return rowDeleted;     
