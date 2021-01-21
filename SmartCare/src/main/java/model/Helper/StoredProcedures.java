@@ -73,6 +73,7 @@ public class StoredProcedures extends Enums{
         sqlQueryMap.put(SqlQueryEnum.getPatientRepeatPrescriptions, "SELECT pp.PRID, pp.PATIENT_PID, pp.MEDICINE, pp.repeat FROM PATIENT_PRESCRIPTIONS pp INNER JOIN PATIENT p ON pp.PATIENT_PID = p.PID INNER JOIN users as u ON p.USERS_UUID = u.uuid WHERE u.uuid = ?");
         sqlQueryMap.put(SqlQueryEnum.getOrganisation, "DELETE FROM organisation where oid = ?");//duplicate name
         sqlQueryMap.put(SqlQueryEnum.getPendingUsers, "SELECT * FROM users WHERE user_status_usid=1");
+        sqlQueryMap.put(SqlQueryEnum.updateUserStatus, "UPDATE users SET user_status_usid=? WHERE uuid=?");
         
     }   
 }

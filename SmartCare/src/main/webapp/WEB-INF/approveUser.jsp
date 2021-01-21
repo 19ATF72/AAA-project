@@ -43,8 +43,7 @@
                             <c:out value="${not empty message ? message: ''}" />
                         </div>
 
-                        <div class="${toBeApproved ? toBeApproved:""}">
-                            <h2>List of patients</h2>
+                            <h2>List of pending users</h2>
                             <div class="table-responsive">
                                 <table class="table table-striped table-sm">
                                     <thead>
@@ -66,12 +65,14 @@
                                                 <td><c:out value="${row[3]}" /></td>
                                                 <td><c:out value="${row[4]}" /></td>
 <!--                                                <td><input class="form-check-input" type="checkbox" value="<c:out value="${row[0]}" />" aria-label="Checkbox for following text input"></td>-->
+                                                <td><div class="col-12 mb-2 mt-2">
+                                                    <button type="submit" class="w-100 btn btn-outline-primary btn-lg" name="approve" value="<c:out value="${row[0]}" />">approve</button>
+                                                </div></td>
                                             </tr>
                                         </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
                     </main> 
                 </div>     
             </form>

@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Entity.EmployeeEntity;
 import model.Service.ListService;
+import model.Service.UserService;
 import model.Entity.PatientEntity;
 import model.Entity.UserEntity;
 import model.Service.ListService;
@@ -55,8 +56,15 @@ public class approveUserController extends HttpServlet {
         DynamicDao dynamicDao = new DynamicDao();
         dynamicDao.connect((Connection)request.getServletContext().getAttribute("connection"));
         ListService listHandler = new ListService();//(ListService)session.getAttribute("ListHandler");
+        UserService userHandler = new UserService(dynamicDao);
         //HttpSession session = request.getSession(false); // UNCOMMENT
         response.setContentType("text/html;charset=UTF-8");
+        
+        if(request.getParameter("approve")!= null)
+        {
+           Integer user_id = Integer.parseInt((String)request.getParameter("approve"));
+           userHandler.updateUserStatus(user_id,2);
+        }
         ArrayList<String[]> toBeApproved = listHandler.getPendingUsers(dynamicDao);
         request.setAttribute("toBeApproved", toBeApproved);
         request.getRequestDispatcher("/WEB-INF/approveUser.jsp").forward(request, response);

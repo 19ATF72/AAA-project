@@ -68,5 +68,6 @@ public class Enums {
         cancelAppointment,
         getPatientRepeatPrescriptions,
         getPendingUsers,
+        updateUserStatus,
     }
 }

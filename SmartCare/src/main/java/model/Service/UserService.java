@@ -126,6 +126,14 @@ public class UserService{
         return null;    
     }
     
+    public void updateUserStatus(Integer user_id, Integer status)
+    {
+        try {
+            dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.updateUserStatus), status, user_id);
+        } catch (Exception e) {
+        }
+    }
+    
     private String hashPassword(String password){
         return (String)DigestUtils.sha1Hex(password);
     }
