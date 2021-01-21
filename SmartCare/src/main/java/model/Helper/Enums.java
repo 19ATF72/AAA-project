@@ -60,6 +60,7 @@ public class Enums {
         newPrescription,      
         insertOrganisation,
         getOrganisation,
+        getAllOrganisations,
         deleteOrganisation,
         listAllOrganisations,
         getNurseBaseSalary,
@@ -69,5 +70,13 @@ public class Enums {
         getPatientRepeatPrescriptions,
         getPendingUsers,
         updateUserStatus,
+        getPatientPrescriptions,
+        getRepeatPatientPrescriptions,
+        updateDoctorBaseSalary,
+        updateNurseBaseSalary,
+        updatePatientCost,
+        updateRequestedRepeatPrescription,
+        getPendingApprovalRepeatPrescriptions,
+        updateApprovedRepeatPrescription,
     }
 }

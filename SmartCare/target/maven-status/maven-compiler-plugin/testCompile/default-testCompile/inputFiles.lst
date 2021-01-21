@@ -1,5 +1,13 @@
+<<<<<<< HEAD
 C:\Users\Rodrigo\Desktop\UWE\ESD\git repo practicals\AAA-project\SmartCare\src\test\java\unitTests\OrganisationServiceUnitTests.java
 C:\Users\Rodrigo\Desktop\UWE\ESD\git repo practicals\AAA-project\SmartCare\src\test\java\unitTests\PatientServiceUnitTests.java
 C:\Users\Rodrigo\Desktop\UWE\ESD\git repo practicals\AAA-project\SmartCare\src\test\java\unitTests\AppointmentServiceUnitTests.java
 C:\Users\Rodrigo\Desktop\UWE\ESD\git repo practicals\AAA-project\SmartCare\src\test\java\unitTests\EmployeeServiceUnitTests.java
 C:\Users\Rodrigo\Desktop\UWE\ESD\git repo practicals\AAA-project\SmartCare\src\test\java\unitTests\UserServiceUnitTests.java
+=======
+/home/atf1972/Desktop/database/University/Year-4/UFCF85-30-3-Enterprise-systems-development/AAA-project/SmartCare/src/test/java/unitTests/OrganisationServiceUnitTests.java
+/home/atf1972/Desktop/database/University/Year-4/UFCF85-30-3-Enterprise-systems-development/AAA-project/SmartCare/src/test/java/unitTests/UserServiceUnitTests.java
+/home/atf1972/Desktop/database/University/Year-4/UFCF85-30-3-Enterprise-systems-development/AAA-project/SmartCare/src/test/java/unitTests/PatientServiceUnitTests.java
+/home/atf1972/Desktop/database/University/Year-4/UFCF85-30-3-Enterprise-systems-development/AAA-project/SmartCare/src/test/java/unitTests/AppointmentServiceUnitTests.java
+/home/atf1972/Desktop/database/University/Year-4/UFCF85-30-3-Enterprise-systems-development/AAA-project/SmartCare/src/test/java/unitTests/EmployeeServiceUnitTests.java
+>>>>>>> develop

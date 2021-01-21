@@ -48,8 +48,8 @@ public class StoredProcedures extends Enums{
         sqlQueryMap.put(SqlQueryEnum.getIncomeByTypeBetweenDates, "SELECT SUM(charge) FROM appointment a INNER JOIN patient p ON a.PATIENT_PID = p.PID INNER JOIN patient_type pt ON p.PATIENT_TYPE_PTID = pt.PTID WHERE APPOINTMENT_STATUS_ASID = 5 AND pt.TYPE_NAME = ? AND (DATE_PAID BETWEEN ? AND ?)");
         sqlQueryMap.put(SqlQueryEnum.getOutgoingsByTypeBetweenDates, "SELECT SUM(e.salary) FROM appointment a INNER JOIN employee e ON a.EMPLOYEE_EID = e.EID INNER JOIN patient p ON a.PATIENT_PID = p.PID INNER JOIN patient_type pt ON p.PATIENT_TYPE_PTID = pt.PTID WHERE APPOINTMENT_STATUS_ASID = 5 AND pt.TYPE_NAME = ? AND (DATE_PAID BETWEEN ? AND ?)");
         sqlQueryMap.put(SqlQueryEnum.getPatientDisplayableAppointments, "SELECT a.duration,a.notes,a.charge,a.date,a.start_time,a.end_time, aps.appointment_status, u.USERNAME FROM appointment AS a INNER JOIN appointment_status as aps ON a.appointment_status_asid = aps.asid INNER JOIN employee as e ON a.employee_eid = e.eid INNER JOIN users as u ON e.users_uuid = u.UUID WHERE patient_pid=?");
-        sqlQueryMap.put(SqlQueryEnum.getEmployeeDisplayableAppointments, "SELECT a.duration,a.notes,a.charge,a.date,a.start_time,a.end_time, aps.appointment_status, a.aid, a.PATIENT_PID, u.USERNAME FROM appointment AS a INNER JOIN appointment_status as aps ON a.appointment_status_asid = aps.asid INNER JOIN patient as p ON a.PATIENT_PID = p.pid INNER JOIN users as u ON p.users_uuid = u.UUID WHERE employee_eid=? AND aps.asid = 1");
-        sqlQueryMap.put(SqlQueryEnum.getEmployeeDisplayableDailyAppointments, "SELECT a.duration,a.notes,a.charge,a.date,a.start_time,a.end_time, aps.appointment_status, a.aid, a.PATIENT_PID, u.USERNAME FROM appointment AS a INNER JOIN appointment_status as aps ON a.appointment_status_asid = aps.asid INNER JOIN patient as p ON a.PATIENT_PID = p.pid INNER JOIN users as u ON p.users_uuid = u.UUID WHERE employee_eid=? AND aps.asid = 1 AND a.date=CURRENT_DATE");
+        sqlQueryMap.put(SqlQueryEnum.getEmployeeDisplayableAppointments, "SELECT a.duration,a.notes,a.charge,a.date,a.start_time,a.end_time, aps.appointment_status, a.aid, a.PATIENT_PID, u.USERFIRSTNAME, u.SURNAME FROM appointment AS a INNER JOIN appointment_status as aps ON a.appointment_status_asid = aps.asid INNER JOIN patient as p ON a.PATIENT_PID = p.pid INNER JOIN users as u ON p.users_uuid = u.UUID WHERE employee_eid=? AND aps.asid = 1");
+        sqlQueryMap.put(SqlQueryEnum.getEmployeeDisplayableDailyAppointments, "SELECT a.duration,a.notes,a.charge,a.date,a.start_time,a.end_time, aps.appointment_status, a.aid, a.PATIENT_PID, u.USERFIRSTNAME, u.SURNAME FROM appointment AS a INNER JOIN appointment_status as aps ON a.appointment_status_asid = aps.asid INNER JOIN patient as p ON a.PATIENT_PID = p.pid INNER JOIN users as u ON p.users_uuid = u.UUID WHERE employee_eid=? AND aps.asid = 1 AND a.date=CURRENT_DATE");
         sqlQueryMap.put(SqlQueryEnum.newPrescription, "INSERT INTO patient_prescriptions (patient_pid, medicine, repeat) VALUES(?,?,?)");
         sqlQueryMap.put(SqlQueryEnum.updateAppointment, "UPDATE appointment SET notes=?,patient_prescriptions_prid=?,appointment_status_asid=2 WHERE aid=?");
         sqlQueryMap.put(SqlQueryEnum.cancelAppointment, "UPDATE appointment SET appointment_status_asid=3 WHERE aid=?");
@@ -65,15 +65,22 @@ public class StoredProcedures extends Enums{
         sqlQueryMap.put(SqlQueryEnum.insertOrganisation, "INSERT INTO organisation (name, organisation_type_oid, address, postcode, phonenumber) VALUES (?, ?, ?, ?, ?)");
         sqlQueryMap.put(SqlQueryEnum.insertOrganisation, "INSERT INTO organisation (name, organisation_type_oid, address, postcode, phone_number) VALUES (?, ?, ?, ?, ?)");
         sqlQueryMap.put(SqlQueryEnum.getOrganisation, "SELECT * FROM organisation WHERE oid = ?");//duplicate name
-        sqlQueryMap.put(SqlQueryEnum.deleteOrganisation, "DELETE FROM organisation where oid = ?");
         sqlQueryMap.put(SqlQueryEnum.getOrganisation, "SELECT * FROM organisation");//duplicate name
+        sqlQueryMap.put(SqlQueryEnum.deleteOrganisation, "DELETE FROM organisation where oid = ?");
+        sqlQueryMap.put(SqlQueryEnum.getPatientRepeatPrescriptions, "SELECT pp.PRID, pp.PATIENT_PID, pp.MEDICINE, pp.repeat FROM PATIENT_PRESCRIPTIONS pp INNER JOIN PATIENT p ON pp.PATIENT_PID = p.PID INNER JOIN users as u ON p.USERS_UUID = u.uuid WHERE u.uuid = ?");
+        sqlQueryMap.put(SqlQueryEnum.getPendingUsers, "SELECT * FROM users WHERE user_status_usid=1");
+        sqlQueryMap.put(SqlQueryEnum.updateUserStatus, "UPDATE users SET user_status_usid=? WHERE uuid=?");
+        sqlQueryMap.put(SqlQueryEnum.getAllOrganisations, "SELECT * FROM organisation");
         sqlQueryMap.put(SqlQueryEnum.getNurseBaseSalary, "SELECT nurse_base_salary FROM prices");
         sqlQueryMap.put(SqlQueryEnum.getDoctorBaseSalary, "SELECT doctor_base_salary FROM prices");
         sqlQueryMap.put(SqlQueryEnum.getPatientCost, "SELECT patient_cost FROM prices");
-        sqlQueryMap.put(SqlQueryEnum.getPatientRepeatPrescriptions, "SELECT pp.PRID, pp.PATIENT_PID, pp.MEDICINE, pp.repeat FROM PATIENT_PRESCRIPTIONS pp INNER JOIN PATIENT p ON pp.PATIENT_PID = p.PID INNER JOIN users as u ON p.USERS_UUID = u.uuid WHERE u.uuid = ?");
-        sqlQueryMap.put(SqlQueryEnum.getOrganisation, "DELETE FROM organisation where oid = ?");//duplicate name
-        sqlQueryMap.put(SqlQueryEnum.getPendingUsers, "SELECT * FROM users WHERE user_status_usid=1");
-        sqlQueryMap.put(SqlQueryEnum.updateUserStatus, "UPDATE users SET user_status_usid=? WHERE uuid=?");
-        
+        sqlQueryMap.put(SqlQueryEnum.getPatientPrescriptions, "SELECT pp.PRID, pp.PATIENT_PID, pp.MEDICINE, pp.repeat FROM PATIENT_PRESCRIPTIONS pp INNER JOIN PATIENT p ON pp.PATIENT_PID = p.PID INNER JOIN users as u ON p.USERS_UUID = u.uuid WHERE u.uuid = ? AND pp.repeat = '0' AND pp.requested_repeat = '0'");
+        sqlQueryMap.put(SqlQueryEnum.getRepeatPatientPrescriptions, "SELECT pp.PRID, pp.PATIENT_PID, pp.MEDICINE, pp.repeat, pp.requested_repeat FROM PATIENT_PRESCRIPTIONS pp INNER JOIN PATIENT p ON pp.PATIENT_PID = p.PID INNER JOIN users as u ON p.USERS_UUID = u.uuid WHERE u.uuid = ? AND pp.repeat = '1' OR pp.requested_repeat = '1'");
+        sqlQueryMap.put(SqlQueryEnum.getPendingApprovalRepeatPrescriptions, "SELECT u.UUID, u.USERPREFIX, u.USERFIRSTNAME, u.USERSURNAME, u.DOB, pp.PRID, pp.MEDICINE, pp.repeat, pp.requested_repeat FROM PATIENT_PRESCRIPTIONS pp INNER JOIN PATIENT p ON pp.PATIENT_PID = p.PID INNER JOIN users as u ON p.USERS_UUID = u.uuid WHERE pp.repeat = '0' AND pp.requested_repeat = '1'");
+        sqlQueryMap.put(SqlQueryEnum.updateRequestedRepeatPrescription, "UPDATE patient_prescriptions SET requested_repeat = True WHERE prid = ?");
+        sqlQueryMap.put(SqlQueryEnum.updateApprovedRepeatPrescription, "UPDATE patient_prescriptions SET repeat = True WHERE prid = ?");  
+        sqlQueryMap.put(SqlQueryEnum.updatePatientCost, "UPDATE prices SET patient_cost=? WHERE price_id=1");
+        sqlQueryMap.put(SqlQueryEnum.updateNurseBaseSalary, "UPDATE prices SET nurse_base_salary=? WHERE price_id=1");
+        sqlQueryMap.put(SqlQueryEnum.updateDoctorBaseSalary, "UPDATE prices SET doctor_base_salary=? WHERE price_id=1");
     }   
 }

@@ -111,10 +111,41 @@ public class ListService {
         return result;
     } 
     
-    public ArrayList getPrescriptionsForDisplay(DynamicDao dynamicDao){
+    public ArrayList getPrescriptionsForDisplay(ArrayList<Integer> params, DynamicDao dynamicDao){
         ArrayList result = new ArrayList();
         try {  
-          result = dynamicDao.agnosticQuery(storedStatements.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getPatientRepeatPrescriptions));
+          result = dynamicDao.agnosticQuery(storedStatements.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getPatientPrescriptions), params.get(0));
+        } catch (Exception e) {
+          result.add("Could not retrieve prescriptions.");
+        }
+        return result;
+    }
+    
+    public ArrayList getRepeatPrescriptionsForDisplay(ArrayList<Integer> params, DynamicDao dynamicDao){
+        ArrayList result = new ArrayList();
+        try {  
+          result = dynamicDao.agnosticQuery(storedStatements.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getRepeatPatientPrescriptions), params.get(0));
+        } catch (Exception e) {
+          result.add("Could not retrieve prescriptions.");
+        }
+        return result;
+    } 
+    
+        
+    public ArrayList updateRepeatPrescriptionRequest(ArrayList<Integer> params, DynamicDao dynamicDao){
+        ArrayList result = new ArrayList();
+        try {  
+          result = dynamicDao.agnosticQuery(storedStatements.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.updateRequestedRepeatPrescription), params.get(0));
+        } catch (Exception e) {
+          result.add("Could not retrieve prescriptions.");
+        }
+        return result;
+    }
+    
+    public ArrayList getPendingApprovalRepeatPrescriptions(DynamicDao dynamicDao){
+        ArrayList result = new ArrayList();
+        try {  
+          result = dynamicDao.agnosticQuery(storedStatements.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getPendingApprovalRepeatPrescriptions));
         } catch (Exception e) {
           result.add("Could not retrieve prescriptions.");
         }
@@ -129,6 +160,14 @@ public class ListService {
         return result;
     } 
     
+    public ArrayList updateApprovedRepeatPrescription(ArrayList<Integer> params, DynamicDao dynamicDao){
+        ArrayList result = new ArrayList();
+        try {  
+          result = dynamicDao.agnosticQuery(storedStatements.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.updateApprovedRepeatPrescription), params.get(0));
+        } catch (Exception e) {
+          result.add("Could not retrieve prescriptions.");
+        }
+        return result;
+    }
+   
 }
-
-

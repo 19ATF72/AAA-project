@@ -1,0 +1,5 @@
+unitTests/PatientServiceUnitTests.class
+unitTests/OrganisationServiceUnitTests.class
+unitTests/AppointmentServiceUnitTests.class
+unitTests/UserServiceUnitTests.class
+unitTests/EmployeeServiceUnitTests.class
