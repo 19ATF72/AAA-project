@@ -20,7 +20,7 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Build
+    #- name: Build
       #run: mvn -B package --file pom.xml
       
     - name: Run Unit Tests
