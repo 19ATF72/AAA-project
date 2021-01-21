@@ -83,5 +83,6 @@ public class StoredProcedures extends Enums{
         sqlQueryMap.put(SqlQueryEnum.updateNurseBaseSalary, "UPDATE prices SET nurse_base_salary=? WHERE price_id=1");
         sqlQueryMap.put(SqlQueryEnum.updateDoctorBaseSalary, "UPDATE prices SET doctor_base_salary=? WHERE price_id=1");
         sqlQueryMap.put(SqlQueryEnum.getAllPatients, "SELECT * FROM patient");
+        sqlQueryMap.put(SqlQueryEnum.getAllPatientsNames, "SELECT p.pid, u.uuid, u.userprefix, u.userfirstname, u.usersurname, u.email FROM patient as p INNER JOIN users as u ON p.USERS_UUID = u.UUID AND usertype = 'patient'");
     }   
 }

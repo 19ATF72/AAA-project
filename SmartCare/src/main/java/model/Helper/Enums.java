@@ -79,5 +79,6 @@ public class Enums {
         updateRequestedRepeatPrescription,
         getPendingApprovalRepeatPrescriptions,
         updateApprovedRepeatPrescription,
+        getAllPatientsNames,
     }
 }

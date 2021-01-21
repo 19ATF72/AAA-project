@@ -52,10 +52,10 @@ public class patientForwardController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");        
         PatientService patientHandler = new PatientService(dynamicDao);
         OrganisationService organizationHandler = new OrganisationService(dynamicDao);
-        ArrayList allPatients = patientHandler.getAllPatients();
+        ArrayList allPatients = patientHandler.getAllPatientsNames();
         if (request.getParameter("forward") != null) {
             String organization = request.getParameter("organization");
-            request.setAttribute("message", "patient has been forwarded to " + organization);
+            request.setAttribute("message", "Details about " + organization + " have been forwarded to patient email. Organisation has been informed of patient");
         }
         try {
             ArrayList allOrganizations = organizationHandler.listAllOrganisations();

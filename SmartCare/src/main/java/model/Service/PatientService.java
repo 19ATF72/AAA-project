@@ -79,6 +79,15 @@ public class PatientService {
         }
         return result; 
     }
+    
+    public ArrayList getAllPatientsNames(){
+        ArrayList result = new ArrayList();
+        try {
+               result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getAllPatientsNames));
+        } catch (Exception e) {
+        }
+        return result; 
+    }
 //    public ArrayList get_patient(ArrayList params, DynamicDao dynamicDao){
 //        ArrayList result = new ArrayList();
 //        try { 

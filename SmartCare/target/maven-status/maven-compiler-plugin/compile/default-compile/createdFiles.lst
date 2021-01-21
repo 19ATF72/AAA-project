@@ -1,38 +1,3 @@
-<<<<<<< HEAD
-controller_Login\ListController.class
-model\Entity\OrganisationEntity.class
-model\Helper\StoredProcedures.class
-model\Service\EmployeeService.class
-model\Helper\Enums$SqlQueryEnum.class
-model\Service\ListService.class
-model\Service\UserService.class
-controller\ViewAppointments.class
-controller_Login\employeeController.class
-controller\Book.class
-controller\filters\LoginFilter.class
-controller\listener.class
-model\Entity\PatientEntity.class
-model\Service\PatientService.class
-model\TurnoverModel.class
-controller_Login\PatientController.class
-model\PatientModelInterface.class
-controller\TurnoverController.class
-model\Entity\AppointmentSlotsEntity.class
-controller\servlet\IndexSevlet.class
-model\Dao\DynamicDao.class
-model\Service\AppointmentService.class
-controller\servlet\LoginServlet.class
-controller_Login\NewUserController.class
-model\Service\OrganisationService.class
-model\Entity\UserEntity.class
-controller\filters\AuthFilter.class
-controller\ViewAppointments$MyServlet.class
-model\Helper\Enums.class
-model\Entity\AppointmentEntity.class
-model\Entity\Status.class
-model\Entity\EmployeeEntity.class
-controller\OrganisationServlet.class
-=======
 net/codejava/ReviewPaymentServlet.class
 controller/ViewAppointments.class
 model/Entity/AppointmentSlotsEntity.class
@@ -64,6 +29,7 @@ model/pricingUpdateModel.class
 controller/TurnoverController.class
 controller/approvePrescriptionController.class
 model/Entity/AppointmentEntity.class
+controller/patientForwardController.class
 model/Helper/Enums$SqlQueryEnum.class
 net/codejava/AuthorizePaymentServlet.class
 model/Entity/UserEntity.class
@@ -76,4 +42,3 @@ model/Entity/OrganisationEntity.class
 controller/prescriptionController.class
 model/Entity/EmployeeEntity.class
 controller/servlet/LoginServlet.class
->>>>>>> develop
