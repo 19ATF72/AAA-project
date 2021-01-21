@@ -11,14 +11,14 @@ package model.Entity;
  */
 public class OrganisationEntity {
     
-    protected  String oId = ""; 
+    protected  int oId; 
     protected  String name;
     protected  String orgType;
     protected  String address;
     protected  String postcode;
     protected  String phoneNum;    
     
-    public OrganisationEntity(String oId, String name, String orgType, String address, String postcode, String phoneNum){
+    public OrganisationEntity(int oId, String name, String orgType, String address, String postcode, String phoneNum){
         this.oId = oId;
         this.name = name;
         this.orgType = orgType;
@@ -35,15 +35,15 @@ public class OrganisationEntity {
         this.phoneNum = phoneNum; 
     }
    
-    public OrganisationEntity(String oid){
+    public OrganisationEntity(int oid){
         this.oId = oid;
     }
      
-    public String getOId() {
+    public int getOId() {
         return oId;
     }
 
-    public void setOId(String oid){
+    public void setOId(int oid){
         this.oId = oId;
     }
     

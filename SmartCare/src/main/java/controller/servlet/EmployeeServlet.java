@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller_Login;
+package controller.servlet;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -41,8 +41,8 @@ import model.Service.EmployeeService;
  *
  * @author me-aydin
  */
-@WebServlet(name = "employeeController", urlPatterns = {"/WEB-INF/employeeController.do"})
-public class employeeController extends HttpServlet {
+@WebServlet(name = "employeeController", urlPatterns = {"/WEB-INF/employee_app"})
+public class EmployeeServlet extends HttpServlet {
 
    
 
@@ -64,7 +64,6 @@ public class employeeController extends HttpServlet {
         DynamicDao dynamicDao = (DynamicDao)session.getAttribute("dynamicDao");
         UserEntity user = (UserEntity)session.getAttribute("User");
         EmployeeEntity employee = (EmployeeEntity)session.getAttribute("Employee");
-        EmployeeService employeeService = new EmployeeService(dynamicDao);
         
         if (dynamicDao == null)
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);

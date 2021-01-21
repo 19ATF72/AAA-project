@@ -59,6 +59,7 @@ public class Enums {
         updateAppointment,
         newPrescription,      
         insertOrganisation,
+        getOrganisations,
         getOrganisation,
         getAllOrganisations,
         deleteOrganisation,
