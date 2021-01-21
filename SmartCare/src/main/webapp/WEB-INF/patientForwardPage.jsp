@@ -28,7 +28,7 @@
 
                             <div class="col-md-2">
                                 <label for="prefix" class="form-label">Prefix</label>
-                                <select class="form-select" id="prefix" name="userPrefix" required="">
+                                <select class="form-select" id="prefix" name="patient" required="">
                                   <option value=""></option>
                                   <c:forEach items="${allPatients}" var="row">           
                                     <tr>
@@ -42,11 +42,11 @@
                             </div>
                             <div class="col-md-2">
                                 <label for="prefix" class="form-label">Prefix</label>
-                                <select class="form-select" id="prefix" name="userPrefix" required="">
+                                <select class="form-select" id="prefix" name="organization" required="">
                                   <option value=""></option>
                                   <c:forEach items="${allOrganizations}" var="row">           
                                     <tr>
-                                       <td><c:out value="${row[0]}" /></td>
+                                       <td><c:out value="${row[1]}" /></td>
                                     </tr>
                                   </c:forEach>   
                                 </select>
@@ -54,7 +54,7 @@
                                   Please select a valid country.
                                 </div>
                             </div>
-                        <button class="w-100 btn btn-primary btn-lg" type="submit" value="<%=str%>" >Sign Up</button>
+                        <button class="w-100 btn btn-primary btn-lg" type="submit" name="forward" value="forwarded" >Sign Up</button>
                     </form>
                 </div>
             </div>
