@@ -8,6 +8,9 @@ controller\pricingUpdateController.class
 net\codejava\ReviewPaymentServlet.class
 model\Service\UserService.class
 controller\servlet\NewUserServlet.class
+controller\ViewAppointments.class
+controller_Login\employeeController.class
+controller\Book.class
 controller\filters\LoginFilter.class
 controller\listener.class
 model\Entity\PatientEntity.class
@@ -20,6 +23,7 @@ controller\TurnoverController.class
 model\pricingUpdateModel.class
 model\Entity\AppointmentSlotsEntity.class
 net\codejava\AuthorizePaymentServlet.class
+controller\servlet\IndexSevlet.class
 model\Dao\DynamicDao.class
 model\Service\AppointmentService.class
 net\codejava\OrderDetail.class

@@ -78,8 +78,10 @@ public class StoredProcedures extends Enums{
         sqlQueryMap.put(SqlQueryEnum.getPendingApprovalRepeatPrescriptions, "SELECT u.UUID, u.USERPREFIX, u.USERFIRSTNAME, u.USERSURNAME, u.DOB, pp.PRID, pp.MEDICINE, pp.repeat, pp.requested_repeat FROM PATIENT_PRESCRIPTIONS pp INNER JOIN PATIENT p ON pp.PATIENT_PID = p.PID INNER JOIN users as u ON p.USERS_UUID = u.uuid WHERE pp.repeat = '0' AND pp.requested_repeat = '1'");
         sqlQueryMap.put(SqlQueryEnum.updateRequestedRepeatPrescription, "UPDATE patient_prescriptions SET requested_repeat = True WHERE prid = ?");
         sqlQueryMap.put(SqlQueryEnum.updateApprovedRepeatPrescription, "UPDATE patient_prescriptions SET repeat = True WHERE prid = ?");  
+        sqlQueryMap.put(SqlQueryEnum.getPatientRepeatPrescriptions, "SELECT pp.PRID, pp.PATIENT_PID, pp.MEDICINE, pp.repeat FROM PATIENT_PRESCRIPTIONS pp INNER JOIN PATIENT p ON pp.PATIENT_PID = p.PID INNER JOIN users as u ON p.USERS_UUID = u.uuid WHERE u.uuid = ?");
         sqlQueryMap.put(SqlQueryEnum.updatePatientCost, "UPDATE prices SET patient_cost=? WHERE price_id=1");
         sqlQueryMap.put(SqlQueryEnum.updateNurseBaseSalary, "UPDATE prices SET nurse_base_salary=? WHERE price_id=1");
         sqlQueryMap.put(SqlQueryEnum.updateDoctorBaseSalary, "UPDATE prices SET doctor_base_salary=? WHERE price_id=1");
+        sqlQueryMap.put(SqlQueryEnum.getAllPatients, "SELECT * FROM patient");
     }   
 }

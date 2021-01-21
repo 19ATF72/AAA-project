@@ -33,7 +33,7 @@ public class OrganisationService{
         ArrayList<OrganisationEntity> organisationList = new ArrayList<>();
         sp = new StoredProcedures();
 
-        ArrayList<String[]> result = dynamicDao.agnosticQuery(sp.sqlQueryMap.get(SqlQueryEnum.getOrganisations), "");
+        ArrayList<String[]> result = dynamicDao.agnosticQuery(sp.sqlQueryMap.get(SqlQueryEnum.getAllOrganisations), "");
         
         for(int i=0; i<result.size(); i++)
         {
