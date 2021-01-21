@@ -32,7 +32,7 @@ public class StoredProcedures extends Enums{
         sqlQueryMap.put(SqlQueryEnum.getEmployeeSalary, "SELECT salary FROM employee WHERE eid=?");
         sqlQueryMap.put(SqlQueryEnum.getEmployeeAppointmentsInDay, "SELECT * FROM appointment WHERE employee_eid=? AND date=?");
         sqlQueryMap.put(SqlQueryEnum.getEmployeeFreeAppointmentsInDay, "SELECT * FROM employee_has_appointment_slots WHERE employee_eid=? AND date=?");
-        sqlQueryMap.put(SqlQueryEnum.NewEmployeeAppointmentSlot, "INSERT INTO employee_has_appointment_slots (appointment_slots_aslid, employee_eid, date) VALUES (?, ?, ?)");
+        sqlQueryMap.put(SqlQueryEnum.NewEmployeeAppointmentSlot, "INSERT INTO employee_has_appointment_slots ( employee_eid, date) VALUES (?, ?)");
         sqlQueryMap.put(SqlQueryEnum.NewPatient, "INSERT INTO patient (address, postcode, patient_type_ptid, users_uuid ) VALUES (?,?,?,?)");
         sqlQueryMap.put(SqlQueryEnum.GetOrganizationByName, "SELECT oid FROM organisation WHERE name=? FETCH FIRST 1 ROWS ONLY");
         sqlQueryMap.put(SqlQueryEnum.getAppointment, "SELECT * FROM appointment WHERE patient_pid=?");

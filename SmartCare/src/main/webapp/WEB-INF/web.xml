@@ -17,7 +17,7 @@
         <param-value>20.0</param-value>
     </context-param>
     <welcome-file-list>
-        <welcome-file>/index.jsp</welcome-file>
+        <welcome-file>/WEB-INF/paymentPage.jsp</welcome-file>
     </welcome-file-list>
     <servlet>
         <servlet-name>PatientController</servlet-name>
