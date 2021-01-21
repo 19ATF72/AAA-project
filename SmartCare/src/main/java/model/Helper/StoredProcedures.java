@@ -64,13 +64,15 @@ public class StoredProcedures extends Enums{
         sqlQueryMap.put(SqlQueryEnum.getInvoicesBetweenDates, "SELECT u.uuid,u.username,p.address,pt.type_name,a.aid,a.duration,a.date,a.charge,aps.appointment_status FROM patient p INNER JOIN patient_type pt ON p.patient_type_ptid = pt.ptid INNER JOIN users u ON p.USERS_UUID = u.UUID INNER JOIN appointment a ON p.PID = a.PATIENT_PID INNER JOIN appointment_status aps ON a.APPOINTMENT_STATUS_ASID = aps.asid WHERE aps.asid = 4 AND (a.date BETWEEN ? AND ?) FETCH FIRST 10 ROWS ONLY");
         sqlQueryMap.put(SqlQueryEnum.insertOrganisation, "INSERT INTO organisation (name, organisation_type_oid, address, postcode, phonenumber) VALUES (?, ?, ?, ?, ?)");
         sqlQueryMap.put(SqlQueryEnum.insertOrganisation, "INSERT INTO organisation (name, organisation_type_oid, address, postcode, phone_number) VALUES (?, ?, ?, ?, ?)");
-        sqlQueryMap.put(SqlQueryEnum.getOrganisation, "SELECT * FROM organisation WHERE oid = ?");
+        sqlQueryMap.put(SqlQueryEnum.getOrganisation, "SELECT * FROM organisation WHERE oid = ?");//duplicate name
         sqlQueryMap.put(SqlQueryEnum.deleteOrganisation, "DELETE FROM organisation where oid = ?");
-        sqlQueryMap.put(SqlQueryEnum.getOrganisation, "SELECT * FROM organisation");
+        sqlQueryMap.put(SqlQueryEnum.getOrganisation, "SELECT * FROM organisation");//duplicate name
         sqlQueryMap.put(SqlQueryEnum.getNurseBaseSalary, "SELECT nurse_base_salary FROM prices");
         sqlQueryMap.put(SqlQueryEnum.getDoctorBaseSalary, "SELECT doctor_base_salary FROM prices");
         sqlQueryMap.put(SqlQueryEnum.getPatientCost, "SELECT patient_cost FROM prices");
         sqlQueryMap.put(SqlQueryEnum.getPatientRepeatPrescriptions, "SELECT pp.PRID, pp.PATIENT_PID, pp.MEDICINE, pp.repeat FROM PATIENT_PRESCRIPTIONS pp INNER JOIN PATIENT p ON pp.PATIENT_PID = p.PID INNER JOIN users as u ON p.USERS_UUID = u.uuid WHERE u.uuid = ?");
-        sqlQueryMap.put(SqlQueryEnum.getOrganisation, "DELETE FROM organisation where oid = ?");
+        sqlQueryMap.put(SqlQueryEnum.getOrganisation, "DELETE FROM organisation where oid = ?");//duplicate name
+        sqlQueryMap.put(SqlQueryEnum.getPendingUsers, "SELECT * FROM users WHERE user_status_usid=1");
+        
     }   
 }
