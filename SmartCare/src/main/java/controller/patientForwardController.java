@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Entity.EmployeeEntity;
 import model.Service.ListService;
+import model.Service.OrganisationService;
 import model.Entity.PatientEntity;
 import model.Entity.UserEntity;
 import model.Service.PatientService;
@@ -50,9 +51,14 @@ public class patientForwardController extends HttpServlet {
         //HttpSession session = request.getSession(false); // UNCOMMENT
         response.setContentType("text/html;charset=UTF-8");        
         PatientService patientHandler = new PatientService(dynamicDao);
+        OrganisationService organizationHandler = new OrganisationService(dynamicDao);
         ArrayList allPatients = patientHandler.getAllPatients();
-        request.setAttribute("allPatients", allPatients);
-
+        try {
+            ArrayList allOrganizations = organizationHandler.listAllOrganisations();
+            request.setAttribute("allOrganizations", allOrganizations);
+        } catch (Exception e) {
+        }
+        request.setAttribute("allPatients", allPatients);    
         request.getRequestDispatcher("/WEB-INF/patientForwardPage.jsp").forward(request, response);
     }
     

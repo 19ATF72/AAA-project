@@ -29,12 +29,26 @@
                             <div class="col-md-2">
                                 <label for="prefix" class="form-label">Prefix</label>
                                 <select class="form-select" id="prefix" name="userPrefix" required="">
-                                  <option value="">Choose...</option>
-                                  <option>Dr.</option>
-                                  <option>Mr.</option>
-                                  <option>Mrs.</option>
-                                  <option>Miss.</option>
-                                  <option>None</option>
+                                  <option value=""></option>
+                                  <c:forEach items="${allPatients}" var="row">           
+                                    <tr>
+                                       <td><c:out value="${row[0]}" /></td>
+                                    </tr>
+                                  </c:forEach>   
+                                </select>
+                                <div class="invalid-feedback">
+                                  Please select a valid country.
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="prefix" class="form-label">Prefix</label>
+                                <select class="form-select" id="prefix" name="userPrefix" required="">
+                                  <option value=""></option>
+                                  <c:forEach items="${allOrganizations}" var="row">           
+                                    <tr>
+                                       <td><c:out value="${row[0]}" /></td>
+                                    </tr>
+                                  </c:forEach>   
                                 </select>
                                 <div class="invalid-feedback">
                                   Please select a valid country.
