@@ -28,6 +28,10 @@
         <servlet-class>controller_Login.PatientController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>approveUser</servlet-name>
+        <servlet-class>controller.approveUserController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>employeeController</servlet-name>
         <servlet-class>controller_Login.employeeController</servlet-class>
     </servlet>
@@ -96,6 +100,10 @@
         <url-pattern>/BookingSucessful.do</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>approveUser</servlet-name>
+        <url-pattern>/approveUserController.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>PatientController</servlet-name>
         <url-pattern>/app/book_appointment</url-pattern>
     </servlet-mapping>
@@ -123,7 +131,7 @@
         <servlet-name>TurnoverController</servlet-name>
         <url-pattern>/TurnoverController.do</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
+        <servlet-mapping>
         <servlet-name>pricingUpdateController</servlet-name>
         <url-pattern>/pricingUpdateController.do</url-pattern>
     </servlet-mapping>
@@ -145,7 +153,7 @@
     </filter-mapping>
     <servlet-mapping>
         <servlet-name>IndexServlet</servlet-name>
-        <url-pattern/>
+        <url-pattern></url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

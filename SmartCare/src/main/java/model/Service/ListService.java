@@ -151,6 +151,14 @@ public class ListService {
         }
         return result;
     } 
+    public ArrayList<String[]> getPendingUsers(DynamicDao dynamicDao){
+        ArrayList<String[]> result = new ArrayList();
+        try {  
+          result = (ArrayList<String[]>)dynamicDao.agnosticQuery(storedStatements.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getPendingUsers));
+        } catch (Exception e) {
+        }
+        return result;
+    } 
     
     public ArrayList updateApprovedRepeatPrescription(ArrayList<Integer> params, DynamicDao dynamicDao){
         ArrayList result = new ArrayList();
