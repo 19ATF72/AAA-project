@@ -38,7 +38,7 @@ public class OrganisationService{
         for(int i=0; i<result.size(); i++)
         {
             String[] tempOrganisationStringArray = result.get(i);
-            OrganisationEntity organisation = new OrganisationEntity(tempOrganisationStringArray[0], tempOrganisationStringArray[1], tempOrganisationStringArray[2],
+            OrganisationEntity organisation = new OrganisationEntity(Integer.parseInt(tempOrganisationStringArray[0]), tempOrganisationStringArray[1], tempOrganisationStringArray[2],
                     tempOrganisationStringArray[3], tempOrganisationStringArray[4], tempOrganisationStringArray[5]);
             organisationList.add(organisation); 
         }
@@ -53,9 +53,14 @@ public class OrganisationService{
                 organisation.getAddress(), organisation.getPostcode(), organisation.getPhoneNum());
     }
     
-    public void deleteOrganisation(OrganisationEntity organisation) throws SQLException {
+    public boolean deleteOrganisation(OrganisationEntity organisation) throws SQLException {
         
-        dynamicDao.agnosticQuery(sp.sqlQueryMap.get(SqlQueryEnum.deleteOrganisation), organisation.getOId());
+        try{
+            dynamicDao.agnosticQuery(sp.sqlQueryMap.get(SqlQueryEnum.deleteOrganisation), organisation.getOId());
+            return true;
+        }catch (Exception e){
+            return false;
+        }
         
         //need to turn to bool 
         //return rowDeleted;     
@@ -69,11 +74,9 @@ public class OrganisationService{
         ArrayList<String[]> result = dynamicDao.agnosticQuery(sp.sqlQueryMap.get(SqlQueryEnum.getOrganisation), oId);
         String[] orgString = result.get(0);
         
-        organisation = new OrganisationEntity(orgString[0], orgString[1], orgString[2], orgString[3], orgString[4], orgString[5]);
+        organisation = new OrganisationEntity(Integer.parseInt(orgString[0]), orgString[1], orgString[2], orgString[3], orgString[4], orgString[5]);
         
         return organisation;
-    }
-    
-    
+    }  
     
 }

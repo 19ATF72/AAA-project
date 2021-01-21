@@ -34,3 +34,8 @@ and open the template in the editor.
 .alert-secondary {
   background-color: rgba(0,0,0,.03);
 }
+
+body { margin-top:20px; }
+.panel-title {display: inline;font-weight: bold;}
+.checkbox.pull-right { margin: 0; }
+.pl-ziro { padding-left: 0px; }

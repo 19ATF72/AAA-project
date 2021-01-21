@@ -45,7 +45,7 @@
                             <table class="table table-striped table-sm">
                                 <thead>
                                     <tr>
-                                        <th>Practitioner Name</th>
+                                        <th>Practitioner</th>
                                         <th>Duration</th>
                                         <th>Notes</th>
                                         <th>Charge</th>
@@ -80,7 +80,7 @@
                             <table class="table table-striped table-sm">
                                 <thead>
                                     <tr>
-                                        <th>Doctor Name</th>
+                                        <th>Practitioner</th>
                                         <th>Duration</th>
                                         <th>Notes</th>
                                         <th>Charge</th>
@@ -93,7 +93,7 @@
                                     <c:forEach items="${patientsInvoicedAppointments}" var="AppointmentEntity">
                                         <tr>
                                            <td><c:out value="${AppointmentEntity.doctorsName}" /></td>
-                                           <td><c:out value="${AppointmentEntity.duration}" /> slot</td>
+                                           <td><c:out value="${AppointmentEntity.duration}" /> Minutes</td>
                                            <td><c:out value="${AppointmentEntity.notes}" /></td>
                                            <td><c:out value="${AppointmentEntity.charge}" /></td>
                                            <td><c:out value="${AppointmentEntity.dateStr}" /></td>
@@ -113,7 +113,7 @@
                           <table class="table table-striped table-sm">
                             <thead>
                                 <tr>
-                                    <th>Doctor Name</th>
+                                    <th>Practitioner</th>
                                     <th>Duration</th>
                                     <th>Notes</th>
                                     <th>Charge</th>
@@ -126,7 +126,7 @@
                                 <c:forEach items="${patientsPaidAppointments}" var="AppointmentEntity">
                                     <tr>
                                        <td><c:out value="${AppointmentEntity.doctorsName}" /></td>
-                                       <td><c:out value="${AppointmentEntity.duration}" /> slot</td>
+                                       <td><c:out value="${AppointmentEntity.duration}" /> Minutes</td>
                                        <td><c:out value="${AppointmentEntity.notes}" /></td>
                                        <td><c:out value="${AppointmentEntity.charge}" /></td>
                                        <td><c:out value="${AppointmentEntity.dateStr}" /></td>
@@ -143,7 +143,7 @@
                           <table class="table table-striped table-sm">
                             <thead>
                                 <tr>
-                                    <th>Doctor Name</th>
+                                    <th>Practitioner</th>
                                     <th>Duration</th>
                                     <th>Notes</th>
                                     <th>Charge</th>
@@ -156,7 +156,7 @@
                                 <c:forEach items="${patientsCancelledAppointments}" var="AppointmentEntity">
                                     <tr>
                                        <td><c:out value="${AppointmentEntity.doctorsName}" /></td>
-                                       <td><c:out value="${AppointmentEntity.duration}" /> slot</td>
+                                       <td><c:out value="${AppointmentEntity.duration}" /> Minutes</td>
                                        <td><c:out value="${AppointmentEntity.notes}" /></td>
                                        <td><c:out value="${AppointmentEntity.charge}" /></td>
                                        <td><c:out value="${AppointmentEntity.dateStr}" /></td>

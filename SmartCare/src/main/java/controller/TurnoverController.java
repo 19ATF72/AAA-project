@@ -8,23 +8,14 @@ package controller;
 import model.Dao.DynamicDao;
 import model.Helper.StoredProcedures;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.Entity.EmployeeEntity;
-import model.Service.ListService;
-import model.Entity.PatientEntity;
-import model.Entity.UserEntity;
 import model.TurnoverModel;
 
 /**
@@ -55,8 +46,6 @@ public class TurnoverController extends HttpServlet {
         //HttpSession session = request.getSession(false); // UNCOMMENT
         response.setContentType("text/html;charset=UTF-8");
         
-        TurnoverModel TurnoverHandler = new TurnoverModel();
-        
         String [] query = new String[3];
         query[0] = (String)request.getParameter("turnoverOperation");
         query[1] = (String)request.getParameter("startTime");
@@ -79,14 +68,10 @@ public class TurnoverController extends HttpServlet {
         //ArrayList params = new ArrayList(Arrays.asList(query[0], startTime, endTime));
         //ArrayList resultPatients = list.getPatientsByType(params, dynamicDao);
         
-        
-        
-        ArrayList resultIncome = new ArrayList();
-        ArrayList resultOutgoings = new ArrayList();
-        ArrayList resultTurnover = new ArrayList();
-        ArrayList params = new ArrayList();
-
-        double resultProfit = 0;
+        ArrayList<String[]> resultIncome = new ArrayList();
+        ArrayList<String[]> resultOutgoings = new ArrayList();
+        ArrayList<String[]> resultTurnover = new ArrayList();
+        ArrayList<String[]> params = new ArrayList();
         
         if (query[0] == null || query[1].equals("") || query[2].equals("")) {
             resultTurnover = null;
@@ -94,36 +79,34 @@ public class TurnoverController extends HttpServlet {
         } else {
             switch (query[0]) {
                 case "turnover":
-                    params = new ArrayList(Arrays.asList(query[1], query[2]));
-                    resultTurnover = TurnoverHandler.getTurnoverByDates(params, dynamicDao);
-                    resultIncome = TurnoverHandler.getIncomeByDates(params, dynamicDao);
-                    resultOutgoings = TurnoverHandler.getOutgoingsByDates(params, dynamicDao);
-                    resultProfit = (Double.parseDouble(((String[])resultIncome.get(0))[0]) - Double.parseDouble(((String[])resultOutgoings.get(0))[0]));
-                            
-                    request.setAttribute("resultTurnover", resultTurnover);
-                    request.setAttribute("resultIncome", resultIncome);
-                    request.setAttribute("resultOutgoings", resultOutgoings);
-                    request.setAttribute("resultProfit", resultProfit);
-                    break;
+                    calculateProfit(request, dynamicDao, query, params, resultTurnover, resultIncome, resultOutgoings);
                 case "private":
                 case "nhs":
-                    params = new ArrayList(Arrays.asList(query[0], query[1], query[2]));
-                    resultTurnover = TurnoverHandler.getTurnoverByTypeBetweenDates(params, dynamicDao);
-                    resultIncome = TurnoverHandler.getIncomeByTypeBetweenDates(params, dynamicDao);
-                    resultOutgoings = TurnoverHandler.getOutgoingsByTypeBetweenDates(params, dynamicDao);
-                    resultProfit = (Double.parseDouble(((String[])resultIncome.get(0))[0]) - Double.parseDouble(((String[])resultOutgoings.get(0))[0]));
-                            
-                    request.setAttribute("resultTurnover", resultTurnover);
-                    request.setAttribute("resultIncome", resultIncome);
-                    request.setAttribute("resultOutgoings", resultOutgoings);
-                    request.setAttribute("resultProfit", resultProfit);
-                    break;
-
+                    calculateProfit(request, dynamicDao, query, params, resultTurnover, resultIncome, resultOutgoings);
             }
         }
-        
         request.getRequestDispatcher("/WEB-INF/Turnover.jsp").forward(request, response);
     }
+    
+    public void calculateProfit(HttpServletRequest request, DynamicDao dynamicDao, String[] query, ArrayList<String[]> params, ArrayList<String[]> resultTurnover , ArrayList<String[]> resultIncome, ArrayList<String[]> resultOutgoings){
+        params = new ArrayList(Arrays.asList(query[0], query[1], query[2]));
+        TurnoverModel TurnoverHandler = new TurnoverModel();
+        
+        resultTurnover = TurnoverHandler.getTurnoverByTypeBetweenDates(params, dynamicDao);
+        resultIncome = TurnoverHandler.getIncomeByTypeBetweenDates(params, dynamicDao);
+        resultOutgoings = TurnoverHandler.getOutgoingsByTypeBetweenDates(params, dynamicDao);
+        if(resultIncome.get(0)[0] == null || resultOutgoings.get(0)[0] == null){
+            request.setAttribute("message", "No paid appointments in time period found. ");   
+        }
+        else{
+            double resultProfit = (Double.parseDouble(((String[])resultIncome.get(0))[0]) - Double.parseDouble(((String[])resultOutgoings.get(0))[0]));
+            request.setAttribute("resultTurnover", resultTurnover);
+            request.setAttribute("resultIncome", resultIncome);
+            request.setAttribute("resultOutgoings", resultOutgoings);
+            request.setAttribute("resultProfit", resultProfit);
+        }
+    }
+    
     
         // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

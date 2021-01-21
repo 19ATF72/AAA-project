@@ -29,8 +29,8 @@ public class PatientService {
         String result = "";
         
         try {  
-           dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.NewPatient), 
-                   patient.getAddress(), patient.getPatientType(), patient.getUniqueUserId());
+            ArrayList agnosticQuery = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.NewPatient), 
+                    patient.getAddress(), patient.getPostcode(), patient.getPatientType(), patient.getPatientId());
            result = "Patient created";
         } catch (Exception e) {
           result = "Unable to create patient";
@@ -57,6 +57,8 @@ public class PatientService {
         return null;
     }
     
+    
+    // TODO: OLD 
     public ArrayList retrievePatientDisplayableAppointments(PatientEntity patient){
 
         ArrayList result = new ArrayList();

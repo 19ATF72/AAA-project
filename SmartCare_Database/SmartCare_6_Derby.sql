@@ -39,7 +39,7 @@ CREATE TABLE ORGANISATION (
 	OID                  integer NOT NULL  GENERATED ALWAYS AS IDENTITY,
 	NAME                 varchar(45) NOT NULL  ,
 	ORGANISATION_TYPE_OID integer NOT NULL  ,
-	ADDRESS              varchar(45) NOT NULL  ,
+	ADDRESS              varchar(300) NOT NULL  ,
 	POSTCODE             varchar(45) NOT NULL  ,
 	PHONE_NUMBER         varchar(45) NOT NULL  ,
 	CONSTRAINT PRIMARY4 PRIMARY KEY ( OID )
@@ -83,7 +83,7 @@ CREATE INDEX SQL201212165647380 ON WATCHDOG ( USERS_UID );
 CREATE TABLE EMPLOYEE ( 
 	EID                  integer NOT NULL  GENERATED ALWAYS AS IDENTITY,
 	SALARY               double NOT NULL  ,
-	ADDRESS              varchar(40) NOT NULL  ,
+	ADDRESS              varchar(300) NOT NULL  ,
 	POSTCODE		     varchar(10) NOT NULL  ,
 	ORGANISATION_OID     integer NOT NULL  ,
 	USERS_UUID           integer NOT NULL  ,
@@ -123,6 +123,7 @@ CREATE TABLE PATIENT_PRESCRIPTIONS (
 	PATIENT_PID          integer NOT NULL  ,
 	MEDICINE             varchar(45) NOT NULL  ,
 	REPEAT               boolean DEFAULT FALSE,
+	REQUESTED_REPEAT     boolean DEFAULT FALSE,
 	CONSTRAINT PRIMARY10 PRIMARY KEY ( PRID )
  );
 

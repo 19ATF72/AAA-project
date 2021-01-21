@@ -17,6 +17,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Entity.UserEntity;
 
 @WebFilter("/app")
 public class AuthFilter implements Filter {
@@ -32,6 +33,21 @@ public class AuthFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
         HttpSession session = request.getSession(false);
+        
+        UserEntity user = (UserEntity)session.getAttribute("user"); 
+        String userType = user.getUserType();
+        
+        if(userType == "admin"){
+            
+        }
+
+        if(userType == "patient"){
+            
+        }
+        
+        if(userType == "doctor" || userType == "nurse"){
+            
+        }
         
         if (session == null || session.getAttribute("user") == null) {
             response.sendRedirect(request.getContextPath() + "/login"); // No logged-in user found, so redirect to login page.

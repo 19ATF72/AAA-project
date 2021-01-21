@@ -1,2 +1,13 @@
+<<<<<<< HEAD
+unitTests\AppointmentServiceUnitTests.class
+unitTests\OrganisationServiceUnitTests.class
 unitTests\UserServiceUnitTests.class
+unitTests\EmployeeServiceUnitTests.class
 unitTests\PatientServiceUnitTests.class
+=======
+unitTests/PatientServiceUnitTests.class
+unitTests/OrganisationServiceUnitTests.class
+unitTests/AppointmentServiceUnitTests.class
+unitTests/UserServiceUnitTests.class
+unitTests/EmployeeServiceUnitTests.class
+>>>>>>> develop

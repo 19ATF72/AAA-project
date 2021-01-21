@@ -3,23 +3,33 @@
     Created on : 16-Jan-2020, 15:18:08
     Author     : micah
 --%>
+<%@page import="model.Dao.DynamicDao"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="model.Entity.OrganisationEntity"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="model.Service.OrganisationService"%>
 <!DOCTYPE html>
 <html lang="en">
-    
+<%@page import="java.sql.Date"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="java.time.LocalDate"%>    
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file='/html/scripts.html'%>
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
-<style><%@include file="/css/style.css"%></style>
 
+<style><%@include file="/css/style.css"%></style>
+<%
+         LocalDate todaysDate = LocalDate.now();
+         
+          %>
     <body>
         <%@include file='/html/headerSignIn.html'%>
         
         <%! int i=0; String str="Register"; String url = "NewUserController.do"; %>
         <% if((String)request.getAttribute("msg")=="del") { str = "Delete"; url = "Delete.do"; }
-           else { str="Register"; url = "NewUserController.do"; } %>
-
-        <main class="container">
+           else { str="Register"; url = "login_newAccReg"; } %>
             
+        <main class="container">
             <div class="container mt-4">
                 <div class="col-md-8 offset-md-2 col-lg-8">
                     <h4 class="mb-3">User Sign up</h4>
@@ -28,7 +38,7 @@
 
                             <div class="col-12">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email" id="email" placeholder="Bobby@tables.com">
+                                <input type="email" class="form-control" name="email" id="email" placeholder="email@address.com" required="true">
                                 <div class="invalid-feedback">
                                   Please enter a valid email address.
                                 </div>
@@ -36,7 +46,7 @@
 
                             <div class="col-12">
                                 <label for="inputPassword" class="visually-hidden">Password</label>
-                                <input type="password" name="password" id="password" class="form-control" placeholder="Password" required="">
+                                <input type="password" name="password" id="password" class="form-control" placeholder="Password" required="true">
                                 <div class="invalid-feedback">
                                   Please enter a valid password.
                                 </div>
@@ -44,7 +54,7 @@
 
                             <div class="col-md-2">
                                 <label for="prefix" class="form-label">Prefix</label>
-                                <select class="form-select" id="prefix" name="userPrefix" required="">
+                                <select class="form-select" id="prefix" name="userPrefix" required="true">
                                   <option value="">Choose...</option>
                                   <option>Dr.</option>
                                   <option>Mr.</option>
@@ -59,7 +69,7 @@
                             
                             <div class="col-sm-5">
                                 <label for="firstName" class="form-label">First Name</label>
-                                <input type="text" class="form-control" name="userFirstName" id="firstname" placeholder="Bobby" value="" required="">
+                                <input type="text" class="form-control" name="userFirstName" id="firstname" placeholder="Bobby" value="" required="true">
                                 <div class="invalid-feedback">
                                   First name is required
                                 </div>
@@ -67,20 +77,20 @@
                             
                             <div class="col-sm-5">
                                 <label for="lastName" class="form-label">Last Name</label>
-                                <input type="text" class="form-control" name="userSurname" id="lastname" placeholder="Tables" value="" required="">
+                                <input type="text" class="form-control" name="userSurname" id="lastname" placeholder="Tables" value="" required="true">
                                 <div class="invalid-feedback">
                                   Last name is required
                                 </div>
                             </div>
                             
                             <div class="col-sm-6">
-                                <label for="dateofbirth" class="form-label">Date of birth</label>
-                                <input type="date" class="form-control" id="dateofbirth" name="dateOfBirth">
+                                <label for="dateofbirth" class="form-label" required="true">Date of birth</label>
+                                <input type="date" max="<%= todaysDate%>" class="form-control" id="dateofbirth" name="dateOfBirth" required="true">
                             </div>
 
                             <div class="col-sm-6">
                                 <label for="telephone" class="form-label">Telephone</label>
-                                <input type="tel" class="form-control" id="telephone" name="telephone">
+                                <input type="tel" class="form-control" id="telephone" name="telephone" required="true">
                             </div>
                             
                             <div class="col-12">
@@ -91,36 +101,30 @@
 
                             <div class="col-12">
                                 <label for="line1" class="form-label">First Address Line</label>
-                                <input type="text" class="form-control" name="address" id="line1" placeholder="1234 Main St" required="">
+                                <input type="text" class="form-control" name="houseNumber" id="line1" placeholder="House No." required="true">
                             </div>
 
                             <div class="col-12">
                                 <label for="line2" class="form-label">Second Address Line</label>
-                                <input type="text" class="form-control" name="line2" id="line2" placeholder="Test Street" required="">
+                                <input type="text" class="form-control" name="line2" id="line2" placeholder="Street" required="">
                             </div>
-
-                            <div class="col-12">
-                                <label for="line3" class="form-label">Third Address Line</label>
-                                <input type="text" class="form-control" name="line3" id="line3" placeholder="" required="">
-                            </div>
-
                             <div class="col-12">
                                 <label for="town" class="form-label">Town</label>
-                                <input type="text" class="form-control" name="town" id="town" placeholder="Bristol" required="">
+                                <input type="text" class="form-control" name="town" id="town" placeholder="Bristol" required="true">
                             </div>
 
                             <div class="col-12">
                                 <label for="town" class="form-label">County</label>
-                                <input type="text" class="form-control" name="county" id="county" placeholder="Avon" required="">
+                                <input type="text" class="form-control" name="county" id="county" placeholder="Avon" required="true">
                             </div>
 
                             <div class="col-12">
                                 <label for="town" class="form-label">Postcode</label>
-                                <input type="text" class="form-control" name="postcode" id="postcode" placeholder="BS107AE" required="">
+                                <input type="text" class="form-control" name="postcode" id="postcode" placeholder="BS107AE" required="true">
                                 <div class="invalid-feedback">
                                   Please enter a valid postcode.
                                 </div>
-                            </div>
+                            </div>                                     
                         </div>
 
                         <!-- Add after your form -->
@@ -143,19 +147,19 @@
 
                         <label class="form-label">Are you a:</label>
                         <div class="form-check">
-                          <input class="form-check-input" type="radio" name="role" value="0" id="accountType1" required />
+                          <input class="form-check-input" type="radio" name="role" value="patient" id="accountType1" required />
                           <label class="form-check-label" for="accountType1">
                             Patient
                           </label>
                         </div>
                         <div class="form-check">
-                          <input class="form-check-input" type="radio" name="role" value="1" id="accountType2" />
+                          <input class="form-check-input" type="radio" name="role" value="doctor" id="accountType2" />
                           <label class="form-check-label" for="accountType2">
                             Doctor
                           </label>
                         </div>
                         <div class="form-check">
-                          <input class="form-check-input" type="radio" name="role" value="2" id="accountType3" />
+                          <input class="form-check-input" type="radio" name="role" value="nurse" id="accountType3" />
                           <label class="form-check-label" for="accountType3">
                             Nurse
                           </label>
@@ -163,7 +167,7 @@
 
                         <script type="text/javascript">
                           $('input[type=radio][name=role]').change(function() {
-                            if (this.value == '1' || this.value == '2') {
+                            if (this.value == 'doctor' || this.value == 'nurse') {
                                 $('#organisationNameWrapper').removeClass("d-none")
                                 $('#patientTypeWrapper').addClass("d-none")
                             }
@@ -173,12 +177,19 @@
                             }
                           });
                         </script>
-
+        
                         <div class="col-sm-12 mt-4 d-none" id="organisationNameWrapper" >
-                          <label for="organisationName" class="form-label">Organisation name</label>
-                          <input type="text" class="form-control" name="organizationName" id="organisationName" placeholder="" value="" required="">
-                          <div class="invalid-feedback">
-                            Valid organisation name.
+                          <label for="organisationName" class="form-label">Select An Organisation</label>
+                          <div class="dropdown">
+                              <select class="form-select" name="docChoice" value="" required>
+                           <c:forEach items="${organisations}" var="organisation">
+                                 <tr>
+                                    <option class="dropdown-item" value="<c:out value="${organisation.getOId()}" />">
+                                    <c:out value="${organisation.getName()}" />
+                                    </option>
+                                 </tr>
+                              </c:forEach>
+                            </select>
                           </div>
                         </div>
 
@@ -204,7 +215,7 @@
                             <c:out value="${not empty message ? message: ''}" />
                         </div>
 
-                        <button class="w-100 btn btn-primary btn-lg" type="submit" value="<%=str%>" >Sign Up</button>
+                        <button class="w-100 btn btn-primary btn-lg" type="submit" required="true" value="<%=str%>" >Sign Up</button>
                     </form>
                 </div>
             </div>

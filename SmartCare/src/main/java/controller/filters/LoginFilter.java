@@ -7,6 +7,7 @@ package controller.filters;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.Filter;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import model.Dao.DynamicDao;
 import model.Entity.AppointmentEntity;
 import model.Entity.EmployeeEntity;
+import model.Entity.OrganisationEntity;
 import model.Entity.PatientEntity;
 import model.Entity.UserEntity;
 import model.Helper.Enums;
@@ -29,6 +31,7 @@ import model.Helper.StoredProcedures;
 import model.Service.AppointmentService;
 import model.Service.EmployeeService;
 import model.Service.ListService;
+import model.Service.OrganisationService;
 import model.Service.PatientService;
 import model.Service.UserService;
 
@@ -72,71 +75,29 @@ public class LoginFilter implements Filter {
         //uncoment to populate appointment slots type table
         //dynamicDao.addTimeSlots();
         String query = (String)request.getParameter("LoginOperation");
+        if(query == null)
+            query = "Error";
         switch(query) {
             case "NewUser":
+                OrganisationService orgService = new OrganisationService(dynamicDao);
+                try{
+                    ArrayList<OrganisationEntity> organisations = orgService.listAllOrganisations();
+                    request.setAttribute("organisations", (ArrayList<OrganisationEntity>)organisations);
+                }catch(SQLException e){
+                    String sqlError = "Sql Error";
+                    // Only using error messages for breakpoints... Not enough time to implment verbose logging.
+                }
                 request.getRequestDispatcher("/WEB-INF/NewUser.jsp").forward(request, response);
                 break;
             case "Login":
-                String email = (String)request.getParameter("mail");
-                String password = (String)request.getParameter("password");
-                //retrieves user from database if it exists  
-                user = userService.loginUser(email, password);
-                
-                if (user != null) {
-                    int userStatus = user.getAccountStatus();
-                switch (userStatus) {
-                    case Enums.APPROVED:
-                        session.setAttribute("user", user);
-                        switch(user.getUserType()) {
-                            case "patient":
-                                PatientService patientService = new PatientService(dynamicDao);
-                                PatientEntity patient = patientService.getPatient(user);
-                                
-                                session.setAttribute("Patient", patient); 
-//                                //retrieve appointment for display and senthem to the page
-//                                //ArrayList appointments = patientService.retrievePatientDisplayableAppointments(patient);
-//                                
-                                listPatientAppointments(dynamicDao, request, patient.getPatientId());   
-                                request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);                         
-                                break;
-                            case "doctor":
-                            case "nurse:":
-                                AppointmentService appointmentService = new AppointmentService(dynamicDao);
-                                EmployeeService employeeService = new EmployeeService(dynamicDao);
-                                EmployeeEntity employee = employeeService.fetchEmployee(user);
-                                
-                                session.setAttribute("Employee", employee);
-
-                                ArrayList employeeAppointments = appointmentService.retrieveEmployeeDisplayableAppointments(employee);
-                                request.setAttribute("schedule", employeeAppointments);
-
-                                ArrayList employeeDailyAppointments = appointmentService.retrieveEmployeeDailyDisplayableAppointments(employee);
-                                request.setAttribute("dailySchedule", employeeDailyAppointments);
-                                
-                                request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);
-                                break;
-                            case "admin":
-                                request.getRequestDispatcher("/WEB-INF/adminPage.jsp").forward(request, response);
-                                break;
-                            default:
-                        }
-                        break;
-                    case Enums.PENDING:
-                        request.setAttribute("message","User has not been approved by admin yet");
-                        request.getRequestDispatcher("/login.jsp").forward(request, response);
-                        break;
-                    default:
-                        request.setAttribute("message","User has been blocked by the admin");
-                        request.getRequestDispatcher("/login.jsp").forward(request, response);
-                        break;
-                    }
-                }
-                else{
-                    request.setAttribute("badPw", true);
-                    request.getRequestDispatcher("/login.jsp").forward(request, response);
-                }
+                loginUser(request, response, session, dynamicDao, user, userService);
+                break;
+                    
+            case "Error": 
+                request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
+                break;
+           
         }
-       
     }
 
     private void listPatientAppointments(DynamicDao dynamicDao, HttpServletRequest request, int patientId){
@@ -171,7 +132,67 @@ public class LoginFilter implements Filter {
         request.setAttribute("patientsCancelledAppointments", patientsCancelledAppointments);
     }
         
+    private void loginUser(HttpServletRequest request, HttpServletResponse response, HttpSession session, DynamicDao dynamicDao,
+        UserEntity user, UserService userService) throws IOException, ServletException {
+        String email = (String) request.getParameter("mail");
+        String password = (String) request.getParameter("password");
+        //retrieves user from database if it exists  
+        user = userService.loginUser(email, password);
 
+        if (user != null) {
+            int userStatus = user.getAccountStatus();
+            switch (userStatus) {
+                case Enums.APPROVED:
+                    session.setAttribute("user", user);
+                    switch (user.getUserType()) {
+                        case "patient":
+                            PatientService patientService = new PatientService(dynamicDao);
+                            PatientEntity patient = patientService.getPatient(user);
+
+                            session.setAttribute("Patient", patient);
+                            //                                //retrieve appointment for display and senthem to the page
+                            //                                //ArrayList appointments = patientService.retrievePatientDisplayableAppointments(patient);
+                            //                                
+                            listPatientAppointments(dynamicDao, request, patient.getPatientId());
+                            request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
+                            break;
+                        case "doctor":
+                        case "nurse:":
+                            AppointmentService appointmentService = new AppointmentService(dynamicDao);
+                            EmployeeService employeeService = new EmployeeService(dynamicDao);
+                            EmployeeEntity employee = employeeService.fetchEmployee(user);
+
+                            session.setAttribute("Employee", employee);
+
+                            ArrayList employeeAppointments = appointmentService.retrieveEmployeeDisplayableAppointments(employee);
+                            request.setAttribute("schedule", employeeAppointments);
+
+                            ArrayList employeeDailyAppointments = appointmentService.retrieveEmployeeDailyDisplayableAppointments(employee);
+                            request.setAttribute("dailySchedule", employeeDailyAppointments);
+
+                            request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);
+                            break;
+                        case "admin":
+                            request.getRequestDispatcher("/WEB-INF/adminPage.jsp").forward(request, response);
+                            break;
+                        default:
+                    }
+                case Enums.PENDING:
+                    request.setAttribute("message", "User has not been approved by admin yet");
+                    request.getRequestDispatcher("/login.jsp").forward(request, response);
+                    break;
+                default:
+                    request.setAttribute("message", "User has been blocked by the admin");
+                    request.getRequestDispatcher("/login.jsp").forward(request, response);
+                    break;
+            }
+        } else {
+            request.setAttribute("badPw", true);
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
+        }
+    }
+
+ 
     @Override
     public void destroy() {
         // If you have assigned any expensive resources as field of

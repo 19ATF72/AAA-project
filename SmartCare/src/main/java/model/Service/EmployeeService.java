@@ -33,11 +33,11 @@ public class EmployeeService {
             //TODO ArrayList resultSet = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.GetOrganizationByName), params.get(3));
 
             //TODO CHANGE ORG from 0
-            dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.NewEmployee), employee.getSalary(), employee.getAddress(), employee.getOrganisation(), employee.getUniqueUserId());
+            dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.NewEmployee), employee.getSalary(), employee.getAddress(), employee.getPostcode(), employee.getOrganisation(), employee.getUniqueUserId());
 
             result = "Employee created successfully";
         } catch (Exception e) {
-          result = "Unable to create employee";
+            result = "Unable to create employee";
         }
         return result; 
     }

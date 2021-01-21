@@ -17,23 +17,23 @@
         <param-value>20.0</param-value>
     </context-param>
     <welcome-file-list>
-        <welcome-file>/index.jsp</welcome-file>
+        <welcome-file>/WEB-INF/paymentPage.jsp</welcome-file>
     </welcome-file-list>
     <servlet>
-        <servlet-name>Book</servlet-name>
-        <jsp-file>book.jsp</jsp-file>
+        <servlet-name>PatientController</servlet-name>
+        <servlet-class>controller.servlet.PatientServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>PatientController</servlet-name>
-        <servlet-class>controller_Login.PatientController</servlet-class>
+        <servlet-name>approveUser</servlet-name>
+        <servlet-class>controller.approveUserController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>employeeController</servlet-name>
-        <servlet-class>controller_Login.employeeController</servlet-class>
+        <servlet-class>controller.servlet.EmployeeServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>NewUser</servlet-name>
-        <servlet-class>controller_Login.NewUserController</servlet-class>
+        <servlet-class>controller.servlet.NewUserServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>OrganisationServlet</servlet-name>
@@ -60,16 +60,20 @@
         <servlet-class>controller.pricingUpdateController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>patientForwardController</servlet-name>
-        <servlet-class>controller.patientForwardController</servlet-class>
+        <servlet-name>prescriptionController</servlet-name>
+        <servlet-class>controller.prescriptionController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>approvePrescriptionController</servlet-name>
+        <servlet-class>controller.approvePrescriptionController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Book</servlet-name>
-        <url-pattern>/Book.do</url-pattern>
+        <servlet-name>NewUser</servlet-name>
+        <url-pattern>/signup</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>NewUser</servlet-name>
-        <url-pattern>/NewUserController.do</url-pattern>
+        <url-pattern>/login_newAccReg</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>OrganisationServlet</servlet-name>
@@ -92,12 +96,8 @@
         <url-pattern>/BookingSucessful.do</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>PatientController</servlet-name>
-        <url-pattern>/app/book_appointment</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>PatientController</servlet-name>
-        <url-pattern>/app/book_appointment/*</url-pattern>
+        <servlet-name>approveUser</servlet-name>
+        <url-pattern>/approveUserController.do</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PatientController</servlet-name>
@@ -109,7 +109,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>employeeController</servlet-name>
-        <url-pattern>/employeeController.do</url-pattern>
+        <url-pattern>/employee_app</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ListController</servlet-name>
@@ -119,16 +119,18 @@
         <servlet-name>TurnoverController</servlet-name>
         <url-pattern>/TurnoverController.do</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>patientForwardController</servlet-name>
-        <url-pattern>/patientForwardController.do</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
+        <servlet-mapping>
         <servlet-name>pricingUpdateController</servlet-name>
         <url-pattern>/pricingUpdateController.do</url-pattern>
     </servlet-mapping>
-    
+    <servlet-mapping>
+        <servlet-name>prescriptionController</servlet-name>
+        <url-pattern>/prescriptionController.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>approvePrescriptionController</servlet-name>
+        <url-pattern>/approvePrescriptionController.do</url-pattern>
+    </servlet-mapping>
     <filter>
         <filter-name>loginFilter</filter-name>
         <filter-class>controller.filters.LoginFilter</filter-class>
@@ -137,10 +139,15 @@
         <filter-name>loginFilter</filter-name>
         <url-pattern>/app</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>loginFilter</filter-name>
+        <url-pattern>/signup</url-pattern>
+    </filter-mapping>
     <servlet-mapping>
         <servlet-name>IndexServlet</servlet-name>
-        <url-pattern></url-pattern>
+        <url-pattern/>
     </servlet-mapping>
+
     <session-config>
         <session-timeout>
             20
