@@ -88,18 +88,30 @@ public class AppointmentService {
             employesCurrentSlots = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getEmployeeFreeAppointmentsInDay), doctorId, date);
             tempAllPractitionersAppointments = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getAllPossibleAppointments), "");
             
-            for(int j = 0; j < employesCurrentSlots.size(); j++){
-                  for (int i = 0; i < tempAllPractitionersAppointments.size(); i++) {
-                    
-                    if(Integer.parseInt(employesCurrentSlots.get(j)[0]) != Integer.parseInt(tempAllPractitionersAppointments.get(i)[0])){
-                        AppointmentSlotsEntity appointmentSlots = new AppointmentSlotsEntity(Integer.parseInt(tempAllPractitionersAppointments.get(i)[0]), tempAllPractitionersAppointments.get(i)[1], tempAllPractitionersAppointments.get(i)[2]); 
-                    
-                        practitionerAppointments.add(appointmentSlots);
+            if(employesCurrentSlots.size() != 0){           
+                for(int j = 0; j < employesCurrentSlots.size(); j++){
+                      for (int i = 0; i < tempAllPractitionersAppointments.size(); i++) {
+
+                        if(Integer.parseInt(employesCurrentSlots.get(j)[0]) != Integer.parseInt(tempAllPractitionersAppointments.get(i)[0])){
+                            AppointmentSlotsEntity appointmentSlots = new AppointmentSlotsEntity(Integer.parseInt(tempAllPractitionersAppointments.get(i)[0]), tempAllPractitionersAppointments.get(i)[1], tempAllPractitionersAppointments.get(i)[2]); 
+
+                            practitionerAppointments.add(appointmentSlots);
+                        }
                     }
+                }      
+            }else{
+                for(int i = 0; i < tempAllPractitionersAppointments.size(); i++){
+                    AppointmentSlotsEntity appointmentSlots = new AppointmentSlotsEntity(Integer.parseInt(tempAllPractitionersAppointments.get(i)[0]), tempAllPractitionersAppointments.get(i)[1], tempAllPractitionersAppointments.get(i)[2]); 
+
+                    practitionerAppointments.add(appointmentSlots);
                 }
-            }   
+            }
+            
+            
            
-        } catch (Exception e) {           
+        } catch (Exception e) {     
+            String test = "test";
+            
         }
         return practitionerAppointments;
     }
@@ -238,9 +250,7 @@ public class AppointmentService {
     
     public void createAppointment(AppointmentEntity appointment, ArrayList<String> chosenSlots){   
         try {
-            
-
-            
+                
             int appointmentEndTime = Integer.parseInt(appointment.getEndTime()) + 600;
             
             dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.NewAppointment), appointment.getDuration(), appointment.getNotes(), appointment.getCharge(), Date.valueOf(appointment.getDateStr()), 
@@ -253,13 +263,13 @@ public class AppointmentService {
         ArrayList<AppointmentSlotsEntity> timeSlots = fetchAvaialbleAppointmentsForPractitioner(appointment.getEmployeeId(), appointment.getDateStr());
             
         try {
-            int slotId = 0;
+            int slotId = 1;
             for (AppointmentSlotsEntity times : timeSlots) {
                 if (times.getStartTime().equals(appointment.getStartTime())) {
                    slotId = times.getAppointmentSlotId();
                    Date date = Date.valueOf(appointment.getDateStr());
                    int EmployeeId = appointment.getEmployeeId();
-                   ArrayList agnosticQuery = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.NewEmployeeAppointmentSlot), slotId, EmployeeId, date);
+                   ArrayList agnosticQuery = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.NewEmployeeAppointmentSlot), EmployeeId, date);
                 }
             }
             } catch (Exception e) {
