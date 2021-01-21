@@ -24,6 +24,6 @@ jobs:
       run: mvn -B package --file pom.xml
       
     - name: Run Unit Tests
-      working-directory: SmartCare/src/test/java/unitTests
+      working-directory: ./SmartCare/src/test/java/unitTests
       run: mvn clean test
 
