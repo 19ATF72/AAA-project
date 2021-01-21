@@ -47,15 +47,15 @@ public class approveUserController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-
+        
         
         // Reactivate after testing
-//        HttpSession session = request.getSession(false);
-        HttpSession session = request.getSession(true);
-//        DynamicDao dynamicDao = (DynamicDao)session.getAttribute("dynamicDao");
-        DynamicDao dynamicDao = new DynamicDao();
+        HttpSession session = request.getSession(false);
+
+        DynamicDao dynamicDao = (DynamicDao)session.getAttribute("dynamicDao");
+        UserEntity user = (UserEntity)session.getAttribute("user");
         dynamicDao.connect((Connection)request.getServletContext().getAttribute("connection"));
-        ListService listHandler = new ListService();//(ListService)session.getAttribute("ListHandler");
+        ListService listHandler = (ListService)session.getAttribute("ListHandler");
         UserService userHandler = new UserService(dynamicDao);
         //HttpSession session = request.getSession(false); // UNCOMMENT
         response.setContentType("text/html;charset=UTF-8");
