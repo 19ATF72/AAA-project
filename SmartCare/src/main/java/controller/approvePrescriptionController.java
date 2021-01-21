@@ -26,8 +26,8 @@ import model.pricingUpdateModel;
  * @author atf1972
  */
 
-@WebServlet(name = "prescriptionController", urlPatterns = {"/WEB-INF/prescriptionController.do"})
-public class prescriptionController extends HttpServlet {
+@WebServlet(name = "approvePrescriptionController", urlPatterns = {"/WEB-INF/approvePrescriptionController.do"})
+public class approvePrescriptionController extends HttpServlet {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -53,20 +53,18 @@ public class prescriptionController extends HttpServlet {
         ArrayList<Integer> params = new ArrayList();
         params.add(user.getUniqueUserId());
         
-        ArrayList repeatPrescriptions = ListHandler.getRepeatPrescriptionsForDisplay(params, dynamicDao);
-        ArrayList prescriptions = ListHandler.getPrescriptionsForDisplay(params, dynamicDao);
+        ArrayList repeatPrescriptionsPendingApproval = ListHandler.getPendingApprovalRepeatPrescriptions(dynamicDao);
         
-        request.setAttribute("repeatPrescriptions", repeatPrescriptions);
-        request.setAttribute("prescriptions", prescriptions);
+        request.setAttribute("repeatPrescriptionsPendingApproval", repeatPrescriptionsPendingApproval);
          
-        ArrayList<Integer> sendRequestRepeat = new ArrayList();
-        if (request.getParameter("requestRepeat") != null){ 
-            sendRequestRepeat.add(Integer.parseInt(request.getParameter("requestRepeat")));
-            ArrayList result = ListHandler.updateRepeatPrescriptionRequest(sendRequestRepeat, dynamicDao);
-            request.setAttribute("message", "Sent request to practicioner with ID: " + request.getParameter("requestRepeat") );
+        ArrayList<Integer> sendApproveRepeat = new ArrayList();
+        if (request.getParameter("approveRepeat") != null) {
+            sendApproveRepeat.add(Integer.parseInt(request.getParameter("approveRepeat")));
+            ArrayList result = ListHandler.updateApprovedRepeatPrescription(sendApproveRepeat, dynamicDao);
+            request.setAttribute("message", "Approved repeat prescription with ID: " + request.getParameter("approveRepeat") );
         }
                 
-        request.getRequestDispatcher("/WEB-INF/prescriptionListPage.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/approvePrescriptionPage.jsp").forward(request, response);
     }
     
         // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

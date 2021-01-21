@@ -63,6 +63,10 @@
         <servlet-name>prescriptionController</servlet-name>
         <servlet-class>controller.prescriptionController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>approvePrescriptionController</servlet-name>
+        <servlet-class>controller.approvePrescriptionController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Book</servlet-name>
         <url-pattern>/Book.do</url-pattern>
@@ -127,6 +131,10 @@
         <servlet-name>prescriptionController</servlet-name>
         <url-pattern>/prescriptionController.do</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>approvePrescriptionController</servlet-name>
+        <url-pattern>/approvePrescriptionController.do</url-pattern>
+    </servlet-mapping>
     <filter>
         <filter-name>loginFilter</filter-name>
         <filter-class>controller.filters.LoginFilter</filter-class>
@@ -137,7 +145,7 @@
     </filter-mapping>
     <servlet-mapping>
         <servlet-name>IndexServlet</servlet-name>
-        <url-pattern></url-pattern>
+        <url-pattern/>
     </servlet-mapping>
     <session-config>
         <session-timeout>
