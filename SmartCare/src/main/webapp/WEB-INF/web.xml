@@ -28,6 +28,10 @@
         <servlet-class>controller_Login.PatientController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>approveUser</servlet-name>
+        <servlet-class>controller.approveUserController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>employeeController</servlet-name>
         <servlet-class>controller_Login.employeeController</servlet-class>
     </servlet>
@@ -63,6 +67,14 @@
         <servlet-name>patientForwardController</servlet-name>
         <servlet-class>controller.patientForwardController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>prescriptionController</servlet-name>
+        <servlet-class>controller.prescriptionController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>approvePrescriptionController</servlet-name>
+        <servlet-class>controller.approvePrescriptionController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Book</servlet-name>
         <url-pattern>/Book.do</url-pattern>
@@ -90,6 +102,10 @@
     <servlet-mapping>
         <servlet-name>BookingSucessful</servlet-name>
         <url-pattern>/BookingSucessful.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>approveUser</servlet-name>
+        <url-pattern>/approveUserController.do</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PatientController</servlet-name>
@@ -123,12 +139,18 @@
         <servlet-name>patientForwardController</servlet-name>
         <url-pattern>/patientForwardController.do</url-pattern>
     </servlet-mapping>
-    
     <servlet-mapping>
         <servlet-name>pricingUpdateController</servlet-name>
         <url-pattern>/pricingUpdateController.do</url-pattern>
     </servlet-mapping>
-    
+    <servlet-mapping>
+        <servlet-name>prescriptionController</servlet-name>
+        <url-pattern>/prescriptionController.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>approvePrescriptionController</servlet-name>
+        <url-pattern>/approvePrescriptionController.do</url-pattern>
+    </servlet-mapping>
     <filter>
         <filter-name>loginFilter</filter-name>
         <filter-class>controller.filters.LoginFilter</filter-class>
