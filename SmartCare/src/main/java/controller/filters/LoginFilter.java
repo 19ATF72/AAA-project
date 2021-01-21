@@ -138,7 +138,7 @@ public class LoginFilter implements Filter {
         String password = (String) request.getParameter("password");
         //retrieves user from database if it exists  
         user = userService.loginUser(email, password);
-
+        dynamicDao.addTimeSlots();
         if (user != null) {
             int userStatus = user.getAccountStatus();
             switch (userStatus) {
@@ -173,6 +173,22 @@ public class LoginFilter implements Filter {
                             request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);
                             break;
                         case "admin":
+                            ArrayList<UserEntity> fetchedUsers = userService.fetchAllUsers(userStatus);
+                            
+                            ArrayList<UserEntity> patients = new ArrayList<>();
+                            ArrayList<UserEntity> employees = new ArrayList<>();
+                            
+                            for(int i = 0; i < fetchedUsers.size(); i++){
+                                if("patient".equals(fetchedUsers.get(i).getUserType())){
+                                    patients.add(fetchedUsers.get(i));
+                                }
+                                if("employee".equals(fetchedUsers.get(i).getUserType()) || "doctor".equals(fetchedUsers.get(i).getUserType()) ){
+                                    employees.add(fetchedUsers.get(i));
+                                }
+                            }  
+                            request.setAttribute("listOfPatients", patients);
+                            request.setAttribute("listOfEmployees", employees);
+                            
                             request.getRequestDispatcher("/WEB-INF/adminPage.jsp").forward(request, response);
                             break;
                         default:

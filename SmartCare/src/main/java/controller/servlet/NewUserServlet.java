@@ -54,9 +54,7 @@ public class NewUserServlet extends HttpServlet {
         DynamicDao dynamicDao = (DynamicDao)session.getAttribute("dynamicDao");
         UserEntity newUser = new UserEntity();
        
-        newUser.setAccountStatus(1);
-        
-        
+        newUser.setAccountStatus(1);      
 
         UserService userService = new UserService(dynamicDao);
         
@@ -95,7 +93,7 @@ public class NewUserServlet extends HttpServlet {
         String postcode = request.getParameter("postcode");
         
         newUser.setUserType(request.getParameter("role"));
-        
+
         String result = userService.createUser(newUser);
 
         if("User created successfully".equals(result)) {
@@ -130,11 +128,13 @@ public class NewUserServlet extends HttpServlet {
                 if(newUser.getUserType() == "nurse"){
                     defaultSalary = defaultSalary / 2;
                 }
-                
+                int org = Integer.parseInt(request.getParameter("docChoice"));
                 // TODO: ADD ORGANISATION
-                EmployeeEntity employee = new EmployeeEntity(defaultSalary, address, postcode, 0); //IMPLEMENT ORG!
-                String employeeReturnResult = employeeService.createEmployee(employee);
+                EmployeeEntity employee = new EmployeeEntity(defaultSalary, address, postcode, org); //IMPLEMENT ORG!
                 
+                
+                String employeeReturnResult = employeeService.createEmployee(employee);
+                request.setAttribute("message", "patient "+ newUser.getUserPrefix()+ " " + newUser.getUserSurname() + " created successfully" );
                 if("Employee created successfully".equals(employeeReturnResult)) { 
                         request.setAttribute("message", newUser.getUserType() + " " + newUser.getUserSurname() + " created successfully" );
                         request.getRequestDispatcher("/login.jsp").forward(request, response);

@@ -72,7 +72,7 @@ public class AppointmentEntity extends UserEntity{
         this.patientId = patientId;
         this.status = status;
         this.uniqueAppointmentId = uniqueAppointmentId;
-        this.userFirstname = userFirstname;
+        this.userFirstname = userFirstName;
         this.userSurname = userSurname;
     }
 

@@ -27,7 +27,7 @@
         
         <%! int i=0; String str="Register"; String url = "NewUserController.do"; %>
         <% if((String)request.getAttribute("msg")=="del") { str = "Delete"; url = "Delete.do"; }
-           else { str="Register"; url = "login_newAccReg"; } %>
+           else { str="Register"; url = "/SmartCare/login"; } %>
             
         <main class="container">
             <div class="container mt-4">
@@ -184,7 +184,7 @@
                               <select class="form-select" name="docChoice" value="" required>
                            <c:forEach items="${organisations}" var="organisation">
                                  <tr>
-                                    <option class="dropdown-item" value="<c:out value="${organisation.getOId()}" />">
+                                    <option name="organisation" class="dropdown-item" value="<c:out value="${organisation.getOId()}" />">
                                     <c:out value="${organisation.getName()}" />
                                     </option>
                                  </tr>

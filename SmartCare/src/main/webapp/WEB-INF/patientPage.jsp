@@ -39,8 +39,7 @@
                         <div class="alert alert-success ${not empty message ? message: 'd-none'}" role="alert">
                             <c:out value="${not empty message ? message: ''}" />
                         </div>
-
-                        <h2>Scheduled appointments</h2>
+                        <h2>List Patients</h2>
                         <div class="table-responsive">
                             <table class="table table-striped table-sm">
                                 <thead>
@@ -99,13 +98,15 @@
                                            <td><c:out value="${AppointmentEntity.dateStr}" /></td>
                                            <td><c:out value="${AppointmentEntity.startTime}" /></td>
                                            <td><c:out value="${AppointmentEntity.endTime}" /></td>
+                                           <td>
+                                                <form action="./app/pay?id=<c:out value='${AppointmentEntity.uniqueAppointmentId}'/>" method="post">
+                                                    <button class="btn btn-success" type="submit" name="patientOperation" value="pay" >Pay</button>
+                                                </form>
+                                            </td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
                             </table>
-                            <div class="col-12 mb-3">
-                                <button type="submit" class="w-100 btn btn-outline-success btn-lg" name="patientOperation" value="payAppointment">Pay for appointment</button>
-                            </div>
                         </div>
 
                         <h2>Paid appointments</h2>

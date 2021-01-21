@@ -24,6 +24,7 @@ import model.Entity.EmployeeEntity;
 import model.Entity.UserEntity;
 import model.Helper.StoredProcedures;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import model.Entity.AppointmentSlotsEntity;
@@ -124,7 +125,7 @@ public class AppointmentService {
         
         try {
             result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getEmployeeDisplayableAppointments), employee.getUniqueUserId());
-        } catch (Exception e) {
+        } catch (SQLException e) {
             
             //TODO THROW
             return null;

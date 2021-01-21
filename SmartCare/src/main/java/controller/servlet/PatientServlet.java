@@ -134,7 +134,6 @@ public class PatientServlet extends HttpServlet {
                     appointmentService.sendSMSReminder();
                     }
                 }
-               
 
                 AppointmentEntity newAppointment = new AppointmentEntity(durationInt, appointmentNotes, charge, dateChosen, String.valueOf(startAndFinishTimes[0]), String.valueOf(startAndFinishTimes[1]), patient.getPatientId(), employeeId, patient.getPatientType(), 0, 0);
                 
@@ -149,6 +148,10 @@ public class PatientServlet extends HttpServlet {
 
                 request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
                 break;
+            case "payment":
+                request.getSession().setAttribute("lengths", null);
+                request.getRequestDispatcher("/WEB-INF/paymentPage.jsp").forward(request, response);
+                break;         
             case "cancel":
                 int id = Integer.parseInt(request.getParameter("id"));
                 String result = appointmentService.cancelAppointment(id);

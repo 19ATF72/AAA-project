@@ -12,12 +12,12 @@
    <body>
       <%! int i=0;
          String str="List Patients"; 
-         String url = "./find_available_appointment";
+         String url = "./app/find_available_appointment";
          String url2 = "/SmartCare/app/";
          %>
       <%
          str="List Patients"; 
-         url = "./find_available_appointment";
+         url = "./app/find_available_appointment";
          url2 = "/SmartCare/app/";
          %>
       <%

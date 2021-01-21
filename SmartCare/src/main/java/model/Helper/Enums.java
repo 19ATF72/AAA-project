@@ -20,6 +20,7 @@ public class Enums {
         deleteUser,
         LoginUser,
         GetUser,
+        GetAllUsers,
         NewUser,
         CheckForUsername,
         NewEmployee,

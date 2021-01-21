@@ -17,6 +17,7 @@ public class StoredProcedures extends Enums{
     public EnumMap<SqlQueryEnum, String> sqlQueryMap = new EnumMap<>(SqlQueryEnum.class);
     
     public StoredProcedures() {
+        sqlQueryMap.put(SqlQueryEnum.GetAllUsers, "SELECT * FROM users");
         sqlQueryMap.put(SqlQueryEnum.fetchAppointment, "Test");
         sqlQueryMap.put(SqlQueryEnum.deleteUser, "DELETE FROM users WHERE mail=?");
         sqlQueryMap.put(SqlQueryEnum.LoginUser, "SELECT * FROM users WHERE email=? AND pass=?");

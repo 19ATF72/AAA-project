@@ -69,13 +69,13 @@ public class UserService{
     } 
     
     private void modifyAccountStatus(UserEntity user){
-        if(user.getUserType() == "patient") // If a patient
+        if("patient".equals(user.getUserType())) // If a patient
         {
-            user.setAccountStatus(2);
+            user.setAccountStatus(1);
         }
         else
         {
-            user.setAccountStatus(1);
+            user.setAccountStatus(2);
         }
     }
     
@@ -117,6 +117,35 @@ public class UserService{
                     tempUserStringArray[4], tempUserStringArray[5], dateOfBirth, dateCreated, lastAccessed, Boolean.parseBoolean(tempUserStringArray[9]), tempUserStringArray[10],  Integer.parseInt(tempUserStringArray[12]),tempUserStringArray[11]);
             
             return user;
+        } catch (Exception e) { 
+            //FIX
+            
+            //result.add("email or password wrong");
+        }  
+        //MAYBE CHANGE
+        return null;    
+    }
+    
+    public ArrayList<UserEntity> fetchAllUsers(int uniqueUserId)
+    {    
+        try { 
+            ArrayList<String[]> userString = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.GetAllUsers), "");
+            
+            ArrayList<UserEntity> userLst = new ArrayList<>();
+            
+            for(int i = 0; i < userString.size(); i++){
+                String[] tempUserStringArray = userString.get(i);   
+                Date dateOfBirth = Date.valueOf(tempUserStringArray[6]);
+                Date dateCreated = Date.valueOf(tempUserStringArray[7]);
+                Date lastAccessed = Date.valueOf(tempUserStringArray[8]);
+
+                UserEntity user = new UserEntity(Integer.parseInt(tempUserStringArray[0]), tempUserStringArray[1], tempUserStringArray[2], tempUserStringArray[3], 
+                        tempUserStringArray[4], tempUserStringArray[5], dateOfBirth, dateCreated, lastAccessed, Boolean.parseBoolean(tempUserStringArray[9]), tempUserStringArray[10],  Integer.parseInt(tempUserStringArray[12]),tempUserStringArray[11]);
+                
+                userLst.add(user);
+            }
+            
+            return userLst;
         } catch (Exception e) { 
             //FIX
             
