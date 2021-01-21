@@ -10,6 +10,7 @@ model/Service/UserService.class
 controller/filters/AuthFilter.class
 controller/servlet/IndexSevlet.class
 controller/OrganisationServlet.class
+controller/approveUserController.class
 controller/ViewAppointments$MyServlet.class
 controller_Login/employeeController.class
 model/Service/AppointmentService.class
@@ -26,6 +27,7 @@ model/Helper/Enums.class
 controller/filters/LoginFilter.class
 model/pricingUpdateModel.class
 controller/TurnoverController.class
+controller/approvePrescriptionController.class
 model/Entity/AppointmentEntity.class
 model/Helper/Enums$SqlQueryEnum.class
 net/codejava/AuthorizePaymentServlet.class

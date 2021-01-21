@@ -14,10 +14,6 @@
 <style><%@include file="/css/style.css"%></style>
 <link rel="shortcut icon" href="icons/favicon.ico?" type="image/x-icon" />
 
-    <head>
-        <link rel="shortcut icon" href="icons/favicon.ico?" type="image/x-icon" />
-    </head>
-
     <body>
         <%@include file='/html/headerSignOut.html'%>
         
@@ -43,14 +39,17 @@
                             <c:out value="${not empty message ? message: ''}" />
                         </div>
 
+                        <div class="${not empty toBeApproved ? toBeApproved: 'd-none'}">
                             <h2>List of pending users</h2>
                             <div class="table-responsive">
                                 <table class="table table-striped table-sm">
                                     <thead>
                                         <tr>
                                             <th>UUID</th>
-                                            <th>Name</th>
-                                            <th>Address</th>
+                                            <th>First Name</th>
+                                            <th>Surname</th>
+                                            <th>Email</th>
+                                            <th>DOB</th>
                                             <th>Patient Type</th>
                                             <th>Created</th>
                                             <th>Select</th>
@@ -60,19 +59,21 @@
                                         <c:forEach items="${toBeApproved}" var="row">
                                             <tr>
                                                 <td><c:out value="${row[0]}" /></td>
-                                                <td><c:out value="${row[1]}" /></td>
                                                 <td><c:out value="${row[2]}" /></td>
                                                 <td><c:out value="${row[3]}" /></td>
-                                                <td><c:out value="${row[4]}" /></td>
-<!--                                                <td><input class="form-check-input" type="checkbox" value="<c:out value="${row[0]}" />" aria-label="Checkbox for following text input"></td>-->
+                                                <td><c:out value="${row[5]}" /></td>
+                                                <td><c:out value="${row[6]}" /></td>
+                                                <td><c:out value="${row[10]}" /></td>
+                                                <td><c:out value="${row[7]}" /></td>
                                                 <td><div class="col-12 mb-2 mt-2">
-                                                    <button type="submit" class="w-100 btn btn-outline-primary btn-lg" name="approve" value="<c:out value="${row[0]}" />">approve</button>
+                                                    <button type="submit" class="btn btn-outline-primary" name="approve" value="<c:out value="${row[0]}" />">approve</button>
                                                 </div></td>
                                             </tr>
                                         </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
                     </main> 
                 </div>     
             </form>
