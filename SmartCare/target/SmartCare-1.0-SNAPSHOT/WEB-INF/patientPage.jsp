@@ -45,7 +45,7 @@
                             <table class="table table-striped table-sm">
                                 <thead>
                                     <tr>
-                                        <th>Practitioner Name</th>
+                                        <th>Practitioner</th>
                                         <th>Duration</th>
                                         <th>Notes</th>
                                         <th>Charge</th>
@@ -80,7 +80,7 @@
                             <table class="table table-striped table-sm">
                                 <thead>
                                     <tr>
-                                        <th>Doctor Name</th>
+                                        <th>Practitioner</th>
                                         <th>Duration</th>
                                         <th>Notes</th>
                                         <th>Charge</th>
@@ -113,7 +113,7 @@
                           <table class="table table-striped table-sm">
                             <thead>
                                 <tr>
-                                    <th>Doctor Name</th>
+                                    <th>Practitioner</th>
                                     <th>Duration</th>
                                     <th>Notes</th>
                                     <th>Charge</th>
@@ -143,7 +143,7 @@
                           <table class="table table-striped table-sm">
                             <thead>
                                 <tr>
-                                    <th>Doctor Name</th>
+                                    <th>Practitioner</th>
                                     <th>Duration</th>
                                     <th>Notes</th>
                                     <th>Charge</th>
