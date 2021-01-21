@@ -145,6 +145,8 @@ public class EmployeeServiceUnitTests {
         Assert.assertThat(actualEmployee, new ReflectionEquals(expectedEmployee));
     }
     
+    //old and redundant function
+    /*
     @Test
     public void retrieveEmployeeDisplayableAppointments_Success(){
         
@@ -166,11 +168,11 @@ public class EmployeeServiceUnitTests {
         }
         
         // Act
-//        ArrayList actualEmployeeAppointments = employeeService.retrieveEmployeeDisplayableAppointments(employee);
+        ArrayList actualEmployeeAppointments = employeeService.retrieveEmployeeDisplayableAppointments(employee);
         
         // Assert
-    //    Assert.assertThat(actualEmployeeAppointments, new ReflectionEquals(expectedEmployeeAppointments));
+        Assert.assertThat(actualEmployeeAppointments, new ReflectionEquals(expectedEmployeeAppointments));
     }
-    
+    */
     
 }
