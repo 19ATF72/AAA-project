@@ -149,10 +149,6 @@ public class PatientServlet extends HttpServlet {
 
                 request.getRequestDispatcher("/WEB-INF/patientPage.jsp").forward(request, response);
                 break;
-            case "listPrescriptions":
-                request.getSession().setAttribute("prescriptions", listHandler.getDoctorsForDisplay(dynamicDao));
-                request.getRequestDispatcher("/WEB-INF/listPrescriptions.jsp").forward(request, response);
-                break;
             case "cancel":
                 int id = Integer.parseInt(request.getParameter("id"));
                 String result = appointmentService.cancelAppointment(id);
