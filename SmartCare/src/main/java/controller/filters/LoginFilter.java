@@ -138,7 +138,7 @@ public class LoginFilter implements Filter {
         String password = (String) request.getParameter("password");
         //retrieves user from database if it exists  
         user = userService.loginUser(email, password);
-        dynamicDao.addTimeSlots();
+        //dynamicDao.addTimeSlots();
         if (user != null) {
             int userStatus = user.getAccountStatus();
             switch (userStatus) {
@@ -161,9 +161,9 @@ public class LoginFilter implements Filter {
                             AppointmentService appointmentService = new AppointmentService(dynamicDao);
                             EmployeeService employeeService = new EmployeeService(dynamicDao);
                             EmployeeEntity employee = employeeService.fetchEmployee(user);
-
+                            
                             session.setAttribute("Employee", employee);
-
+                                
                             ArrayList employeeAppointments = appointmentService.retrieveEmployeeDisplayableAppointments(employee);
                             request.setAttribute("schedule", employeeAppointments);
 

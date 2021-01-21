@@ -124,7 +124,7 @@ public class AppointmentService {
         ArrayList<String[]> result = new ArrayList();
         
         try {
-            result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getEmployeeDisplayableAppointments), employee.getUniqueUserId());
+            result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getEmployeeDisplayableAppointments), employee.getEmployeeId());
         } catch (SQLException e) {
             
             //TODO THROW
@@ -144,7 +144,7 @@ public class AppointmentService {
         ArrayList<String[]> result = new ArrayList();
         
         try {
-            result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getEmployeeDisplayableDailyAppointments), employee.getUniqueUserId());
+            result = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getEmployeeDisplayableDailyAppointments), employee.getEmployeeId());
         } catch (Exception e) {
             
             //TODO THROW
