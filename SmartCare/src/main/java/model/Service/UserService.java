@@ -71,11 +71,11 @@ public class UserService{
     private void modifyAccountStatus(UserEntity user){
         if("patient".equals(user.getUserType())) // If a patient
         {
-            user.setAccountStatus(1);
+            user.setAccountStatus(2);
         }
         else
         {
-            user.setAccountStatus(2);
+            user.setAccountStatus(1);
         }
     }
     

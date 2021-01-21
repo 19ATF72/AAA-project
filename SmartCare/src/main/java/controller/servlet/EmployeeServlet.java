@@ -97,6 +97,8 @@ public class EmployeeServlet extends HttpServlet {
                 request.setAttribute("dailySchedule", employeeDailyAppointments);
                 request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);
                 break;
+            case "delete":
+                
             default:
                 request.getRequestDispatcher("/WEB-INF/employeePage.jsp").forward(request, response);
         }
