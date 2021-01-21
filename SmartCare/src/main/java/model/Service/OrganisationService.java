@@ -33,12 +33,12 @@ public class OrganisationService{
         ArrayList<OrganisationEntity> organisationList = new ArrayList<>();
         sp = new StoredProcedures();
 
-        ArrayList<String[]> result = dynamicDao.agnosticQuery(sp.sqlQueryMap.get(SqlQueryEnum.getOrganisation), "");
+        ArrayList<String[]> result = dynamicDao.agnosticQuery(sp.sqlQueryMap.get(SqlQueryEnum.getOrganisations), "");
         
         for(int i=0; i<result.size(); i++)
         {
             String[] tempOrganisationStringArray = result.get(i);
-            OrganisationEntity organisation = new OrganisationEntity(tempOrganisationStringArray[0], tempOrganisationStringArray[1], tempOrganisationStringArray[2],
+            OrganisationEntity organisation = new OrganisationEntity(Integer.parseInt(tempOrganisationStringArray[0]), tempOrganisationStringArray[1], tempOrganisationStringArray[2],
                     tempOrganisationStringArray[3], tempOrganisationStringArray[4], tempOrganisationStringArray[5]);
             organisationList.add(organisation); 
         }
@@ -69,11 +69,9 @@ public class OrganisationService{
         ArrayList<String[]> result = dynamicDao.agnosticQuery(sp.sqlQueryMap.get(SqlQueryEnum.getOrganisation), oId);
         String[] orgString = result.get(0);
         
-        organisation = new OrganisationEntity(orgString[0], orgString[1], orgString[2], orgString[3], orgString[4], orgString[5]);
+        organisation = new OrganisationEntity(Integer.parseInt(orgString[0]), orgString[1], orgString[2], orgString[3], orgString[4], orgString[5]);
         
         return organisation;
-    }
-    
-    
+    }  
     
 }

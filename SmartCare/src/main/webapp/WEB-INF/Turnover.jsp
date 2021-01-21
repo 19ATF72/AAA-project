@@ -24,7 +24,7 @@
             <%! int i=0; String str="Calculate Turnover"; String url = "TurnoverController.do"; %>
             <% str="Calculate Turnover"; url = "TurnoverController.do"; %>
             <% LocalDate todaysDate = LocalDate.now(); %>
-         
+            
                 <div class="container-fluid">
                     <div class="row">
                     

@@ -12,12 +12,12 @@
    <body>
       <%! int i=0;
          String str="List Patients"; 
-         String url = "./book_appointment/find_available_appointment";
+         String url = "./find_available_appointment";
          String url2 = "/SmartCare/app/";
          %>
       <%
          str="List Patients"; 
-         url = "./book_appointment/find_available_appointment";
+         url = "./find_available_appointment";
          url2 = "/SmartCare/app/";
          %>
       <%
@@ -122,7 +122,10 @@
                   <div class="input-group">
                   <textarea class="form-control" name="appointmentNotes" aria-label="With textarea"></textarea>
                   </div>         
-                 
+                  <br>
+                  <div class="input-group">
+                    <input type="checkbox" name="smsCheckbox" value="true" class="form-check-input" >Receive a text reminder</>
+                  </div>   
                   <br>
                   <button class="btn btn-primary" name="patientOperation" value="booked" type="submit" id="menuButton"  aria-haspopup="true" aria-expanded="false">Book Appointment</button>
                   </form>

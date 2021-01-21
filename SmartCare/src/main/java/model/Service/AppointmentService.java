@@ -35,16 +35,16 @@ public class AppointmentService {
     
     protected DynamicDao dynamicDao;
     private final StoredProcedures storedProcedures = new StoredProcedures();  
-
+    
     public AppointmentService(DynamicDao dynamicDao){
         this.dynamicDao = dynamicDao;
     }
     
-    public ArrayList<String[]> getAppointmentTimeSlots(int practitionerId, String date){
+    public ArrayList<AppointmentSlotsEntity> getAppointmentTimeSlots(int practitionerId, String date){
         
         ArrayList<AppointmentSlotsEntity> appointmentTimes = fetchAvaialbleAppointmentsForPractitioner(practitionerId, date);
         
-        return parseAppointmentsToTimeSlots(appointmentTimes);  
+        return appointmentTimes;  
     }
     
     public int[] getStartAndEndOfAppointmentTimes(String[] chosenSlots){
@@ -76,38 +76,29 @@ public class AppointmentService {
         return startAndEndTime;
     }
     
-    private ArrayList<AppointmentSlotsEntity> fetchAvaialbleAppointmentsForPractitioner(int doctorId, String date){   
+    public ArrayList<AppointmentSlotsEntity> fetchAvaialbleAppointmentsForPractitioner(int doctorId, String date){   
         
         
-        ArrayList<String[]> tempPractitionersAppointments = new ArrayList();
+        ArrayList<String[]> employesCurrentSlots = new ArrayList();
+        ArrayList<String[]> tempAllPractitionersAppointments = new ArrayList();
         ArrayList<AppointmentSlotsEntity>  practitionerAppointments = new ArrayList<AppointmentSlotsEntity>();
         
-        
         try {
-            tempPractitionersAppointments = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getEmployeeFreeAppointmentsInDay), doctorId, date);
+           
+            employesCurrentSlots = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getEmployeeFreeAppointmentsInDay), doctorId, date);
+            tempAllPractitionersAppointments = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getAllPossibleAppointments), "");
             
-            if(tempPractitionersAppointments.size() != 0){
-                for (int i = 0; i < tempPractitionersAppointments.size(); i++) {
+            for(int j = 0; j < employesCurrentSlots.size(); j++){
+                  for (int i = 0; i < tempAllPractitionersAppointments.size(); i++) {
                     
-                    AppointmentSlotsEntity appointmentSlots = new AppointmentSlotsEntity(Integer.parseInt(tempPractitionersAppointments.get(i)[0]), tempPractitionersAppointments.get(i)[1], tempPractitionersAppointments.get(i)[2]); 
-                    
-                    practitionerAppointments.add(appointmentSlots);
-                }
-            }
-            else{
-                try {
-                    tempPractitionersAppointments = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.getAllPossibleAppointments), "");
-                    
-                    for (int i = 0; i < tempPractitionersAppointments.size(); i++) {
-
-                        AppointmentSlotsEntity appointmentSlots = new AppointmentSlotsEntity(Integer.parseInt(tempPractitionersAppointments.get(i)[0]), tempPractitionersAppointments.get(i)[1], tempPractitionersAppointments.get(i)[2]); 
+                    if(Integer.parseInt(employesCurrentSlots.get(j)[0]) != Integer.parseInt(tempAllPractitionersAppointments.get(i)[0])){
+                        AppointmentSlotsEntity appointmentSlots = new AppointmentSlotsEntity(Integer.parseInt(tempAllPractitionersAppointments.get(i)[0]), tempAllPractitionersAppointments.get(i)[1], tempAllPractitionersAppointments.get(i)[2]); 
                     
                         practitionerAppointments.add(appointmentSlots);
                     }
-                } catch (Exception p) {                
                 }
             }   
-
+           
         } catch (Exception e) {           
         }
         return practitionerAppointments;
@@ -153,7 +144,7 @@ public class AppointmentService {
         return appointmentList;
     }
     
-    private ArrayList<String[]> parseAppointmentsToTimeSlots(ArrayList<AppointmentSlotsEntity> slots){
+     public ArrayList<String[]> parseAppointmentsToTimeSlots(ArrayList<AppointmentSlotsEntity> slots){
         
         ArrayList lengths  = new ArrayList();
         ArrayList tempLengths  = new ArrayList();
@@ -167,7 +158,7 @@ public class AppointmentService {
                 String end = LocalTime.ofSecondOfDay(Integer.parseInt(slots.get(i).getEndTime())).toString();
                 String[] times = {String.valueOf(slots.get(i).getAppointmentSlotId()), start, end,"slot_" + lengthIndex.toString()};
                 tempLengths.add(times);
-                ArrayList composed = new ArrayList(Arrays.asList(LocalTime.ofSecondOfDay(Integer.parseInt(slots.get(i-6).getStartTime())).toString(), tempLengths));
+                ArrayList composed = new ArrayList(Arrays.asList(LocalTime.ofSecondOfDay(Integer.parseInt(slots.get(i).getStartTime())).toString(), tempLengths));
                 lengths.add(composed);
                 tempLengths  = new ArrayList();
                 lengthIndex = 1;
@@ -182,8 +173,6 @@ public class AppointmentService {
         }
         return lengths;
     }
-    
-    
     
     /**
      *
@@ -207,14 +196,16 @@ public class AppointmentService {
                     String[] patientsAppointmentsArray = patientsAppointmentsArrayLstString.get(i);
                     
                     AppointmentEntity appointmentEntity = new AppointmentEntity();
-                    
+                            
+
+                    appointmentEntity.setStartTime(LocalTime.ofSecondOfDay(Integer.parseInt(patientsAppointmentsArray[6])).toString()); 
+                    appointmentEntity.setEndTime(LocalTime.ofSecondOfDay(Integer.parseInt(patientsAppointmentsArray[7])).toString()); 
+                
                     appointmentEntity.setUniqueAppointmentId(Integer.parseInt(patientsAppointmentsArray[0]));
                     appointmentEntity.setDuration(Integer.parseInt(patientsAppointmentsArray[1]));
                     appointmentEntity.setCharge(Double.parseDouble(patientsAppointmentsArray[3]));
                     appointmentEntity.setDateStr(patientsAppointmentsArray[4]);
                     appointmentEntity.setDatePaidStr(patientsAppointmentsArray[5]);
-                    appointmentEntity.setStartTime(patientsAppointmentsArray[6]);
-                    appointmentEntity.setEndTime(patientsAppointmentsArray[7]);
                     appointmentEntity.setPatientId(Integer.parseInt(patientsAppointmentsArray[8]));
                     appointmentEntity.setEmployeeId(Integer.parseInt(patientsAppointmentsArray[9]));
                     appointmentEntity.setType(Integer.parseInt(patientsAppointmentsArray[10]));
@@ -226,7 +217,6 @@ public class AppointmentService {
                         appointmentEntity.setNotes(" ");
                     if(patientsAppointmentsArray[11] != null)
                         appointmentEntity.setPerscriptionId(Integer.parseInt(patientsAppointmentsArray[11]));
-                    
                     
                     EmployeeEntity tempEmployee = employeeService.fetchEmployee_EId(appointmentEntity.getEmployeeId()); 
                     UserEntity tempUser = userService.fetchUser(tempEmployee.getUniqueUserId());
@@ -249,18 +239,35 @@ public class AppointmentService {
     public void createAppointment(AppointmentEntity appointment, ArrayList<String> chosenSlots){   
         try {
             
-            fetchAvaialbleAppointmentsForPractitioner(appointment.getEmployeeId(), appointment.getDateStr());
+
             
+            int appointmentEndTime = Integer.parseInt(appointment.getEndTime()) + 600;
             
             dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.NewAppointment), appointment.getDuration(), appointment.getNotes(), appointment.getCharge(), Date.valueOf(appointment.getDateStr()), 
-                Integer.parseInt(appointment.getStartTime()), Integer.parseInt(appointment.getEndTime()), appointment.getPatientId(), appointment.getEmployeeId(), appointment.getType(), 1);
-           // for (int i = 0; i < chosenSlots.length; i++) {
-               // dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.NewEmployeeAppointmentSlot), slot_ids.get(slot), params.get(7),params.get(3));
-           // }
-        } catch (Exception e) {
+                 Integer.parseInt(appointment.getStartTime()), appointmentEndTime, appointment.getPatientId(), appointment.getEmployeeId(), appointment.getType(), 1);
+
+         } catch (Exception e) {
+            e.printStackTrace();
+            String test = e.toString();
+        }    
+        ArrayList<AppointmentSlotsEntity> timeSlots = fetchAvaialbleAppointmentsForPractitioner(appointment.getEmployeeId(), appointment.getDateStr());
+            
+        try {
+            int slotId = 0;
+            for (AppointmentSlotsEntity times : timeSlots) {
+                if (times.getStartTime().equals(appointment.getStartTime())) {
+                   slotId = times.getAppointmentSlotId();
+                   Date date = Date.valueOf(appointment.getDateStr());
+                   int EmployeeId = appointment.getEmployeeId();
+                   ArrayList agnosticQuery = dynamicDao.agnosticQuery(storedProcedures.sqlQueryMap.get(StoredProcedures.SqlQueryEnum.NewEmployeeAppointmentSlot), slotId, EmployeeId, date);
+                }
+            }
+            } catch (Exception e) {
             e.printStackTrace();
             String test = e.toString();
         }
+            
+          
     }
     
     public String cancelAppointment(int idToCancel){
